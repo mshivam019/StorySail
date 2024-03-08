@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "537241639551",
+    "project_id": "expobase-ced7b",
+    "storage_bucket": "expobase-ced7b.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:537241639551:android:b087c9b14f4975b36f3d4a",
+        "android_client_info": {
+          "package_name": "com.mshivam019.expobase"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyArtqdQhMJU3Vs32ozWJUXOJls6cA-wSUY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

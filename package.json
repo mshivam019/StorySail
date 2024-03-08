@@ -10,6 +10,7 @@
     "format": "yarn run prettier --write \"./src/**/*.{js,jsx,json,tsx,ts}\""
   },
   "dependencies": {
+    "@react-native-google-signin/google-signin": "^11.0.0",
     "@supabase/supabase-js": "^2.38.2",
     "expo": "~49.0.15",
     "expo-constants": "~14.4.2",

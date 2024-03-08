@@ -3,6 +3,7 @@ import { supabase } from "../lib/supabase";
 import { StyleSheet, View, Alert, Button, TextInput } from "react-native";
 import { Session } from "@supabase/supabase-js";
 import Push from "./Push";
+import { GoogleSignin } from "@react-native-google-signin/google-signin";
 
 export default function Account({ session }: { session: Session }) {
 	const [loading, setLoading] = useState(true);
@@ -84,14 +85,14 @@ export default function Account({ session }: { session: Session }) {
 			</View>
 			<View style={styles.verticallySpaced}>
 				<TextInput
-					value={username || ""}
+					value={username || "username here"}
 					onChangeText={(text) => setUsername(text)}
 					style={styles.input}
 				/>
 			</View>
 			<View style={styles.verticallySpaced}>
 				<TextInput
-					value={website || ""}
+					value={website || "website here"}
 					onChangeText={(text) => setWebsite(text)}
 					style={styles.input}
 				/>
@@ -114,7 +115,11 @@ export default function Account({ session }: { session: Session }) {
 			<View style={styles.verticallySpaced}>
 				<Button
 					title="Sign Out"
-					onPress={() => supabase.auth.signOut()}
+					onPress={() =>
+						supabase.auth.signOut().then(() => {
+							GoogleSignin.signOut();
+						})
+					}
 				/>
 			</View>
 

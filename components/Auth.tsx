@@ -175,7 +175,7 @@ export default function Auth() {
 							height: 350,
 							zIndex: 1,
 							top: height / 30,
-							right: width / 5,
+							right: width / 3,
 						}}
 						source={require("../assets/hello2.json")}
 					/>
@@ -254,7 +254,9 @@ export default function Auth() {
 							size={GoogleSigninButton.Size.Wide}
 							color={GoogleSigninButton.Color.Light}
 							onPress={async () => {
+								if (loading) return;
 								try {
+									setLoading(true);
 									await GoogleSignin.hasPlayServices();
 									const userInfo =
 										await GoogleSignin.signIn();
@@ -271,7 +273,7 @@ export default function Auth() {
 										throw new Error("no ID token present!");
 									}
 								} catch (error: any) {
-									console.error(error);
+									console.log(error);
 									if (
 										error.code ===
 										statusCodes.SIGN_IN_CANCELLED
@@ -289,6 +291,8 @@ export default function Auth() {
 									} else {
 										// some other error happened
 									}
+								} finally {
+									setLoading(false);
 								}
 							}}
 						/>

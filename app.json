@@ -2,6 +2,7 @@
   "expo": {
     "name": "expo-base",
     "slug": "expobase",
+    "scheme": "expobase",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
@@ -35,6 +36,9 @@
         "projectId": "a0462579-050a-454c-b307-7829ec637bf1"
       }
     },
-    "plugins": ["@react-native-google-signin/google-signin"]
+    "plugins": [
+      "@react-native-google-signin/google-signin",
+      "expo-router"
+    ]
   }
 }

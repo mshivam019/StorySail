@@ -30,6 +30,7 @@ async function sendPushNotification(expoPushToken: string) {
       Accept: "application/json",
       "Accept-encoding": "gzip, deflate",
       "Content-Type": "application/json",
+      "Authorization": `Bearer <Expo access token here>`,
     },
     body: JSON.stringify(message),
   });

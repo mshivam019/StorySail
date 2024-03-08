@@ -1,0 +1,38 @@
+{
+  "expo": {
+    "name": "expo-base",
+    "slug": "expobase",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "icon": "./assets/icon.png",
+    "userInterfaceStyle": "light",
+    "splash": {
+      "image": "./assets/splash.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#ffffff"
+    },
+    "assetBundlePatterns": [
+      "**/*"
+    ],
+    "ios": {
+      "supportsTablet": true,
+      "bundleIdentifier": "com.mshivam019.expobase"
+    },
+    "android": {
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/adaptive-icon.png",
+        "backgroundColor": "#ffffff"
+      },
+      "package": "com.mshivam019.expobase"
+    },
+    "web": {
+      "favicon": "./assets/favicon.png"
+    },
+    "owner": "mshivam019",
+    "extra": {
+      "eas": {
+        "projectId": "a0462579-050a-454c-b307-7829ec637bf1"
+      }
+    }
+  }
+}

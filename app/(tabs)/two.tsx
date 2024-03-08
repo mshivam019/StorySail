@@ -1,7 +1,7 @@
-import { View, StyleSheet } from "react-native";
+import { StyleSheet } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import Account from "../../components/Account";
-import { useApp } from "../../context/appContext";
+import { useApp } from "../../context/AppContext";
 
 export default function TabTwoScreen() {
 	const session = useApp()?.session || null;

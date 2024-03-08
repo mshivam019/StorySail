@@ -1,6 +1,6 @@
 import { ActivityIndicator, View } from "react-native";
 
-const StartPage = () => {
+const AnimatedSplashScreen = () => {
 	return (
 		<View style={{ flex: 1, justifyContent: "center" }}>
 			<ActivityIndicator size="large" color="#000" />
@@ -8,4 +8,4 @@ const StartPage = () => {
 	);
 };
 
-export default StartPage;
+export default AnimatedSplashScreen;

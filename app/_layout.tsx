@@ -1,6 +1,6 @@
 import { Slot, useRouter } from "expo-router";
 import React, { useEffect, useState } from "react";
-import AppProvider from "../context/appContext";
+import AppProvider from "../context/AppContext";
 import { Session } from "@supabase/supabase-js";
 import { supabase } from "../lib/supabase";
 

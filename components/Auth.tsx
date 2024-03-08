@@ -29,6 +29,7 @@ import {
 	statusCodes,
 } from "@react-native-google-signin/google-signin";
 import LottieView from "lottie-react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 export default function Auth() {
 	const [email, setEmail] = useState("");
@@ -162,143 +163,161 @@ export default function Auth() {
 		}
 	};
 	return (
-		<Animated.View style={styles.container}>
-			<Animated.View
-				style={[StyleSheet.absoluteFill, imageAnimatedStyle]}
-			>
-				<Svg height={height + 100} width={width + 100}>
-					<LottieView
-						autoPlay
-						style={{
-							position: "absolute",
-							width: 350,
-							height: 350,
-							zIndex: 1,
-							top: height / 30,
-							right: width / 3,
-						}}
-						source={require("../assets/hello2.json")}
-					/>
-					<ClipPath id="clipPathId">
-						<Ellipse cx={width / 2} rx={height} ry={height + 100} />
-					</ClipPath>
-					<Image
-						href={require("../assets/loginBackground.png")}
-						width={width + 100}
-						height={height + 100}
-						preserveAspectRatio="xMidYMid slice"
-						clipPath="url(#clipPathId)"
-					/>
-				</Svg>
-				<Pressable
-					onPress={() => {
-						imagePosition.value = 1;
-						Keyboard.dismiss();
-					}}
+		<SafeAreaView style={{ flex: 1 }}>
+			<Animated.View style={styles.container}>
+				<Animated.View
+					style={[StyleSheet.absoluteFill, imageAnimatedStyle]}
 				>
-					<Animated.View
-						style={[
-							styles.closeButtonContainer,
-							closeButtonContainerStyle,
-						]}
-					>
-						<Text style={styles.buttonText}>X</Text>
-					</Animated.View>
-				</Pressable>
-			</Animated.View>
-			<KeyboardAvoidingView behavior="height">
-				<View style={styles.bottomContainer}>
-					<Animated.View style={buttonsAnimatedStyle}>
-						<Pressable style={styles.button} onPress={loginHandler}>
-							<Text style={styles.buttonText}>LOG IN</Text>
-						</Pressable>
-					</Animated.View>
-					<Animated.View style={buttonsAnimatedStyle}>
-						<Pressable
-							style={styles.button}
-							onPress={registerHandler}
-						>
-							<Text style={styles.buttonText}>REGISTER</Text>
-						</Pressable>
-					</Animated.View>
-					<Animated.View
-						style={[styles.formInputContainer, formAnimatedStyle]}
-					>
-						<TextInput
-							placeholder="Email"
-							placeholderTextColor="black"
-							onChangeText={(text) => setEmail(text)}
-							value={email}
-							style={styles.textInput}
-							autoCapitalize={"none"}
+					<Svg height={height + 100} width={width + 100}>
+						<LottieView
+							autoPlay
+							style={{
+								position: "absolute",
+								width: 350,
+								height: 350,
+								zIndex: 1,
+								top: height / 30,
+								right: width / 3,
+							}}
+							source={require("../assets/hello2.json")}
 						/>
-						<TextInput
-							placeholder="Password"
-							placeholderTextColor="black"
-							style={styles.textInput}
-							onChangeText={(text) => setPassword(text)}
-							value={password}
-							secureTextEntry={true}
-							autoCapitalize="none"
+						<ClipPath id="clipPathId">
+							<Ellipse
+								cx={width / 2}
+								rx={height}
+								ry={height + 100}
+							/>
+						</ClipPath>
+						<Image
+							href={require("../assets/loginBackground.png")}
+							width={width + 100}
+							height={height + 100}
+							preserveAspectRatio="xMidYMid slice"
+							clipPath="url(#clipPathId)"
 						/>
+					</Svg>
+					<Pressable
+						onPress={() => {
+							imagePosition.value = 1;
+							Keyboard.dismiss();
+						}}
+					>
 						<Animated.View
-							style={[styles.formButton, formButtonAnimatedStyle]}
+							style={[
+								styles.closeButtonContainer,
+								closeButtonContainerStyle,
+							]}
 						>
-							<Pressable onPress={() => buttonHandler()}>
-								<Text style={styles.actionButtonText}>
-									{isRegistering ? "REGISTER" : "LOG IN"}
-								</Text>
+							<Text style={styles.buttonText}>X</Text>
+						</Animated.View>
+					</Pressable>
+				</Animated.View>
+				<KeyboardAvoidingView behavior="height">
+					<View style={styles.bottomContainer}>
+						<Animated.View style={buttonsAnimatedStyle}>
+							<Pressable
+								style={styles.button}
+								onPress={loginHandler}
+							>
+								<Text style={styles.buttonText}>LOG IN</Text>
 							</Pressable>
 						</Animated.View>
-						<GoogleSigninButton
-							size={GoogleSigninButton.Size.Wide}
-							color={GoogleSigninButton.Color.Light}
-							onPress={async () => {
-								if (loading) return;
-								try {
-									setLoading(true);
-									await GoogleSignin.hasPlayServices();
-									const userInfo =
-										await GoogleSignin.signIn();
-									if (userInfo.idToken) {
-										const { data, error } =
-											await supabase.auth.signInWithIdToken(
-												{
-													provider: "google",
-													token: userInfo.idToken,
-												}
+						<Animated.View style={buttonsAnimatedStyle}>
+							<Pressable
+								style={styles.button}
+								onPress={registerHandler}
+							>
+								<Text style={styles.buttonText}>REGISTER</Text>
+							</Pressable>
+						</Animated.View>
+						<Animated.View
+							style={[
+								styles.formInputContainer,
+								formAnimatedStyle,
+							]}
+						>
+							<TextInput
+								placeholder="Email"
+								placeholderTextColor="black"
+								onChangeText={(text) => setEmail(text)}
+								value={email}
+								style={styles.textInput}
+								autoCapitalize={"none"}
+							/>
+							<TextInput
+								placeholder="Password"
+								placeholderTextColor="black"
+								style={styles.textInput}
+								onChangeText={(text) => setPassword(text)}
+								value={password}
+								secureTextEntry={true}
+								autoCapitalize="none"
+							/>
+							<Animated.View
+								style={[
+									styles.formButton,
+									formButtonAnimatedStyle,
+								]}
+							>
+								<Pressable onPress={() => buttonHandler()}>
+									<Text style={styles.actionButtonText}>
+										{isRegistering ? "REGISTER" : "LOG IN"}
+									</Text>
+								</Pressable>
+							</Animated.View>
+							<GoogleSigninButton
+								size={GoogleSigninButton.Size.Wide}
+								color={GoogleSigninButton.Color.Light}
+								onPress={async () => {
+									if (loading) return;
+									try {
+										setLoading(true);
+										await GoogleSignin.hasPlayServices();
+										const userInfo =
+											await GoogleSignin.signIn();
+										if (userInfo.idToken) {
+											const { data, error } =
+												await supabase.auth.signInWithIdToken(
+													{
+														provider: "google",
+														token: userInfo.idToken,
+													}
+												);
+											console.log(error, data);
+										} else {
+											throw new Error(
+												"no ID token present!"
 											);
-										console.log(error, data);
-									} else {
-										throw new Error("no ID token present!");
+										}
+									} catch (error: any) {
+										console.log(error);
+										if (
+											error.code ===
+											statusCodes.SIGN_IN_CANCELLED
+										) {
+											// user cancelled the login flow
+										} else if (
+											error.code ===
+											statusCodes.IN_PROGRESS
+										) {
+											// operation (e.g. sign in) is in progress already
+										} else if (
+											error.code ===
+											statusCodes.PLAY_SERVICES_NOT_AVAILABLE
+										) {
+											// play services not available or outdated
+										} else {
+											// some other error happened
+										}
+									} finally {
+										setLoading(false);
 									}
-								} catch (error: any) {
-									console.log(error);
-									if (
-										error.code ===
-										statusCodes.SIGN_IN_CANCELLED
-									) {
-										// user cancelled the login flow
-									} else if (
-										error.code === statusCodes.IN_PROGRESS
-									) {
-										// operation (e.g. sign in) is in progress already
-									} else if (
-										error.code ===
-										statusCodes.PLAY_SERVICES_NOT_AVAILABLE
-									) {
-										// play services not available or outdated
-									} else {
-										// some other error happened
-									}
-								} finally {
-									setLoading(false);
-								}
-							}}
-						/>
-					</Animated.View>
-				</View>
-			</KeyboardAvoidingView>
-		</Animated.View>
+								}}
+							/>
+						</Animated.View>
+					</View>
+				</KeyboardAvoidingView>
+			</Animated.View>
+		</SafeAreaView>
 	);
 }

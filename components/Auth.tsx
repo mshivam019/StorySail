@@ -171,13 +171,13 @@ export default function Auth() {
 						autoPlay
 						style={{
 							position: "absolute",
-							width: 300,
-							height: 300,
+							width: 350,
+							height: 350,
 							zIndex: 1,
-							top: height / 12,
+							top: height / 30,
 							right: width / 5,
 						}}
-						source={require("../assets/hello.json")}
+						source={require("../assets/hello2.json")}
 					/>
 					<ClipPath id="clipPathId">
 						<Ellipse cx={width / 2} rx={height} ry={height + 100} />

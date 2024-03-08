@@ -283,7 +283,7 @@ export default function Auth() {
 														token: userInfo.idToken,
 													}
 												);
-											console.log(error, data);
+											console.log(error);
 										} else {
 											throw new Error(
 												"no ID token present!"

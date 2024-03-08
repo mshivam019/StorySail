@@ -14,26 +14,22 @@ export default function TabLayout() {
 	const { session } = useApp() as { session: any };
 	if (session && session?.user)
 		return (
-			<Tabs
-				screenOptions={{
-					headerShown: false,
-				}}
-			>
+			<Tabs>
 				<Tabs.Screen
 					name="one"
 					options={{
-						title: "One",
+						title: "Home",
 						tabBarIcon: ({ color }) => (
-							<TabBarIcon name="film" color={color} />
+							<TabBarIcon name="home" color={color} />
 						),
 					}}
 				/>
 				<Tabs.Screen
 					name="two"
 					options={{
-						title: "Two",
+						title: "Profile",
 						tabBarIcon: ({ color }) => (
-							<TabBarIcon name="list" color={color} />
+							<TabBarIcon name="user" color={color} />
 						),
 					}}
 				/>

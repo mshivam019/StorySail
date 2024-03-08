@@ -1,12 +1,13 @@
-import { Text, View, StyleSheet } from "react-native";
+import { View, StyleSheet } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
+import Account from "../../components/Account";
+import { useApp } from "../../context/appContext";
 
 export default function TabTwoScreen() {
+	const session = useApp()?.session || null;
 	return (
 		<SafeAreaView style={styles.container}>
-			<View>
-				<Text>Tab Two</Text>
-			</View>
+			<Account session={session} />
 		</SafeAreaView>
 	);
 }

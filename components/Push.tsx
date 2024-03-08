@@ -63,7 +63,7 @@ async function registerForPushNotificationsAsync() {
     token = await Notifications.getExpoPushTokenAsync({
       projectId: Constants?.expoConfig?.extra?.eas.projectId,
     });
-    console.log(token);
+    //console.log(token);
   } else {
     alert("Must use physical device for Push Notifications");
   }
@@ -95,7 +95,7 @@ export default function Push({ session }: { session: Session }) {
 
     responseListener.current =
       Notifications.addNotificationResponseReceivedListener((response) => {
-        console.log(response);
+       // console.log(response);
       });
 
     return () => {

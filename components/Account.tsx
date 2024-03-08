@@ -5,11 +5,15 @@ import { Session } from "@supabase/supabase-js";
 import Push from "./Push";
 import { GoogleSignin } from "@react-native-google-signin/google-signin";
 
-export default function Account({ session }: { session: Session }) {
+export default function Account({ session }: { session: Session | null }) {
 	const [loading, setLoading] = useState(true);
 	const [username, setUsername] = useState("");
 	const [website, setWebsite] = useState("");
 	const [avatarUrl, setAvatarUrl] = useState("");
+
+	if (!session) {
+		return null;
+	}
 
 	useEffect(() => {
 		if (session) getProfile();

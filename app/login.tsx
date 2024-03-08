@@ -1,4 +1,3 @@
-import { Stack } from "expo-router";
 import Auth from "../components/Auth";
 import { SafeAreaView } from "react-native";
 

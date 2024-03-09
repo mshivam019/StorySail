@@ -1,6 +1,6 @@
 import React, { useRef } from "react";
 import { Redirect, Tabs } from "expo-router";
-import { useApp } from "../../context/AppContext";
+import { useAuth } from "../../provider/AuthProvider";
 import { Pressable } from "react-native";
 import { BottomSheetModal } from "@gorhom/bottom-sheet";
 import { CustomBottomSheetModal } from "../../components";
@@ -14,7 +14,7 @@ function TabBarIcon(props: {
 }
 
 export default function TabLayout() {
-	const { session } = useApp() as { session: any };
+	const { session } = useAuth();
 	const bottomSheetRef = useRef<BottomSheetModal>(null);
 
 	const handlePresentModalPress = () => bottomSheetRef.current?.present();

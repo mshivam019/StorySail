@@ -5,7 +5,6 @@ import { Session } from "@supabase/supabase-js";
 import Push from "./Push";
 import { Redirect } from "expo-router";
 
-
 export default function Account({ session }: { session: Session | null }) {
 	const [loading, setLoading] = useState(true);
 	const [username, setUsername] = useState("");
@@ -102,6 +101,13 @@ export default function Account({ session }: { session: Session | null }) {
 			</View>
 			<View style={styles.verticallySpaced}>
 				<TextInput
+					value={full_name || "full name here"}
+					onChangeText={(text) => setFull_name(text)}
+					style={styles.input}
+				/>
+			</View>
+			<View style={styles.verticallySpaced}>
+				<TextInput
 					value={website || "website here"}
 					onChangeText={(text) => setWebsite(text)}
 					style={styles.input}
@@ -122,7 +128,6 @@ export default function Account({ session }: { session: Session | null }) {
 					disabled={loading}
 				/>
 			</View>
-
 
 			<View style={[styles.verticallySpaced, { height: 200 }]}>
 				<Push session={session} />

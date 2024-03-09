@@ -1,15 +1,16 @@
-import React from 'react'
-import { View } from 'react-native'
-import { Account } from '../../components'
-import { useApp } from '../../context/AppContext'
+import React from "react";
+import { View } from "react-native";
+import { Account } from "../../components";
+import { useAuth } from "../../provider/AuthProvider";
 
 const profile = () => {
-    const session = useApp()?.session || null;
-  return (
-    <View>
-      <Account session={session} />
-    </View>
-  )
-}
+	const { session = null } = useAuth();
 
-export default profile
+	return (
+		<View>
+			<Account session={session} />
+		</View>
+	);
+};
+
+export default profile;

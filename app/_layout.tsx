@@ -6,6 +6,7 @@ import { Session } from "@supabase/supabase-js";
 import { supabase } from "../lib/supabase";
 import { useUserStore } from "../store";
 import * as SplashScreen from "expo-splash-screen";
+import "react-native-gesture-handler";
 
 interface InitialLayoutProps {
 	session: Session | null;

@@ -1,12 +1,14 @@
 import { Slot, useRouter } from "expo-router";
 import React, { useEffect, useState, useCallback } from "react";
-import { View } from "react-native";
 import AppProvider from "../context/AppContext";
 import { Session } from "@supabase/supabase-js";
 import { supabase } from "../lib/supabase";
 import { useUserStore } from "../store";
 import * as SplashScreen from "expo-splash-screen";
 import "react-native-gesture-handler";
+import { BottomSheetModalProvider } from "@gorhom/bottom-sheet";
+import { GestureHandlerRootView } from "react-native-gesture-handler";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 interface InitialLayoutProps {
 	session: Session | null;
@@ -68,11 +70,15 @@ const RootLayout = () => {
 		return null;
 	}
 	return (
-		<View onLayout={onLayoutRootView} style={{ flex: 1 }}>
+		<SafeAreaView onLayout={onLayoutRootView} style={{ flex: 1 }} edges={['bottom', 'left', 'right']}>
 			<AppProvider sess={session}>
-				<InitialLayout session={session} />
+				<GestureHandlerRootView style={{ flex: 1 }}>
+					<BottomSheetModalProvider>
+						<InitialLayout session={session} />
+					</BottomSheetModalProvider>
+				</GestureHandlerRootView>
 			</AppProvider>
-		</View>
+		</SafeAreaView>
 	);
 };
 

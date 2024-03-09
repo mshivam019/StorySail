@@ -3,6 +3,7 @@ import React, { useEffect, useState } from "react";
 import AppProvider from "../context/AppContext";
 import { Session } from "@supabase/supabase-js";
 import { supabase } from "../lib/supabase";
+import * as SplashScreen from 'expo-splash-screen';
 
 interface InitialLayoutProps {
 	session: Session | null;
@@ -22,6 +23,7 @@ const InitialLayout = ({ session }: InitialLayoutProps) => {
 };
 
 const RootLayout = () => {
+	SplashScreen.preventAutoHideAsync();
 	const [session, setSession] = useState<Session | null>(null);
 	useEffect(() => {
 		supabase.auth.getSession().then(({ data: { session } }) => {
@@ -31,6 +33,7 @@ const RootLayout = () => {
 		supabase.auth.onAuthStateChange((_event, session) => {
 			setSession(session);
 		});
+		SplashScreen.hideAsync();
 	}, []);
 	return (
 		<AppProvider session={session}>

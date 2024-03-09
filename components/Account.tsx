@@ -3,16 +3,18 @@ import { supabase } from "../lib/supabase";
 import { StyleSheet, View, Alert, Button, TextInput } from "react-native";
 import { Session } from "@supabase/supabase-js";
 import Push from "./Push";
-import { GoogleSignin } from "@react-native-google-signin/google-signin";
+import { Redirect } from "expo-router";
+
 
 export default function Account({ session }: { session: Session | null }) {
 	const [loading, setLoading] = useState(true);
 	const [username, setUsername] = useState("");
 	const [website, setWebsite] = useState("");
 	const [avatarUrl, setAvatarUrl] = useState("");
+	const [full_name, setFull_name] = useState("");
 
 	if (!session) {
-		return null;
+		return <Redirect href={"/login"} />;
 	}
 
 	useEffect(() => {
@@ -26,7 +28,7 @@ export default function Account({ session }: { session: Session | null }) {
 
 			const { data, error, status } = await supabase
 				.from("profiles")
-				.select(`username, website, avatar_url`)
+				.select(`username, website, avatar_url,full_name`)
 				.eq("id", session?.user.id)
 				.single();
 			if (error && status !== 406) {
@@ -37,6 +39,7 @@ export default function Account({ session }: { session: Session | null }) {
 				setUsername(data.username);
 				setWebsite(data.website);
 				setAvatarUrl(data.avatar_url);
+				setFull_name(data.full_name);
 			}
 		} catch (error) {
 			if (error instanceof Error) {
@@ -51,10 +54,12 @@ export default function Account({ session }: { session: Session | null }) {
 		username,
 		website,
 		avatar_url,
+		full_name,
 	}: {
 		username: string;
 		website: string;
 		avatar_url: string;
+		full_name: string;
 	}) {
 		try {
 			setLoading(true);
@@ -64,6 +69,7 @@ export default function Account({ session }: { session: Session | null }) {
 				id: session?.user.id,
 				username,
 				website,
+				full_name,
 				avatar_url,
 				updated_at: new Date(),
 			};
@@ -110,22 +116,13 @@ export default function Account({ session }: { session: Session | null }) {
 							username,
 							website,
 							avatar_url: avatarUrl,
+							full_name,
 						})
 					}
 					disabled={loading}
 				/>
 			</View>
 
-			<View style={styles.verticallySpaced}>
-				<Button
-					title="Sign Out"
-					onPress={() =>
-						supabase.auth.signOut().then(() => {
-							GoogleSignin.signOut();
-						})
-					}
-				/>
-			</View>
 
 			<View style={[styles.verticallySpaced, { height: 200 }]}>
 				<Push session={session} />

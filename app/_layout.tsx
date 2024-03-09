@@ -21,7 +21,7 @@ const InitialLayout = ({ session }: InitialLayoutProps) => {
 		if (session && session.user) {
 			if (isFirstLogin) {
 				router.replace("/onboarding");
-			} else router.replace("/one");
+			} else router.replace("/home");
 		} else {
 			router.replace("/login");
 		}

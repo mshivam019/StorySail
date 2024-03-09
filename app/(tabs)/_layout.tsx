@@ -4,7 +4,7 @@ import { useApp } from "../../context/AppContext";
 import { Pressable } from "react-native";
 import { BottomSheetModal } from "@gorhom/bottom-sheet";
 import { CustomBottomSheetModal } from "../../components";
-import { AntDesign } from "@expo/vector-icons";
+import { AntDesign, Feather } from "@expo/vector-icons";
 
 function TabBarIcon(props: {
 	name: React.ComponentProps<typeof AntDesign>["name"];
@@ -44,21 +44,51 @@ export default function TabLayout() {
 					}}
 				>
 					<Tabs.Screen
-						name="one"
+						name="home"
 						options={{
 							title: "Home",
-							tabBarIcon: ({ color }) => (
-								<TabBarIcon name="home" color={color} />
+							tabBarIcon: (props) => (
+								<TabBarIcon name="home" color={props.color} />
 							),
 						}}
 					/>
 					<Tabs.Screen
-						name="two"
+						name="explore"
+						options={{
+							title: "Explore",
+							tabBarIcon: (props) => (
+								<TabBarIcon
+									name="search1"
+									color={props.color}
+								/>
+							),
+						}}
+					/>
+					<Tabs.Screen
+						name="notifications"
+						options={{
+							title: "Notifications",
+							tabBarIcon: (props) => (
+								<Feather
+									name="bell"
+									style={{ marginBottom: -3, fontSize: 28 }}
+									{...props}
+								/>
+							),
+						}}
+					/>
+					<Tabs.Screen
+						name="profile"
 						options={{
 							title: "Profile",
-							tabBarIcon: ({ color }) => (
-								<TabBarIcon name="user" color={color} />
-							),
+							href: null,
+						}}
+					/>
+					<Tabs.Screen
+						name="settings"
+						options={{
+							title: "Settings",
+							href: null,
 						}}
 					/>
 				</Tabs>

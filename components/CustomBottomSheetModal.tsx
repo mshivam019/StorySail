@@ -3,10 +3,15 @@ import React, { forwardRef, useMemo } from "react";
 import { BottomSheetModal } from "@gorhom/bottom-sheet";
 import { AntDesign } from "@expo/vector-icons";
 import { BottomSheetModalMethods } from "@gorhom/bottom-sheet/lib/typescript/types";
+import { router } from "expo-router";
 export type Ref = BottomSheetModal;
 
 const CustomBottomSheetModal = forwardRef<Ref, {}>((props, ref) => {
 	const snapPoints = useMemo(() => ["95%"], []);
+
+	const handleDismiss = () => {
+		(ref as React.RefObject<BottomSheetModalMethods>).current?.dismiss();
+	};
 	return (
 		<BottomSheetModal
 			ref={ref}
@@ -16,21 +21,31 @@ const CustomBottomSheetModal = forwardRef<Ref, {}>((props, ref) => {
 			handleComponent={({ animatedIndex }) => (
 				<View style={styles.headerStyle}>
 					<Pressable
-						onPress={() =>
-							(
-								ref as React.RefObject<BottomSheetModalMethods>
-							).current?.dismiss()
-						}
+						onPress={() => handleDismiss()}
 						style={styles.IconStyle}
 					>
 						<AntDesign name="close" size={25} color="black" />
 					</Pressable>
-					<Text style={styles.textStyle}>Settings</Text>
 				</View>
 			)}
 		>
 			<View style={styles.contentContainer}>
-				<Text style={styles.containerHeadline}>Bottom Modal 😎</Text>
+				<Pressable
+					onPress={() => {
+						router.push("/profile");
+						handleDismiss();
+					}}
+				>
+					<Text style={styles.textStyle}>Profile</Text>
+				</Pressable>
+				<Pressable
+					onPress={() => {
+						router.push("/settings");
+						handleDismiss();
+					}}
+				>
+					<Text style={styles.textStyle}>Settings</Text>
+				</Pressable>
 			</View>
 		</BottomSheetModal>
 	);
@@ -52,13 +67,9 @@ const styles = StyleSheet.create({
 		top: 18,
 	},
 	headerStyle: {
-		backgroundColor: "white",
 		padding: 16,
 		borderTopLeftRadius: 20,
 		borderTopRightRadius: 20,
-		elevation: 20,
-		flexDirection: "row",
-		justifyContent: "center",
 	},
 	textStyle: {
 		fontSize: 20,

@@ -1,11 +1,10 @@
 import {StyleSheet, View} from 'react-native';
 import React from 'react';
 import {SharedValue} from 'react-native-reanimated';
-import {OnboardingData} from '../../data';
 import Dot from './Dot';
 
 type Props = {
-  data: OnboardingData[];
+  data: Object[];
   x: SharedValue<number>;
 };
 const Pagination = ({data, x}: Props) => {

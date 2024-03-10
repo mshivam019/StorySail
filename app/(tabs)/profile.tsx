@@ -1,11 +1,10 @@
-import { useState, useEffect, useRef } from "react";
+import { useState, useRef } from "react";
 import { supabase } from "../../lib/supabase";
 import {
 	StyleSheet,
 	View,
 	Button,
 	TextInput,
-	Image,
 	Pressable,
 	Text,
 	ActivityIndicator,
@@ -13,59 +12,29 @@ import {
 import { Toast } from "../../components";
 import { useAuth } from "../../provider/AuthProvider";
 import * as ImagePicker from "expo-image-picker";
+import { Image } from "expo-image";
 import * as FileSystem from "expo-file-system";
 import { decode } from "base64-arraybuffer";
 import { Redirect } from "expo-router";
+import { useUserStore } from "../../store";
+import { UserDetails } from "../../store/userStore";
 
 export default function Profile() {
-	const [loading, setLoading] = useState(true);
-	const [username, setUsername] = useState("");
-	const [website, setWebsite] = useState("");
-	const [avatarUrl, setAvatarUrl] = useState("");
-	const [full_name, setFull_name] = useState("");
+	const { userDetails, setUserDetails } = useUserStore() as {
+		userDetails: UserDetails;
+		setUserDetails: (state: UserDetails) => void;
+	};
+	const [loading, setLoading] = useState(false);
+	const [username, setUsername] = useState(userDetails.username);
+	const [website, setWebsite] = useState(userDetails.website);
+	const [avatarUrl, setAvatarUrl] = useState(userDetails.avatar_url);
+	const [full_name, setFull_name] = useState(userDetails.full_name);
 	const [imageLoading, setImageLoading] = useState(false);
 	const { session } = useAuth();
 	const toastRef = useRef();
 
 	if (!session) {
 		return <Redirect href={"/login"} />;
-	}
-
-	useEffect(() => {
-		if (session) getProfile();
-	}, [session]);
-
-	async function getProfile() {
-		try {
-			setLoading(true);
-			if (!session?.user) throw new Error("No user on the session!");
-
-			const { data, error, status } = await supabase
-				.from("profiles")
-				.select(`username, website, avatar_url,full_name`)
-				.eq("id", session.user.id)
-				.single();
-			if (error && status !== 406) {
-				throw error;
-			}
-
-			if (data) {
-				setUsername(data.username);
-				setWebsite(data.website);
-				setAvatarUrl(data.avatar_url);
-				setFull_name(data.full_name);
-			}
-		} catch (error) {
-			if (toastRef.current) {
-				(toastRef.current as any).show({
-					type: "error",
-					text: "Error fetching profile",
-					duration: 2000,
-				});
-			}
-		} finally {
-			setLoading(false);
-		}
 	}
 
 	async function updateProfile({
@@ -97,6 +66,12 @@ export default function Profile() {
 			if (error) {
 				throw error;
 			}
+			setUserDetails({
+				username,
+				website,
+				avatar_url,
+				full_name,
+			});
 			if (toastRef.current) {
 				(toastRef.current as any).show({
 					type: "success",
@@ -187,6 +162,10 @@ export default function Profile() {
 					}
 				}
 			}
+			setUserDetails({
+				...userDetails,
+				avatar_url: avatarUrl,
+			});
 			if (toastRef.current) {
 				(toastRef.current as any).show({
 					type: "success",
@@ -216,6 +195,7 @@ export default function Profile() {
 				onPress={async () => {
 					avatarChange();
 				}}
+				disabled={imageLoading}
 			>
 				{imageLoading ? (
 					<ActivityIndicator size="large" color="#000" />

@@ -71,12 +71,16 @@ async function registerForPushNotificationsAsync() {
 	return token?.data ?? "";
 }
 
-export default function Push({ session }: { session: Session }) {
+export default function Push({ session }: { session: Session|null }) {
 	const [expoPushToken, setExpoPushToken] = useState("");
 	const [notification, setNotification] =
 		useState<Notifications.Notification>();
 	const notificationListener = useRef<Notifications.Subscription>();
 	const responseListener = useRef<Notifications.Subscription>();
+
+	if (!session) {
+		return <Text>No user on the session!</Text>;
+	}
 
 	useEffect(() => {
 		registerForPushNotificationsAsync().then(async (token) => {
@@ -85,7 +89,7 @@ export default function Push({ session }: { session: Session }) {
 			const { error } = await supabase
 				.from("profiles")
 				.upsert({ id: session?.user.id, expo_push_token: token });
-			//console.log(error);
+			console.log(error);
 		});
 
 		notificationListener.current =
@@ -96,7 +100,7 @@ export default function Push({ session }: { session: Session }) {
 		responseListener.current =
 			Notifications.addNotificationResponseReceivedListener(
 				(response) => {
-					// console.log(response);
+					console.log(response);
 				}
 			);
 

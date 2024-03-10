@@ -55,6 +55,12 @@ const CustomBottomSheetModal = forwardRef<Ref, {}>((props, ref) => {
 				>
 					<AntDesign name="user" size={24} color="black" />
 					<Text style={styles.textStyle}>Edit Profile</Text>
+					<AntDesign
+						name="right"
+						size={24}
+						color="black"
+						style={styles.arrowStyle}
+					/>
 				</Pressable>
 				<Pressable
 					onPress={() => {
@@ -72,6 +78,12 @@ const CustomBottomSheetModal = forwardRef<Ref, {}>((props, ref) => {
 				>
 					<AntDesign name="setting" size={24} color="black" />
 					<Text style={styles.textStyle}>Settings</Text>
+					<AntDesign
+						name="right"
+						size={24}
+						color="black"
+						style={styles.arrowStyle}
+					/>
 				</Pressable>
 				<Pressable
 					onPress={() => {
@@ -129,6 +141,10 @@ const styles = StyleSheet.create({
 		flexDirection: "row",
 		alignItems: "center",
 		gap: 20,
+	},
+	arrowStyle: {
+		position: "absolute",
+		right: 20,
 	},
 });
 

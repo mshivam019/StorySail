@@ -28,6 +28,14 @@ export default function TabLayout() {
 						tabBarInactiveTintColor: "gray",
 						tabBarShowLabel: false,
 						tabBarHideOnKeyboard: true,
+						headerLeft: () => (
+							<AntDesign
+								name="earth"
+								size={24}
+								style={{ marginLeft: 20 }}
+							/>
+						),
+						headerTitle: "Expobase",
 						headerRight: () => (
 							<Pressable
 								onPress={() => {
@@ -55,7 +63,6 @@ export default function TabLayout() {
 					<Tabs.Screen
 						name="explore"
 						options={{
-							title: "Explore",
 							tabBarIcon: (props) => (
 								<TabBarIcon
 									name="search1"
@@ -67,7 +74,6 @@ export default function TabLayout() {
 					<Tabs.Screen
 						name="notifications"
 						options={{
-							title: "Notifications",
 							tabBarIcon: (props) => (
 								<Feather
 									name="bell"
@@ -80,14 +86,12 @@ export default function TabLayout() {
 					<Tabs.Screen
 						name="profile"
 						options={{
-							title: "Profile",
 							href: null,
 						}}
 					/>
 					<Tabs.Screen
 						name="settings"
 						options={{
-							title: "Settings",
 							href: null,
 						}}
 					/>

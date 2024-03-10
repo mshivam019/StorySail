@@ -9,6 +9,7 @@ import {
 	Image,
 	Pressable,
 	Text,
+	ActivityIndicator,
 } from "react-native";
 import { Session } from "@supabase/supabase-js";
 import * as ImagePicker from "expo-image-picker";
@@ -22,6 +23,7 @@ export default function Account({ session }: { session: Session | null }) {
 	const [website, setWebsite] = useState("");
 	const [avatarUrl, setAvatarUrl] = useState("");
 	const [full_name, setFull_name] = useState("");
+	const [imageLoading, setImageLoading] = useState(false);
 
 	if (!session) {
 		return <Redirect href={"/login"} />;
@@ -99,42 +101,61 @@ export default function Account({ session }: { session: Session | null }) {
 	}
 
 	const avatarChange = async () => {
-		const { status } =
-			await ImagePicker.requestMediaLibraryPermissionsAsync();
-		if (status !== "granted") {
-			Alert.alert(
-				"Sorry, we need camera roll permissions to make this work!"
-			);
-			return;
-		}
-		let result = await ImagePicker.launchImageLibraryAsync({
-			mediaTypes: ImagePicker.MediaTypeOptions.Images,
-			allowsEditing: true,
-			aspect: [4, 3],
-			quality: 1,
-		});
+		if (imageLoading) return;
+		try {
+			const { status } =
+				await ImagePicker.requestMediaLibraryPermissionsAsync();
+			if (status !== "granted") {
+				Alert.alert(
+					"Sorry, we need camera roll permissions to make this work!"
+				);
+				return;
+			}
+			let result = await ImagePicker.launchImageLibraryAsync({
+				mediaTypes: ImagePicker.MediaTypeOptions.Images,
+				allowsEditing: true,
+				aspect: [4, 3],
+				quality: 1,
+			});
 
-		if (result.canceled) {
-			return;
-		}
-		const img = result.assets[0];
-		const base64 = await FileSystem.readAsStringAsync(img.uri, {
-			encoding: "base64",
-		});
-		const filePath = `${session.user!.id}/${new Date().getTime()}.${
-			img.type === "image" ? "png" : "mp4"
-		}`;
-		const contentType = img.type === "image" ? "image/png" : "video/mp4";
-		const { data, error } = await supabase.storage
-			.from("files")
-			.upload(filePath, decode(base64), { contentType });
-		if (error) {
-			Alert.alert(error.message);
-		} else {
-			const output = supabase.storage
+			if (result.canceled) {
+				return;
+			}
+			setImageLoading(true);
+			const img = result.assets[0];
+			const base64 = await FileSystem.readAsStringAsync(img.uri, {
+				encoding: "base64",
+			});
+			const filePath = `${session.user!.id}/${new Date().getTime()}.${
+				img.type === "image" ? "png" : "mp4"
+			}`;
+			const contentType =
+				img.type === "image" ? "image/png" : "video/mp4";
+			const { data, error } = await supabase.storage
 				.from("files")
-				.getPublicUrl(data?.path);
-			setAvatarUrl(output.data?.publicUrl);
+				.upload(filePath, decode(base64), { contentType });
+			if (error) {
+				Alert.alert(error.message);
+			} else {
+				const output = supabase.storage
+					.from("files")
+					.getPublicUrl(data?.path);
+				setAvatarUrl(output.data?.publicUrl);
+				const updates = {
+					id: session?.user.id,
+					avatar_url: output.data?.publicUrl,
+				};
+				const { error } = await supabase
+					.from("profiles")
+					.upsert(updates);
+				if (error) {
+					Alert.alert(error.message);
+				}
+			}
+		} catch (error) {
+			console.log(error);
+		} finally {
+			setImageLoading(false);
 		}
 	};
 
@@ -146,7 +167,9 @@ export default function Account({ session }: { session: Session | null }) {
 					avatarChange();
 				}}
 			>
-				{avatarUrl ? (
+				{imageLoading ? (
+					<ActivityIndicator size="large" color="#000" />
+				) : avatarUrl ? (
 					<Image
 						source={{ uri: avatarUrl }}
 						style={{ width: 150, height: 150 }}

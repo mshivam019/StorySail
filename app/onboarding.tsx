@@ -1,155 +1,83 @@
-import { useRef, useState } from "react";
-import { View, Text, Dimensions, StyleSheet, Pressable } from "react-native";
-import { useUserStore } from "../store";
-import Carousel, { ICarouselInstance } from "react-native-reanimated-carousel";
-import LottieView from "lottie-react-native";
+import { StyleSheet, View, FlatList, ViewToken } from "react-native";
+import React from "react";
+import Animated, {
+	useSharedValue,
+	useAnimatedScrollHandler,
+	useAnimatedRef,
+} from "react-native-reanimated";
+import { OnboardingData, data } from "../data";
+import { RenderItem, Pagination, CustomButton } from "../components";
 
-const Onboarding = () => {
-	const { setIsFirstLogin } = useUserStore() as {
-		setIsFirstLogin: (value: boolean) => void;
+const OnboardingScreen = () => {
+	const flatListRef = useAnimatedRef<FlatList<OnboardingData>>();
+	const x = useSharedValue(0);
+	const flatListIndex = useSharedValue(0);
+
+	const onViewableItemsChanged = ({
+		viewableItems,
+	}: {
+		viewableItems: ViewToken[];
+	}) => {
+		if (viewableItems[0].index !== null) {
+			flatListIndex.value = viewableItems[0].index;
+		}
 	};
-	const [activeSlide, setActiveSlide] = useState(0);
-	const { width } = Dimensions.get("window");
-	const carouselRef = useRef<ICarouselInstance>(null);
-	const onboardingData = [
-		{
-			animation: require("../assets/onboarding/onboarding1.json"),
-			backgroundColor: "#fff3cc",
-			footerColor: "#f8eabd",
-			title: "Welcome to the app!",
-		},
-		{
-			animation: require("../assets/onboarding/onboarding2.json"),
-			backgroundColor: "#f5e3e3",
-			footerColor: "#f9d7d7",
-			title: "Hope you enjoy it",
-		},
-		{
-			animation: require("../assets/onboarding/onboarding3.json"),
-			backgroundColor: "#ccdef8",
-			footerColor: "#c1dafd",
-			title: "Let's get started",
-		},
-	];
-	return (
-		<View
-			style={[
-				styles.container,
-				{
-					backgroundColor:
-						onboardingData[activeSlide].backgroundColor,
-				},
-			]}
-		>
-			<Carousel
-				ref={carouselRef}
-				loop
-				height={400}
-				autoPlay
-				autoPlayInterval={2000}
-				width={width}
-				data={onboardingData}
-				renderItem={({ item, index }) => (
-					<LottieView
-						source={item.animation}
-						autoPlay
-						loop
-						style={{
-							width: 400,
-							height: 400,
-							alignSelf: "baseline",
-						}}
-					/>
-				)}
-				onProgressChange={(_offsetProgress, absoluteProgress) => {
-					const currentIndex =
-						carouselRef.current?.getCurrentIndex() || 0;
 
-					if (absoluteProgress > 0.5 || currentIndex === 0) {
-						setActiveSlide(currentIndex);
-					}
+	const onScroll = useAnimatedScrollHandler({
+		onScroll: (event) => {
+			x.value = event.contentOffset.x;
+		},
+	});
+
+	return (
+		<View style={styles.container}>
+			<Animated.FlatList
+				ref={flatListRef}
+				onScroll={onScroll}
+				data={data}
+				renderItem={({ item, index }) => {
+					return <RenderItem item={item} index={index} x={x} />;
+				}}
+				keyExtractor={(item) => item.id}
+				scrollEventThrottle={16}
+				horizontal={true}
+				bounces={false}
+				pagingEnabled={true}
+				showsHorizontalScrollIndicator={false}
+				onViewableItemsChanged={onViewableItemsChanged}
+				viewabilityConfig={{
+					minimumViewTime: 300,
+					viewAreaCoveragePercentThreshold: 10,
 				}}
 			/>
-			<Text style={{ fontSize: 30, fontWeight: "bold" }}>
-				{onboardingData[activeSlide].title}
-			</Text>
-			<View style={styles.dotContainer}>
-				{onboardingData.map((_, index) => (
-					<View
-						key={index}
-						style={[
-							styles.dot,
-							activeSlide === index && styles.activeDot,
-						]}
-					/>
-				))}
-			</View>
-			<View
-				style={[
-					styles.buttonContainer,
-					{
-						backgroundColor:
-							onboardingData[activeSlide].footerColor,
-					},
-				]}
-			>
-				<Pressable
-					style={styles.button}
-					onPress={() => {
-						setIsFirstLogin(false);
-					}}
-				>
-					<Text>Skip</Text>
-				</Pressable>
-				<Pressable
-					style={styles.button}
-					onPress={() => {
-						if (activeSlide === onboardingData.length - 1) {
-							setIsFirstLogin(false);
-						} else carouselRef.current?.next();
-					}}
-				>
-					<Text>Next</Text>
-				</Pressable>
+			<View style={styles.bottomContainer}>
+				<Pagination data={data} x={x} />
+				<CustomButton
+					flatListRef={flatListRef}
+					flatListIndex={flatListIndex}
+					dataLength={data.length}
+					x={x}
+				/>
 			</View>
 		</View>
 	);
 };
 
+export default OnboardingScreen;
+
 const styles = StyleSheet.create({
 	container: {
 		flex: 1,
-		alignItems: "center",
-		gap: 10,
-		justifyContent: "space-between",
-		paddingTop: 30,
 	},
-	dotContainer: {
-		flexDirection: "row",
-		justifyContent: "center",
-		alignItems: "center",
-		gap: 10,
-	},
-	dot: {
-		width: 10,
-		height: 10,
-		borderRadius: 5,
-		backgroundColor: "gray",
-	},
-	activeDot: {
-		backgroundColor: "black",
-	},
-	buttonContainer: {
+	bottomContainer: {
 		flexDirection: "row",
 		justifyContent: "space-between",
-		width: "100%",
-		paddingHorizontal: 20,
-		paddingVertical: 10,
-	},
-	button: {
-		padding: 10,
-		borderRadius: 10,
+		alignItems: "center",
+		marginHorizontal: 30,
+		paddingVertical: 30,
+		position: "absolute",
+		bottom: 20,
+		left: 0,
+		right: 0,
 	},
 });
-
-export default Onboarding;

@@ -1,5 +1,5 @@
 import { useState, useRef } from "react";
-import { supabase } from "../../lib/supabase";
+import { supabase } from "../lib/supabase";
 import {
 	StyleSheet,
 	View,
@@ -9,15 +9,15 @@ import {
 	Text,
 	ActivityIndicator,
 } from "react-native";
-import { Toast } from "../../components";
-import { useAuth } from "../../provider/AuthProvider";
+import { Toast } from "../components";
+import { useAuth } from "../provider/AuthProvider";
 import * as ImagePicker from "expo-image-picker";
 import { Image } from "expo-image";
 import * as FileSystem from "expo-file-system";
 import { decode } from "base64-arraybuffer";
 import { Redirect } from "expo-router";
-import { useUserStore } from "../../store";
-import { UserDetails } from "../../store/userStore";
+import { useUserStore } from "../store";
+import { UserDetails } from "../store/userStore";
 
 export default function Profile() {
 	const { userDetails, setUserDetails } = useUserStore() as {

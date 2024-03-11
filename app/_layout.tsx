@@ -1,39 +1,58 @@
-import { Slot, useRouter } from "expo-router";
-import React, { useEffect } from "react";
-import { AuthProvider, useAuth } from "../provider/AuthProvider";
-import { useUserStore } from "../store";
+import React, { useRef } from "react";
+import { AuthProvider } from "../provider/AuthProvider";
 import "react-native-gesture-handler";
-import { BottomSheetModalProvider } from "@gorhom/bottom-sheet";
+import { Pressable } from "react-native";
+import { Stack } from "expo-router";
+import {
+	BottomSheetModalProvider,
+	BottomSheetModal,
+} from "@gorhom/bottom-sheet";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import { SafeAreaProvider } from "react-native-safe-area-context";
-import * as SplashScreen from "expo-splash-screen";
-
-const InitialLayout = () => {
-	const router = useRouter();
-	const { isFirstLogin } = useUserStore() as { isFirstLogin: boolean };
-	const { session, initialized } = useAuth();
-	useEffect(() => {
-		if (!initialized) return;
-		SplashScreen.hideAsync();
-		if (session && session.user) {
-			if (isFirstLogin) {
-				router.replace("/onboarding");
-			} else router.replace("/home");
-		} else {
-			router.replace("/login");
-		}
-	}, [session, isFirstLogin, initialized]);
-
-	return <Slot />;
-};
+import { CustomBottomSheetModal } from "../components";
+import { AntDesign } from "@expo/vector-icons";
 
 const RootLayout = () => {
+	const bottomSheetRef = useRef<BottomSheetModal>(null);
+
+	const handlePresentModalPress = () => bottomSheetRef.current?.present();
 	return (
 		<SafeAreaProvider style={{ flex: 1 }}>
 			<AuthProvider>
 				<GestureHandlerRootView style={{ flex: 1 }}>
 					<BottomSheetModalProvider>
-						<InitialLayout />
+						<CustomBottomSheetModal ref={bottomSheetRef} />
+						<Stack
+							initialRouteName="login"
+							screenOptions={{
+								headerTitle: "Expobase",
+								headerRight: () => (
+									<Pressable
+										onPress={() => {
+											handlePresentModalPress();
+										}}
+									>
+										<AntDesign name="setting" size={24} />
+									</Pressable>
+								),
+							}}
+						>
+							<Stack.Screen
+								name="onboarding"
+								options={{
+									headerShown: false,
+								}}
+							/>
+							<Stack.Screen
+								name="login"
+								options={{
+									headerShown: false,
+								}}
+							/>
+							<Stack.Screen name="profile" />
+							<Stack.Screen name="settings" />
+							<Stack.Screen name="(tabs)" />
+						</Stack>
 					</BottomSheetModalProvider>
 				</GestureHandlerRootView>
 			</AuthProvider>

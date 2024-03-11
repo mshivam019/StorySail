@@ -10,6 +10,7 @@ import { useUserStore } from "../store";
 import { GoogleSignin } from "@react-native-google-signin/google-signin";
 import * as Notifications from "expo-notifications";
 import Constants from "expo-constants";
+import { useRouter } from "expo-router";
 
 type AuthProps = {
 	user: User | null;
@@ -28,9 +29,10 @@ export function useAuth() {
 
 export const AuthProvider = ({ children }: PropsWithChildren) => {
 	const [user, setUser] = useState<User | null>();
-	const [initialized, setInitialized] = useState<boolean>(false);
 	const [session, setSession] = useState<Session | null>(null);
-	const { setUserDetails, setShowNotification } = useUserStore();
+	const { setUserDetails, setShowNotification, isFirstLogin } =
+		useUserStore();
+	const router = useRouter();
 
 	async function getProfile(userId: string) {
 		try {
@@ -56,8 +58,14 @@ export const AuthProvider = ({ children }: PropsWithChildren) => {
 		const { data } = supabase.auth.onAuthStateChange(async (_, session) => {
 			setSession(session);
 			setUser(session ? session.user : null);
-			if (session && session.user) await getProfile(session.user.id);
-			setInitialized(true);
+			if (session && session.user) {
+				await getProfile(session.user.id);
+				if (isFirstLogin) {
+					router.replace("/onboarding");
+				} else router.replace("/home");
+			} else {
+				router.replace("/login");
+			}
 		});
 		return () => {
 			data.subscription.unsubscribe();
@@ -120,7 +128,6 @@ export const AuthProvider = ({ children }: PropsWithChildren) => {
 	const value = {
 		user,
 		session,
-		initialized,
 		signOut,
 		handleNotificationPermission,
 	};

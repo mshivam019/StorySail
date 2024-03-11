@@ -15,6 +15,7 @@ import Animated, {
 } from "react-native-reanimated";
 import { useUserStore } from "../../store";
 import { OnboardingData } from "../../data";
+import { router } from "expo-router";
 
 type Props = {
 	dataLength: number;
@@ -25,9 +26,7 @@ type Props = {
 
 const CustomButton = ({ flatListRef, flatListIndex, dataLength, x }: Props) => {
 	const { width: SCREEN_WIDTH } = useWindowDimensions();
-	const { setIsFirstLogin } = useUserStore() as {
-		setIsFirstLogin: (value: boolean) => void;
-	};
+	const { setIsFirstLogin } = useUserStore();
 
 	const buttonAnimationStyle = useAnimatedStyle(() => {
 		return {
@@ -95,6 +94,7 @@ const CustomButton = ({ flatListRef, flatListIndex, dataLength, x }: Props) => {
 					});
 				} else {
 					setIsFirstLogin(false);
+					router.replace("/home");
 				}
 			}}
 		>

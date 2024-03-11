@@ -1,18 +1,21 @@
 import { View, StyleSheet, Text, Pressable } from "react-native";
 import React, { forwardRef, useMemo } from "react";
 import { BottomSheetModal } from "@gorhom/bottom-sheet";
-import { AntDesign } from "@expo/vector-icons";
+import { AntDesign, Feather } from "@expo/vector-icons";
 import { BottomSheetModalMethods } from "@gorhom/bottom-sheet/lib/typescript/types";
 import { router } from "expo-router";
-import { GoogleSignin } from "@react-native-google-signin/google-signin";
-import { supabase } from "../lib/supabase";
 import { useUserStore } from "../store";
 import { Image } from "expo-image";
+import Switch from "./CustomSwitch";
+import { useAuth } from "../provider/AuthProvider";
 export type Ref = BottomSheetModal;
 
 const CustomBottomSheetModal = forwardRef<Ref, {}>((props, ref) => {
 	const snapPoints = useMemo(() => ["95%"], []);
-	const { userDetails } = useUserStore();
+	const { userDetails, setShowNotification, showNotification,signOut } =
+		useUserStore();
+	
+	const {handleNotificationPermission} = useAuth();
 
 	const handleDismiss = () => {
 		(ref as React.RefObject<BottomSheetModalMethods>).current?.dismiss();
@@ -43,13 +46,7 @@ const CustomBottomSheetModal = forwardRef<Ref, {}>((props, ref) => {
 			)}
 		>
 			<View style={styles.contentContainer}>
-				<View
-					style={{
-						alignItems: "center",
-						justifyContent: "center",
-						marginBottom: 20,
-					}}
-				>
+				<View style={styles.userContainer}>
 					<Image
 						source={{ uri: userDetails.avatar_url }}
 						style={{
@@ -112,12 +109,23 @@ const CustomBottomSheetModal = forwardRef<Ref, {}>((props, ref) => {
 						style={styles.arrowStyle}
 					/>
 				</Pressable>
+				<View style={styles.pressableStyle}>
+					<Feather name="bell" size={24} color="black" />
+					<Text style={styles.textStyle}>Notifications</Text>
+					<View style={{ position: "absolute", right: 20 }}>
+						<Switch
+							activeColor={"#4cd964"}
+							inActiveColor={"#F2F5F7"}
+							active={showNotification}
+							setActive={setShowNotification}
+							callBackfn={handleNotificationPermission}
+						/>
+					</View>
+				</View>
 				<Pressable
 					onPress={() => {
-						supabase.auth.signOut().then(() => {
-							GoogleSignin.signOut();
-							handleDismiss();
-						});
+						signOut();
+						handleDismiss();
 					}}
 					style={({ pressed }) => [
 						styles.pressableStyle,
@@ -142,6 +150,11 @@ const styles = StyleSheet.create({
 		alignItems: "center",
 		paddingTop: 20,
 		backgroundColor: "#f5f5f5",
+	},
+	userContainer: {
+		alignItems: "center",
+		justifyContent: "center",
+		marginBottom: 20,
 	},
 	containerHeadline: {
 		fontSize: 24,

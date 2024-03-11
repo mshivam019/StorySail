@@ -5,7 +5,7 @@ import { useUserStore } from "../store";
 import "react-native-gesture-handler";
 import { BottomSheetModalProvider } from "@gorhom/bottom-sheet";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
-import { SafeAreaView } from "react-native-safe-area-context";
+import { SafeAreaProvider } from "react-native-safe-area-context";
 import * as SplashScreen from "expo-splash-screen";
 
 const InitialLayout = () => {
@@ -29,7 +29,7 @@ const InitialLayout = () => {
 
 const RootLayout = () => {
 	return (
-		<SafeAreaView style={{ flex: 1 }} edges={["bottom", "left", "right"]}>
+		<SafeAreaProvider style={{ flex: 1 }}>
 			<AuthProvider>
 				<GestureHandlerRootView style={{ flex: 1 }}>
 					<BottomSheetModalProvider>
@@ -37,7 +37,7 @@ const RootLayout = () => {
 					</BottomSheetModalProvider>
 				</GestureHandlerRootView>
 			</AuthProvider>
-		</SafeAreaView>
+		</SafeAreaProvider>
 	);
 };
 

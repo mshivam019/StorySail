@@ -2,6 +2,8 @@ import { create } from "zustand";
 import { persist } from "zustand/middleware";
 import { createJSONStorage } from "zustand/middleware";
 import { MMKV } from "react-native-mmkv";
+import { supabase } from "../lib/supabase";
+import { GoogleSignin } from "@react-native-google-signin/google-signin";
 
 const storage = new MMKV();
 
@@ -30,6 +32,9 @@ export interface UserStore {
 	setIsFirstLogin: (state: boolean) => void;
 	userDetails: UserDetails;
 	setUserDetails: (state: UserDetails) => void;
+    showNotification: boolean;
+    setShowNotification: (state: boolean) => void;
+    signOut: () => void;
 }
 
 const useUserStore = create<UserStore>()(
@@ -52,6 +57,25 @@ const useUserStore = create<UserStore>()(
 					userDetails: state,
 				});
 			},
+            signOut: async () => {
+                supabase.auth.signOut().then(() => {
+                    GoogleSignin.signOut();
+                });
+                set({
+                    userDetails: {
+                        username: "",
+                        website: "",
+                        avatar_url: "",
+                        full_name: "",
+                    },
+                });
+            },
+            showNotification: false,
+            setShowNotification: (state: boolean) => {
+                set({
+                    showNotification: state,
+                });
+            },
 		}),
 		{
 			name: "user-storage",

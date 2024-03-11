@@ -24,12 +24,12 @@ import Animated, {
 import { supabase } from "../lib/supabase";
 import {
 	GoogleSignin,
-	GoogleSigninButton,
 	statusCodes,
 } from "@react-native-google-signin/google-signin";
 import LottieView from "lottie-react-native";
 import { Toast } from "../components";
 import { SafeAreaView } from "react-native-safe-area-context";
+import { Image as ExpoImage } from "expo-image";
 
 export default function Login() {
 	const [email, setEmail] = useState("");
@@ -293,9 +293,15 @@ export default function Login() {
 									</Text>
 								</Pressable>
 							</Animated.View>
-							<GoogleSigninButton
-								size={GoogleSigninButton.Size.Wide}
-								color={GoogleSigninButton.Color.Light}
+							<Pressable
+								style={({ pressed }) => [
+									styles.googleButton,
+									{
+										transform: [
+											{ scale: pressed ? 0.9 : 1 },
+										],
+									},
+								]}
 								onPress={async () => {
 									if (loading) return;
 									try {
@@ -341,11 +347,19 @@ export default function Login() {
 										setLoading(false);
 									}
 								}}
-							/>
+							>
+								<ExpoImage
+									source={require("../assets/googleIcon.png")}
+									style={styles.googleButtonIcon}
+								/>
+								<Text style={styles.googleButtonText}>
+									Sign in with Google
+								</Text>
+							</Pressable>
 						</Animated.View>
 					</View>
 				</KeyboardAvoidingView>
-			</Animated.View>			
+			</Animated.View>
 			<Toast ref={toastRef} />
 		</SafeAreaView>
 	);

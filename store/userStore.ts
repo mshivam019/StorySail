@@ -47,10 +47,10 @@ const useUserStore = create<UserStore>()(
 				});
 			},
 			userDetails: {
-				username: "",
+				username: "username",
 				website: "",
-				avatar_url: "",
-				full_name: "",
+				avatar_url: "https://www.gravatar.com/avatar/?d=identicon",
+				full_name: "Your name here!",
 			},
 			setUserDetails: (state: UserDetails) => {
 				set({
@@ -63,11 +63,11 @@ const useUserStore = create<UserStore>()(
                 });
                 set({
                     userDetails: {
-                        username: "",
-                        website: "",
-                        avatar_url: "",
-                        full_name: "",
-                    },
+						username: "username",
+						website: "",
+						avatar_url: "https://www.gravatar.com/avatar/?d=identicon",
+						full_name: "Your name here!",
+					},
                 });
             },
             showNotification: false,

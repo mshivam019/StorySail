@@ -199,16 +199,9 @@ export default function Profile() {
 			>
 				{imageLoading ? (
 					<ActivityIndicator size="large" color="#000" />
-				) : avatarUrl ? (
-					<Image
-						source={{ uri: avatarUrl }}
-						style={{ width: 150, height: 150 }}
-					/>
 				) : (
 					<Image
-						source={{
-							uri: "https://www.gravatar.com/avatar/?d=identicon",
-						}}
+						source={{ uri: avatarUrl }}
 						style={{ width: 150, height: 150 }}
 					/>
 				)}

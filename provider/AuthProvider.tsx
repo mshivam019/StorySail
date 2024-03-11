@@ -30,12 +30,7 @@ export const AuthProvider = ({ children }: PropsWithChildren) => {
 	const [user, setUser] = useState<User | null>();
 	const [initialized, setInitialized] = useState<boolean>(false);
 	const [session, setSession] = useState<Session | null>(null);
-	const {
-		setUserDetails,
-		setShowNotification,
-		setIsFirstLogin,
-		showNotification,
-	} = useUserStore();
+	const { setUserDetails, setShowNotification } = useUserStore();
 
 	async function getProfile(userId: string) {
 		try {
@@ -78,48 +73,45 @@ export const AuthProvider = ({ children }: PropsWithChildren) => {
 		setSession(null);
 		setUser(null);
 		setUserDetails({
-			username: "",
+			username: "username",
 			website: "",
-			avatar_url: "",
-			full_name: "",
+			avatar_url: "https://www.gravatar.com/avatar/?d=identicon",
+			full_name: "Your name here!",
 		});
 	};
 
 	const handleNotificationPermission = async () => {
 		try {
 			const { status } = await Notifications.getPermissionsAsync();
+			if (status !== "granted") {
+				const { status } =
+					await Notifications.requestPermissionsAsync();
 				if (status !== "granted") {
-					const { status } =
-						await Notifications.requestPermissionsAsync();
-					if (status !== "granted") {
-						setShowNotification(false);
-						const { error } = await supabase.from("profiles").upsert({
-							id: session?.user.id,
-							expo_push_token: null,
-						});
-						if (error) {
+					setShowNotification(false);
+					const { error } = await supabase.from("profiles").upsert({
+						id: session?.user.id,
+						expo_push_token: null,
+					});
+					if (error) {
+						console.log(error);
+					}
+				} else {
+					const token = await Notifications.getExpoPushTokenAsync({
+						projectId: Constants?.expoConfig?.extra?.eas.projectId,
+					});
+					if (token && session) {
+						if (token.data) {
+							const { error } = await supabase
+								.from("profiles")
+								.upsert({
+									id: session?.user.id,
+									expo_push_token: token,
+								});
 							console.log(error);
-						}
-					} else {
-						const token = await Notifications.getExpoPushTokenAsync(
-							{
-								projectId:
-									Constants?.expoConfig?.extra?.eas.projectId,
-							}
-						);
-						if (token && session) {
-							if (token.data) {
-								const { error } = await supabase
-									.from("profiles")
-									.upsert({
-										id: session?.user.id,
-										expo_push_token: token,
-									});
-								console.log(error);
-							}
 						}
 					}
 				}
+			}
 		} catch (error) {
 			console.log(error);
 		}

@@ -95,7 +95,8 @@ const styles = StyleSheet.create({
 		elevation: 5,
 	},
 	formInputContainer: {
-		marginBottom: 70,
+    marginTop: 20,
+		marginBottom: 60,
 		...StyleSheet.absoluteFill,
 		zIndex: -1,
 		justifyContent: "center",

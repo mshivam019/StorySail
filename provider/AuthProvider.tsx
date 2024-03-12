@@ -28,9 +28,8 @@ export function useAuth() {
 }
 
 export const AuthProvider = ({ children }: PropsWithChildren) => {
-	const [user, setUser] = useState<User | null>();
 	const [session, setSession] = useState<Session | null>(null);
-	const { setUserDetails, setShowNotification, isFirstLogin } =
+	const { setUserDetails, setShowNotification, isFirstLogin, user, setUser } =
 		useUserStore();
 	const router = useRouter();
 
@@ -59,7 +58,9 @@ export const AuthProvider = ({ children }: PropsWithChildren) => {
 			setSession(session);
 			setUser(session ? session.user : null);
 			if (session && session.user) {
-				await getProfile(session.user.id);
+				if (session.user.id !== user?.id) {
+					await getProfile(session.user.id);
+				}
 				if (isFirstLogin) {
 					router.replace("/onboarding");
 				} else router.replace("/(tabs)/home");

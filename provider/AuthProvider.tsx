@@ -56,15 +56,16 @@ export const AuthProvider = ({ children }: PropsWithChildren) => {
 		// Listen for changes to authentication state
 		const { data } = supabase.auth.onAuthStateChange(async (_, session) => {
 			setSession(session);
-			setUser(session ? session.user : null);
 			if (session && session.user) {
 				if (session.user.id !== user?.id) {
+					setUser(session ? session.user : null);	
 					await getProfile(session.user.id);
 				}
 				if (isFirstLogin) {
 					router.replace("/onboarding");
 				} else router.replace("/(tabs)/home");
 			} else {
+				setUser(null);
 				router.replace("/login");
 			}
 		});

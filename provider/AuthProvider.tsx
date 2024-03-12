@@ -62,7 +62,7 @@ export const AuthProvider = ({ children }: PropsWithChildren) => {
 				await getProfile(session.user.id);
 				if (isFirstLogin) {
 					router.replace("/onboarding");
-				} else router.replace("/home");
+				} else router.replace("/(tabs)/home");
 			} else {
 				router.replace("/login");
 			}

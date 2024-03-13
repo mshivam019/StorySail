@@ -2,8 +2,6 @@ import { create } from "zustand";
 import { persist } from "zustand/middleware";
 import { createJSONStorage } from "zustand/middleware";
 import { MMKV } from "react-native-mmkv";
-import { supabase } from "../lib/supabase";
-import { GoogleSignin } from "@react-native-google-signin/google-signin";
 import { User } from "@supabase/supabase-js";
 
 const storage = new MMKV();
@@ -26,6 +24,7 @@ export interface UserDetails {
 	website: string;
 	avatar_url: string;
 	full_name: string;
+	coins: number;
 }
 
 export interface UserStore {
@@ -37,12 +36,14 @@ export interface UserStore {
 	setUserDetails: (state: UserDetails) => void;
     showNotification: boolean;
     setShowNotification: (state: boolean) => void;
-    signOut: () => void;
+	getCoins: () => number;
+	deductCoins: (state: number) => void;
+	addCoins: (state: number) => void;
 }
 
 const useUserStore = create<UserStore>()(
 	persist(
-		(set) => ({
+		(set,get) => ({
 			isFirstLogin: true,
 			setIsFirstLogin: (state: boolean) => {
 				set({
@@ -56,6 +57,7 @@ const useUserStore = create<UserStore>()(
 				});
 			},
 			userDetails: {
+				coins: 0,
 				username: "username",
 				website: "",
 				avatar_url: "https://www.gravatar.com/avatar/?d=identicon",
@@ -66,28 +68,31 @@ const useUserStore = create<UserStore>()(
 					userDetails: state,
 				});
 			},
-            signOut: async () => {
-                supabase.auth.signOut().then(() => {
-                    GoogleSignin.signOut();
-                });
-				set({
-					user: null,
-				});
-                set({
-                    userDetails: {
-						username: "username",
-						website: "",
-						avatar_url: "https://www.gravatar.com/avatar/?d=identicon",
-						full_name: "Your name here!",
-					},
-                });
-            },
             showNotification: false,
             setShowNotification: (state: boolean) => {
                 set({
                     showNotification: state,
                 });
             },
+			getCoins: () => {
+				return get().userDetails.coins;
+			},
+			deductCoins: (state: number) => {
+				set({
+					userDetails: {
+						...get().userDetails,
+						coins: get().userDetails.coins - state,
+					},
+				});
+			},
+			addCoins: (state: number) => {
+				set({
+					userDetails: {
+						...get().userDetails,
+						coins: get().userDetails.coins + state,
+					},
+				});
+			},
 		}),
 		{
 			name: "user-storage",

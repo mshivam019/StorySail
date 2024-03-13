@@ -18,7 +18,7 @@ const OnboardingScreen = () => {
 	}: {
 		viewableItems: ViewToken[];
 	}) => {
-		if (viewableItems[0].index !== null) {
+		if (viewableItems[0] && viewableItems[0].index !== null) {
 			flatListIndex.value = viewableItems[0].index;
 		}
 	};

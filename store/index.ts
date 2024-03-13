@@ -1,3 +1,3 @@
 import useUserStore from "./userStore";
-
-export { useUserStore };
+import useHomeDataStore from "./homeDataStore";
+export { useUserStore,useHomeDataStore };

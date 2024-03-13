@@ -9,7 +9,7 @@ import {
 	Text,
 	ActivityIndicator,
 } from "react-native";
-import { Toast } from "../components";
+import { Toast,ToastRef } from "../components";
 import { useAuth } from "../provider/AuthProvider";
 import * as ImagePicker from "expo-image-picker";
 import { Image } from "expo-image";
@@ -31,7 +31,7 @@ export default function Profile() {
 	const [full_name, setFull_name] = useState(userDetails.full_name);
 	const [imageLoading, setImageLoading] = useState(false);
 	const { session } = useAuth();
-	const toastRef = useRef();
+	const toastRef = useRef<ToastRef>(null);
 
 	if (!session) {
 		return <Redirect href={"/login"} />;
@@ -67,13 +67,14 @@ export default function Profile() {
 				throw error;
 			}
 			setUserDetails({
+				...userDetails,
 				username,
 				website,
 				avatar_url,
 				full_name,
 			});
 			if (toastRef.current) {
-				(toastRef.current as any).show({
+				(toastRef.current).show({
 					type: "success",
 					text: "Profile updated",
 					duration: 2000,
@@ -82,7 +83,7 @@ export default function Profile() {
 		} catch (error) {
 			if (error instanceof Error) {
 				if (toastRef.current) {
-					(toastRef.current as any).show({
+					(toastRef.current).show({
 						type: "error",
 						text: "Error updating profile",
 						duration: 2000,
@@ -101,7 +102,7 @@ export default function Profile() {
 				await ImagePicker.requestMediaLibraryPermissionsAsync();
 			if (status !== "granted") {
 				if (toastRef.current) {
-					(toastRef.current as any).show({
+					(toastRef.current).show({
 						type: "error",
 						text: "Permission denied!",
 						duration: 2000,
@@ -134,7 +135,7 @@ export default function Profile() {
 				.upload(filePath, decode(base64), { contentType });
 			if (error) {
 				if (toastRef.current) {
-					(toastRef.current as any).show({
+					(toastRef.current).show({
 						type: "error",
 						text: "Error uploading image",
 						duration: 2000,
@@ -154,7 +155,7 @@ export default function Profile() {
 					.upsert(updates);
 				if (error) {
 					if (toastRef.current) {
-						(toastRef.current as any).show({
+						(toastRef.current).show({
 							type: "error",
 							text: "Error updating image",
 							duration: 2000,
@@ -167,7 +168,7 @@ export default function Profile() {
 				avatar_url: avatarUrl,
 			});
 			if (toastRef.current) {
-				(toastRef.current as any).show({
+				(toastRef.current).show({
 					type: "success",
 					text: "Image updated",
 					duration: 2000,
@@ -177,7 +178,7 @@ export default function Profile() {
 			console.log(error);
 
 			if (toastRef.current) {
-				(toastRef.current as any).show({
+				(toastRef.current).show({
 					type: "error",
 					text: "Error uploading image",
 					duration: 2000,

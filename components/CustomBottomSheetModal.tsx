@@ -12,10 +12,10 @@ export type Ref = BottomSheetModal;
 
 const CustomBottomSheetModal = forwardRef<Ref, {}>((props, ref) => {
 	const snapPoints = useMemo(() => ["95%"], []);
-	const { userDetails, setShowNotification, showNotification,signOut } =
+	const { userDetails, setShowNotification, showNotification } =
 		useUserStore();
-	
-	const {handleNotificationPermission} = useAuth();
+
+	const { handleNotificationPermission, signOut } = useAuth();
 
 	const handleDismiss = () => {
 		(ref as React.RefObject<BottomSheetModalMethods>).current?.dismiss();
@@ -124,7 +124,7 @@ const CustomBottomSheetModal = forwardRef<Ref, {}>((props, ref) => {
 				</View>
 				<Pressable
 					onPress={() => {
-						signOut();
+						if (signOut) signOut();
 						handleDismiss();
 					}}
 					style={({ pressed }) => [

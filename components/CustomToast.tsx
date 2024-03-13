@@ -15,7 +15,19 @@ import Animated, {
 	runOnJS,
 } from "react-native-reanimated";
 import { Gesture, GestureDetector } from "react-native-gesture-handler";
-const Toast = forwardRef(({}, ref) => {
+
+interface ToastProps {
+	// Add any additional props if needed
+}
+
+export interface ToastRef {
+	show: (config: {
+		type: "success" | "warning" | "error";
+		text: string;
+		duration: number;
+	}) => void;
+}
+const Toast = forwardRef<ToastRef, ToastProps>(({}, ref) => {
 	const toastTopAnimation = useSharedValue(-100);
 	const context = useSharedValue(0);
 	const [showing, setShowing] = useState(false);

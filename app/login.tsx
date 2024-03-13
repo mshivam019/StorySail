@@ -27,7 +27,7 @@ import {
 	statusCodes,
 } from "@react-native-google-signin/google-signin";
 import LottieView from "lottie-react-native";
-import { Toast } from "../components";
+import { Toast,ToastRef } from "../components";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Image as ExpoImage } from "expo-image";
 
@@ -36,7 +36,7 @@ export default function Login() {
 	const [password, setPassword] = useState("");
 	const [loading, setLoading] = useState(false);
 	const { height, width } = Dimensions.get("window");
-	const toastRef = useRef();
+	const toastRef = useRef<ToastRef>(null);
 	const imagePosition = useSharedValue(1);
 	const formButtonScale = useSharedValue(1);
 	const [isRegistering, setIsRegistering] = useState(false);
@@ -56,7 +56,7 @@ export default function Login() {
 
 		if (error)
 			if (toastRef.current) {
-				(toastRef.current as any).show({
+				(toastRef.current).show({
 					type: "error",
 					text: "Invalid email or password!",
 					duration: 2000,
@@ -77,7 +77,7 @@ export default function Login() {
 
 		if (error) {
 			if (toastRef.current) {
-				(toastRef.current as any).show({
+				(toastRef.current).show({
 					type: "error",
 					text: error.message,
 					duration: 2000,
@@ -86,7 +86,7 @@ export default function Login() {
 		}
 		if (!session)
 			if (toastRef.current) {
-				(toastRef.current as any).show({
+				(toastRef.current).show({
 					type: "error",
 					text: "Error signing up!",
 					duration: 2000,
@@ -176,7 +176,7 @@ export default function Login() {
 		formButtonScale.value = withSequence(withSpring(0.8), withSpring(1));
 		if (!email || !password) {
 			if (toastRef.current) {
-				(toastRef.current as any).show({
+				(toastRef.current).show({
 					type: "error",
 					text: "Please fill in all fields!",
 					duration: 2000,

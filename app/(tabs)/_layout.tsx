@@ -85,7 +85,7 @@ export default function TabLayout() {
 					options={{
 						tabBarIcon: (props) => (
 							<EvilIcons
-								name="heart"
+								name="star"
 								style={{
 									fontSize: 30,
 									marginLeft: -1,

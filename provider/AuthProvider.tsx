@@ -29,8 +29,14 @@ export function useAuth() {
 
 export const AuthProvider = ({ children }: PropsWithChildren) => {
 	const [session, setSession] = useState<Session | null>(null);
-	const { setUserDetails, setShowNotification, isFirstLogin, user, setUser } =
-		useUserStore();
+	const {
+		setUserDetails,
+		setShowNotification,
+		isFirstLogin,
+		user,
+		setUser,
+		setIsFirstLogin,
+	} = useUserStore();
 	const router = useRouter();
 
 	async function getProfile(userId: string) {
@@ -38,7 +44,7 @@ export const AuthProvider = ({ children }: PropsWithChildren) => {
 			if (!userId) return;
 			const { data, error, status } = await supabase
 				.from("profiles")
-				.select(`username, website, avatar_url, full_name`)
+				.select(`username, website, avatar_url, full_name,coins`)
 				.eq("id", userId)
 				.single();
 			if (error && status !== 406) {
@@ -58,7 +64,7 @@ export const AuthProvider = ({ children }: PropsWithChildren) => {
 			setSession(session);
 			if (session && session.user) {
 				if (session.user.id !== user?.id) {
-					setUser(session ? session.user : null);	
+					setUser(session ? session.user : null);
 					await getProfile(session.user.id);
 				}
 				if (isFirstLogin) {
@@ -81,8 +87,10 @@ export const AuthProvider = ({ children }: PropsWithChildren) => {
 			GoogleSignin.signOut();
 		});
 		setSession(null);
+		setIsFirstLogin(false);
 		setUser(null);
 		setUserDetails({
+			coins: 0,
 			username: "username",
 			website: "",
 			avatar_url: "https://www.gravatar.com/avatar/?d=identicon",

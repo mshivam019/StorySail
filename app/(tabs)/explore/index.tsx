@@ -1,23 +1,29 @@
-import {  StyleSheet, ScrollView } from 'react-native'
-import React from 'react'
-import { CustomSearchBar } from '../../../components'
+import React, { useState } from "react";
+import { StyleSheet, ScrollView, Text } from "react-native";
+
+import { CustomSearchBar } from "../../../components";
 
 const explore = () => {
-  return (
-    <ScrollView style={styles.container}
-    contentContainerStyle={{ paddingHorizontal: 20,marginTop: 20}}
-    >
-      <CustomSearchBar placeholder='Explore!' />
-
-    </ScrollView>
-  )
-}
+	const [searchValue, setSearchValue] = useState("");
+	return (
+		<ScrollView
+			style={styles.container}
+			contentContainerStyle={{ paddingHorizontal: 20, marginTop: 20 }}
+		>
+			<CustomSearchBar
+				placeholder="Explore!"
+				onChangeText={setSearchValue}
+			/>
+			<Text>{searchValue}</Text>
+		</ScrollView>
+	);
+};
 
 const styles = StyleSheet.create({
-  container: {
-      flex: 1,
-      backgroundColor:'#fcfffd',
-  }
-})
+	container: {
+		flex: 1,
+		backgroundColor: "#fcfffd",
+	},
+});
 
-export default explore
+export default explore;

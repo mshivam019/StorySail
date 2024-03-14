@@ -19,11 +19,10 @@ const Home = () => {
 
 	const rewardHandler = async () => {
 		setShowModal(true);
-		const randomCoins = Math.floor(Math.random() * 50) + 50;
+		const randomCoins = Math.floor(Math.random() * 50);
 		setCoins(randomCoins);
 		const error = await addCoins(randomCoins);
 		if (error) {
-			console.log(error);
 			if (toastRef.current) {
 				toastRef.current.show({
 					type: "error",

@@ -44,13 +44,14 @@ export const AuthProvider = ({ children }: PropsWithChildren) => {
 			if (!userId) return;
 			const { data, error, status } = await supabase
 				.from("profiles")
-				.select(`username, website, avatar_url, full_name,coins`)
+				.select(`username, website, avatar_url, full_name, coins, lastRewardDate`)
 				.eq("id", userId)
 				.single();
 			if (error && status !== 406) {
 				setSession(null);
 			}
 			if (data) {
+				console.log(data);
 				setUserDetails(data);
 			}
 		} catch (error) {
@@ -95,6 +96,7 @@ export const AuthProvider = ({ children }: PropsWithChildren) => {
 			website: "",
 			avatar_url: "https://www.gravatar.com/avatar/?d=identicon",
 			full_name: "Your name here!",
+			lastRewardDate: new Date("2021-01-01T00:00:00Z"),
 		});
 	};
 

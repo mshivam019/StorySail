@@ -207,7 +207,7 @@ export default function Login() {
 								top: height / 30,
 								right: width / 3,
 							}}
-							source={require("../assets/hello2.json")}
+							source={require("../assets/login/hello.json")}
 						/>
 						<ClipPath id="clipPathId">
 							<Ellipse
@@ -217,7 +217,7 @@ export default function Login() {
 							/>
 						</ClipPath>
 						<Image
-							href={require("../assets/loginBackground.png")}
+							href={require("../assets/login/loginBackground.png")}
 							width={width + 100}
 							height={height + 100}
 							preserveAspectRatio="xMidYMid slice"
@@ -349,7 +349,7 @@ export default function Login() {
 								}}
 							>
 								<ExpoImage
-									source={require("../assets/googleIcon.png")}
+									source={require("../assets/login/googleIcon.png")}
 									style={styles.googleButtonIcon}
 								/>
 								<Text style={styles.googleButtonText}>

@@ -2,7 +2,8 @@ import { create } from "zustand";
 import { persist } from "zustand/middleware";
 import { createJSONStorage } from "zustand/middleware";
 import { MMKV } from "react-native-mmkv";
-import { User } from "@supabase/supabase-js";
+import { User, PostgrestError } from "@supabase/supabase-js";
+import { supabase } from "../lib/supabase";
 
 const storage = new MMKV();
 
@@ -25,6 +26,7 @@ export interface UserDetails {
 	avatar_url: string;
 	full_name: string;
 	coins: number;
+	lastRewardDate: Date;
 }
 
 export interface UserStore {
@@ -34,16 +36,18 @@ export interface UserStore {
 	setUser: (state: User | null) => void;
 	userDetails: UserDetails;
 	setUserDetails: (state: UserDetails) => void;
-    showNotification: boolean;
-    setShowNotification: (state: boolean) => void;
+	showNotification: boolean;
+	setShowNotification: (state: boolean) => void;
 	getCoins: () => number;
-	deductCoins: (state: number) => void;
-	addCoins: (state: number) => void;
+	deductCoins: (state: number) => Promise<PostgrestError | null>;
+	getLastRewardDate: () => Date;
+	setLastRewardDate: () => Promise<PostgrestError | null>;
+	addCoins: (state: number) => Promise<PostgrestError | null>;
 }
 
 const useUserStore = create<UserStore>()(
 	persist(
-		(set,get) => ({
+		(set, get) => ({
 			isFirstLogin: true,
 			setIsFirstLogin: (state: boolean) => {
 				set({
@@ -62,36 +66,96 @@ const useUserStore = create<UserStore>()(
 				website: "",
 				avatar_url: "https://www.gravatar.com/avatar/?d=identicon",
 				full_name: "Your name here!",
+				lastRewardDate: new Date("2021-01-01T00:00:00Z"),
 			},
 			setUserDetails: (state: UserDetails) => {
 				set({
 					userDetails: state,
 				});
 			},
-            showNotification: false,
-            setShowNotification: (state: boolean) => {
-                set({
-                    showNotification: state,
-                });
-            },
+			showNotification: false,
+			setShowNotification: (state: boolean) => {
+				set({
+					showNotification: state,
+				});
+			},
 			getCoins: () => {
 				return get().userDetails.coins;
 			},
-			deductCoins: (state: number) => {
+			deductCoins: async (state: number) => {
+				const updates = {
+					id: get().user?.id,
+					coins: get().userDetails.coins - state,
+				};
 				set({
 					userDetails: {
 						...get().userDetails,
-						coins: get().userDetails.coins - state,
+						coins: updates.coins,
 					},
 				});
+
+				const { error } = await supabase
+					.from("profiles")
+					.upsert(updates);
+				if (error) {
+					set({
+						userDetails: {
+							...get().userDetails,
+							coins: get().userDetails.coins + state,
+						},
+					});
+				}
+				return error;
 			},
-			addCoins: (state: number) => {
+			addCoins: async (state: number) => {
+				const updates = {
+					id: get().user?.id,
+					coins: get().userDetails.coins + state,
+				};
 				set({
 					userDetails: {
 						...get().userDetails,
-						coins: get().userDetails.coins + state,
+						coins: updates.coins,
 					},
 				});
+
+				const { error } = await supabase
+					.from("profiles")
+					.upsert(updates);
+				if (error) {
+					set({
+						userDetails: {
+							...get().userDetails,
+							coins: get().userDetails.coins - state,
+						},
+					});
+				}
+				return error;
+			},
+			getLastRewardDate: () => {
+				return get().userDetails.lastRewardDate;
+			},
+			setLastRewardDate:async () => {
+				const updates = {
+					id: get().user?.id,
+					lastRewardDate: new Date(),
+				};
+				set({
+					userDetails: {
+						...get().userDetails,
+						lastRewardDate: new Date(),
+					},
+				});
+				const { error } = await supabase.from("profiles").upsert(updates);
+				if (error) {
+					set({
+						userDetails: {
+							...get().userDetails,
+							lastRewardDate: new Date("2021-01-01T00:00:00Z"),
+						},
+					});
+				}
+				return error;
 			},
 		}),
 		{

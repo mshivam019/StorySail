@@ -1,4 +1,4 @@
-import { Image, StyleSheet, Text, Platform } from "react-native";
+import {  StyleSheet, Text, Platform } from "react-native";
 import React, {
 	useState,
 	useCallback,
@@ -14,6 +14,7 @@ import Animated, {
 	withSpring,
 	runOnJS,
 } from "react-native-reanimated";
+import {AntDesign} from "@expo/vector-icons";
 import { Gesture, GestureDetector } from "react-native-gesture-handler";
 
 interface ToastProps {
@@ -135,16 +136,14 @@ const Toast = forwardRef<ToastRef, ToastProps>(({}, ref) => {
 							animatedTopStyles,
 						]}
 					>
-						<Image
-							source={
-								toastType === "success"
-									? require("../assets/images/SuccessIcon.png")
-									: toastType === "warning"
-									? require("../assets/images/WarningIcon.png")
-									: require("../assets/images/ErrorIcon.png")
-							}
-							style={styles.toastIcon}
-						/>
+						{
+							toastType === "success"
+							? <AntDesign name="checkcircleo" size={24} color="#1f8722" />
+							: toastType === "warning"
+							? <AntDesign name="exclamationcircleo" size={24} color="#f08135" />
+							: <AntDesign name="closecircleo" size={24} color="#d9100a" />
+
+						}
 						<Text
 							style={[
 								styles.toastText,

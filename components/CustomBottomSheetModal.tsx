@@ -8,12 +8,14 @@ import { useUserStore } from "../store";
 import { Image } from "expo-image";
 import Switch from "./CustomSwitch";
 import { useAuth } from "../provider/AuthProvider";
+import { FontAwesome6 } from "@expo/vector-icons";
 export type Ref = BottomSheetModal;
 
 const CustomBottomSheetModal = forwardRef<Ref, {}>((props, ref) => {
 	const snapPoints = useMemo(() => ["95%"], []);
-	const { userDetails, setShowNotification, showNotification } =
+	const { userDetails, setShowNotification, showNotification, getCoins } =
 		useUserStore();
+	const coins = getCoins();
 
 	const { handleNotificationPermission, signOut } = useAuth();
 
@@ -42,6 +44,18 @@ const CustomBottomSheetModal = forwardRef<Ref, {}>((props, ref) => {
 					>
 						<AntDesign name="close" size={25} color="black" />
 					</Pressable>
+					<View
+						style={{
+							flexDirection: "row",
+							position: "absolute",
+							right: 30,
+							top:30,
+							width: "20%",
+						}}
+					>
+						<FontAwesome6 name="coins" size={24} color="#ffd007" />
+						<Text style={styles.headerTextStyle}>{coins}</Text>
+					</View>
 				</View>
 			)}
 		>
@@ -178,6 +192,14 @@ const styles = StyleSheet.create({
 	},
 	textStyle: {
 		fontSize: 20,
+	},
+	headerTextStyle: {
+		fontSize: 20,
+		marginLeft: 20,
+		backgroundColor:"#d9d8d8",
+		borderRadius: 10,
+		minWidth: 40,
+		textAlign: "center",
 	},
 	pressableStyle: {
 		padding: 12,

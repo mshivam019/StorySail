@@ -4,6 +4,8 @@ import Toast, { ToastRef } from "./CustomToast";
 import Switch from "./CustomSwitch";
 import Cards from "./Home/Cards";
 import PopupModal from "./PopupModal";
+import MiniCards from "./Home/MiniCards";
+import CustomSearchBar from "./Explore/CustomSearchBar";
 
 export {
 	CustomBottomSheetModal,
@@ -16,4 +18,6 @@ export {
 	ToastRef,
 	Cards,
 	PopupModal,
+	MiniCards,
+	CustomSearchBar
 };

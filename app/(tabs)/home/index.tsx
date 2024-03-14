@@ -1,11 +1,10 @@
 import React, { useState, useRef } from "react";
 import { ScrollView, StyleSheet, Text, Pressable, View } from "react-native";
-import Cards from "../../../components/Home/Cards";
 import { useUserStore } from "../../../store";
 import { ScratchCard } from "rn-scratch-card";
 import LottieView from "lottie-react-native";
 import { FontAwesome6 } from "@expo/vector-icons";
-import { Toast, PopupModal, ToastRef } from "../../../components";
+import { Toast, PopupModal, ToastRef,Cards,MiniCards } from "../../../components";
 
 const Home = () => {
 	const [showModal, setShowModal] = useState(false);
@@ -87,6 +86,8 @@ const Home = () => {
 					</View>
 				)}
 			</View>
+			<Text style={styles.headingText}>Featured</Text>
+			<MiniCards />
 			<PopupModal
 				isVisible={showModal}
 				onDismiss={() => setShowModal(false)}
@@ -118,10 +119,15 @@ const Home = () => {
 const styles = StyleSheet.create({
 	container: {
 		flex: 1,
-		backgroundColor: "#eef1fe",
+		backgroundColor: "#fcfffd",
 	},
 	textStyles: {
 		fontSize: 16,
+	},
+	headingText: {
+		fontSize: 24,
+		fontWeight: "bold",
+		margin: 10,
 	},
 	card: {
 		alignItems: "center",

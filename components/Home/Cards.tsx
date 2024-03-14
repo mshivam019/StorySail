@@ -12,13 +12,14 @@ import { SBImageItem } from "./SBImage";
 
 const window = Dimensions.get("window");
 const PAGE_WIDTH = window.width;
+const PAGE_HEIGHT = window.height;
 const colors = [
-	"#F5D399",
-	"#6dd5c7",
-	"#d4ef84",
-	"#a57be5",
-	"#F5D399",
-	"#e665bd",
+	"#ffe190",
+	"#8fa6da",
+	"#6dd3f7",
+	"#9dd0b5",
+	"#f8a977",
+	"#398cd5",
 ];
 
 function Cards() {
@@ -33,7 +34,7 @@ function Cards() {
 			<Carousel
 				vertical={false}
 				width={PAGE_WIDTH}
-				height={PAGE_WIDTH * 0.6}
+				height={PAGE_WIDTH * 0.8}
 				style={{
 					width: PAGE_WIDTH,
 				}}

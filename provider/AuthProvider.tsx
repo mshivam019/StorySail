@@ -51,7 +51,6 @@ export const AuthProvider = ({ children }: PropsWithChildren) => {
 				setSession(null);
 			}
 			if (data) {
-				console.log(data);
 				setUserDetails(data);
 			}
 		} catch (error) {

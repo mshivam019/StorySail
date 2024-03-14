@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Redirect, withLayoutContext } from "expo-router";
 import { useAuth } from "../../provider/AuthProvider";
 import { AntDesign, EvilIcons, Ionicons } from "@expo/vector-icons";
@@ -8,6 +8,7 @@ import {
 	MaterialTopTabNavigationEventMap,
 } from "@react-navigation/material-top-tabs";
 import { ParamListBase, TabNavigationState } from "@react-navigation/native";
+import { Keyboard } from "react-native";
 
 const { Navigator } = createMaterialTopTabNavigator();
 
@@ -20,6 +21,28 @@ export const MaterialTopTabs = withLayoutContext<
 
 export default function TabLayout() {
 	const { session } = useAuth();
+	const [keyboardVisible, setKeyboardVisible] = useState(false);
+
+	useEffect(() => {
+		const keyboardDidShowListener = Keyboard.addListener(
+			"keyboardDidShow",
+			() => {
+				setKeyboardVisible(true);
+			}
+		);
+		const keyboardDidHideListener = Keyboard.addListener(
+			"keyboardDidHide",
+			() => {
+				setKeyboardVisible(false);
+			}
+		);
+
+		return () => {
+			keyboardDidShowListener.remove();
+			keyboardDidHideListener.remove();
+		};
+	}, []);
+	const tabBarDisplay: "none" | undefined = keyboardVisible ? "none" : undefined;
 	if (session && session?.user)
 		return (
 			<MaterialTopTabs
@@ -32,10 +55,11 @@ export default function TabLayout() {
 					tabBarShowLabel: false,
 					tabBarGap: 0,
 					tabBarStyle: {
+						display: tabBarDisplay,
 						backgroundColor: "white",
 						borderTopColor: "rgba(0, 0, 0, 0.1)",
 						borderTopWidth: 1,
-					},
+					  },
 					tabBarIndicatorStyle: {
 						backgroundColor: "black",
 						position: "absolute",
@@ -101,7 +125,7 @@ export default function TabLayout() {
 						tabBarIcon: (props) => (
 							<EvilIcons
 								name="bell"
-								style={{fontSize: 30 }}
+								style={{ fontSize: 30 }}
 								{...props}
 							/>
 						),

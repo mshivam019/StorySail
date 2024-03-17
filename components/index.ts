@@ -12,6 +12,8 @@ import Categories from "./Home/Categories";
 import Recommendations from "./Home/Recommendations";
 import Suggestions from "./Explore/Suggestions";
 import Search from "./Explore/Search";
+import MyWorks from "./Create/MyWorks";
+import RichTextEditor from "./Create/RichEditor";
 
 export {
 	CustomBottomSheetModal,
@@ -32,4 +34,6 @@ export {
 	Recommendations,
 	Suggestions,
 	Search,
+	MyWorks,
+	RichTextEditor
 };

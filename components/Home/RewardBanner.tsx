@@ -51,7 +51,7 @@ const RewardBanner = ({
 			) : (
 				<View style={styles.rewardTextContainer}>
 					<Text style={styles.textStyles}>
-						Come Back tomorrow for more rewards!
+						Come back tomorrow for more rewards!
 					</Text>
 					<FontAwesome6 name="coins" size={24} color="#ffd007" />
 				</View>

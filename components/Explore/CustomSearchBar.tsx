@@ -17,6 +17,7 @@ import {
 	LayoutChangeEvent,
 	useWindowDimensions,
 	Platform,
+	Dimensions,
 } from "react-native";
 import Animated, {
 	useAnimatedStyle,
@@ -29,6 +30,7 @@ import { Ionicons } from "@expo/vector-icons";
 import equals from "react-fast-compare";
 
 const IS_ANDROID = Platform.OS === "android";
+const { width: SCREEN_WIDTH } = Dimensions.get("window");
 
 export const springConfig = {
 	stiffness: 1000,

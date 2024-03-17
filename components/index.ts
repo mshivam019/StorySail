@@ -6,6 +6,10 @@ import Cards from "./Home/Cards";
 import PopupModal from "./PopupModal";
 import MiniCards from "./Home/MiniCards";
 import CustomSearchBar from "./Explore/CustomSearchBar";
+import RewardCard from "./Home/RewardCard";
+import RewardBanner from "./Home/RewardBanner";
+import Categories from "./Home/Categories";
+import Recommendations from "./Home/Recommendations";
 
 export {
 	CustomBottomSheetModal,
@@ -19,5 +23,9 @@ export {
 	Cards,
 	PopupModal,
 	MiniCards,
-	CustomSearchBar
+	CustomSearchBar,
+	RewardCard,
+	RewardBanner,
+	Categories,
+	Recommendations,
 };

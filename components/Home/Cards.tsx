@@ -119,7 +119,7 @@ const PaginationItem: React.FC<{
 	return (
 		<View
 			style={{
-				backgroundColor: "white",
+				backgroundColor: "#a8a8a8a6",
 				width,
 				height: width,
 				borderRadius: 50,

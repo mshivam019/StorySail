@@ -8,7 +8,7 @@ import {
 	MaterialTopTabNavigationEventMap,
 } from "@react-navigation/material-top-tabs";
 import { ParamListBase, TabNavigationState } from "@react-navigation/native";
-import { Keyboard } from "react-native";
+import { ActivityIndicator, Keyboard, View } from "react-native";
 
 const { Navigator } = createMaterialTopTabNavigator();
 
@@ -42,13 +42,31 @@ export default function TabLayout() {
 			keyboardDidHideListener.remove();
 		};
 	}, []);
-	const tabBarDisplay: "none" | undefined = keyboardVisible ? "none" : undefined;
+	const tabBarDisplay: "none" | undefined = keyboardVisible
+		? "none"
+		: undefined;
 	if (session && session?.user)
 		return (
 			<MaterialTopTabs
 				tabBarPosition="bottom"
 				initialRouteName="home"
 				screenOptions={{
+					lazy: true,
+					lazyPreloadDistance: 0,
+					lazyPlaceholder: () => {
+						return (
+							<View
+								style={{
+									flex: 1,
+									backgroundColor: "white",
+									alignItems: "center",
+									justifyContent: "center",
+								}}
+							>
+								<ActivityIndicator size="large" color="black" />
+							</View>
+						);
+					},
 					tabBarInactiveTintColor: "gray",
 					tabBarActiveTintColor: "black",
 					tabBarShowIcon: true,
@@ -59,7 +77,7 @@ export default function TabLayout() {
 						backgroundColor: "white",
 						borderTopColor: "rgba(0, 0, 0, 0.1)",
 						borderTopWidth: 1,
-					  },
+					},
 					tabBarIndicatorStyle: {
 						backgroundColor: "black",
 						position: "absolute",
@@ -70,6 +88,7 @@ export default function TabLayout() {
 				<MaterialTopTabs.Screen
 					name="home"
 					options={{
+						lazy: true,
 						title: "Home",
 						tabBarIcon: (props) => (
 							<AntDesign
@@ -83,6 +102,7 @@ export default function TabLayout() {
 				<MaterialTopTabs.Screen
 					name="explore"
 					options={{
+						lazy: true,
 						tabBarIcon: (props) => (
 							<EvilIcons
 								name="search"
@@ -95,6 +115,7 @@ export default function TabLayout() {
 				<MaterialTopTabs.Screen
 					name="create"
 					options={{
+						lazy: true,
 						tabBarIcon: (props) => (
 							<Ionicons
 								name="create-outline"
@@ -107,6 +128,7 @@ export default function TabLayout() {
 				<MaterialTopTabs.Screen
 					name="favourites"
 					options={{
+						lazy: true,
 						tabBarIcon: (props) => (
 							<EvilIcons
 								name="star"
@@ -122,6 +144,7 @@ export default function TabLayout() {
 				<MaterialTopTabs.Screen
 					name="notifications"
 					options={{
+						lazy: true,
 						tabBarIcon: (props) => (
 							<EvilIcons
 								name="bell"

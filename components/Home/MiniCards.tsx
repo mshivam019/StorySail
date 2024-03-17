@@ -1,4 +1,4 @@
-import { StyleSheet, ScrollView, View } from "react-native";
+import { StyleSheet, ScrollView, View,Text } from "react-native";
 import React from "react";
 import MiniCardItem from "./MiniCardItem";
 
@@ -7,6 +7,8 @@ const MiniCards = () => {
 	const rows = 2;
 	const columns = 3;
 	return (
+		<View style={styles.container}>
+			<Text style={styles.headerText}>Featured</Text>
 		<ScrollView
 			style={styles.container}
 			horizontal
@@ -21,6 +23,7 @@ const MiniCards = () => {
 				</View>
 			))}
 		</ScrollView>
+		</View>
 	);
 };
 
@@ -37,4 +40,9 @@ const styles = StyleSheet.create({
         position: "absolute",
         top: 0,
     },
+	headerText: {
+		fontSize: 24,
+		fontWeight: "bold",
+		margin: 10,
+	},
 });

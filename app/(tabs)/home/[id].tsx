@@ -1,11 +1,13 @@
-import React, { useState } from "react";
+import React, { useState,useRef } from "react";
 import { StyleSheet, Text, ScrollView, Pressable, View } from "react-native";
 import { useLocalSearchParams } from "expo-router";
 import Animated from "react-native-reanimated";
 import { FontAwesome } from "@expo/vector-icons";
+import { Toast,ToastRef } from "../../../components";
 
 const Details = () => {
 	const { id } = useLocalSearchParams<{ id: string }>();
+	const toastRef = useRef<ToastRef>(null);
 	const imagePaths: { [key: string]: any } = {
 		"1": require("../../../assets/home/carousel/1.jpg"),
 		"2": require("../../../assets/home/carousel/2.jpg"),
@@ -44,6 +46,15 @@ const Details = () => {
 					style={styles.heartContainer}
 					onPress={() => {
 						setLiked(!liked);
+						if (toastRef.current) {
+							toastRef.current.show({
+								type: "success",
+								text: liked
+									? "Removed from favorites"
+									: "Added to favorites",
+								duration: 2000,
+							});
+						}
 					}}
 				>
 					<FontAwesome
@@ -70,6 +81,7 @@ const Details = () => {
 				nulla pariatur. Excepteur sint occaecat cupidatat non proident,
 				sunt in culpa qui officia deserunt mollit anim id est laborum.
 			</Text>
+			<Toast ref={toastRef} />
 		</ScrollView>
 	);
 };

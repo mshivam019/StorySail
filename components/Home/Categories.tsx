@@ -1,6 +1,7 @@
 import React from "react";
-import { StyleSheet, View, FlatList, Text } from "react-native";
+import { StyleSheet, View, FlatList, Text, Pressable } from "react-native";
 import { Image } from "expo-image";
+import { router } from "expo-router";
 
 const Categories = () => {
 	const data = [
@@ -29,12 +30,18 @@ const Categories = () => {
 
 	return (
 		<View style={styles.container}>
-            
 			<Text style={styles.headingText}>Categories</Text>
 			<FlatList
 				data={data}
 				renderItem={({ item }) => (
-					<View>
+					<Pressable
+						onPress={() =>
+							router.push({
+								pathname: "/home/categories",
+								params: { category: item.title },
+							})
+						}
+					>
 						<View
 							style={{
 								width: 100,
@@ -51,14 +58,12 @@ const Categories = () => {
 								}}
 							/>
 						</View>
-						<Text style={styles.ImageText}>
-							{item.title}
-						</Text>
-					</View>
+						<Text style={styles.ImageText}>{item.title}</Text>
+					</Pressable>
 				)}
 				horizontal
 				showsHorizontalScrollIndicator={false}
-                keyExtractor={(item) => item.title}
+				keyExtractor={(item) => item.title}
 			/>
 		</View>
 	);
@@ -69,16 +74,16 @@ export default Categories;
 const styles = StyleSheet.create({
 	container: {
 		flex: 1,
-        paddingBottom: 20,
+		paddingBottom: 20,
 	},
-    headingText: {
+	headingText: {
 		fontSize: 24,
 		fontWeight: "bold",
 		margin: 10,
 	},
-    ImageText:{
-        fontSize: 18,
-        fontWeight: "600",
-        textAlign: "center",
-    }
+	ImageText: {
+		fontSize: 18,
+		fontWeight: "600",
+		textAlign: "center",
+	},
 });

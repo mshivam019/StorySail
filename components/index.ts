@@ -10,6 +10,8 @@ import RewardCard from "./Home/RewardCard";
 import RewardBanner from "./Home/RewardBanner";
 import Categories from "./Home/Categories";
 import Recommendations from "./Home/Recommendations";
+import Suggestions from "./Explore/Suggestions";
+import Search from "./Explore/Search";
 
 export {
 	CustomBottomSheetModal,
@@ -28,4 +30,6 @@ export {
 	RewardBanner,
 	Categories,
 	Recommendations,
+	Suggestions,
+	Search,
 };

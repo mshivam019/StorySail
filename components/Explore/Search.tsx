@@ -1,73 +1,65 @@
-import React from "react";
 import { StyleSheet, Text, View, FlatList, Pressable } from "react-native";
+import React from "react";
 import { Image } from "expo-image";
-import { Link } from "expo-router";
 import { router } from "expo-router";
 
-const Recommendations = () => {
-	const data = [
+const Search = ({ value }: { value: string }) => {
+	const books = [
 		{
 			id: 1,
-			title: "The art of war",
+			title: "The Alchemist",
 			image: require("../../assets/home/carousel/1.jpg"),
+			tags: ["adventure", "fantasy", "fiction"],
 		},
 		{
 			id: 2,
-			title: "The Alchemist",
+			title: "The Da Vinci Code",
 			image: require("../../assets/home/carousel/2.jpg"),
+			tags: ["mystery", "thriller", "fiction"],
 		},
 		{
 			id: 3,
-			title: "The Great Gatsby",
+			title: "The Kite Runner",
 			image: require("../../assets/home/carousel/3.jpg"),
+			tags: ["drama", "romance", "fiction"],
 		},
 		{
 			id: 4,
-			title: "The Catcher in the Rye",
+			title: "The Great Gatsby",
 			image: require("../../assets/home/carousel/4.jpg"),
+			tags: ["romance", "drama", "fiction"],
 		},
 		{
 			id: 5,
-			title: "The Hobbit",
+			title: "The Catcher in the Rye",
 			image: require("../../assets/home/carousel/5.jpg"),
+			tags: ["drama", "fiction"],
 		},
 		{
 			id: 6,
-			title: "The Hitchhiker's Guide to the Galaxy",
+			title: "To Kill a Mockingbird",
 			image: require("../../assets/home/carousel/6.jpg"),
+			tags: ["drama", "fiction"],
 		},
 	];
+
 	return (
 		<View style={styles.container}>
-			<View
-				style={{
-					flexDirection: "row",
-					justifyContent: "space-between",
-					alignItems: "center",
-					margin: 10,
-				}}
-			>
-				<Text style={styles.headingText}>Trending 🔥</Text>
-				<Link href="/explore">
-					<Text style={styles.LinkText}>See More</Text>
-				</Link>
-			</View>
 			<FlatList
-				data={data}
+				data={books.filter(
+					(book) =>
+						book.title.includes(value) || book.tags.includes(value)
+				)}
 				renderItem={({ item }) => (
 					<Pressable
-						onPress={() => {
-							router.navigate(`/home/${item.id}`);
-						}}
-						style={{
-							width: 275,
-							margin: 10,
-						}}
+						style={styles.categoriesContainer}
+						onPress={() => router.navigate(`/home/${item.id}`)}
 					>
 						<View
 							style={{
-								width: 275,
-								height: 200,
+								width: 100,
+								height: 100,
+								margin: 10,
 							}}
 						>
 							<Image
@@ -82,37 +74,35 @@ const Recommendations = () => {
 						<Text style={styles.ImageText}>{item.title}</Text>
 					</Pressable>
 				)}
-				horizontal
-				showsHorizontalScrollIndicator={false}
 				keyExtractor={(item) => item.title}
+				showsVerticalScrollIndicator={false}
 			/>
 		</View>
 	);
 };
 
-export default Recommendations;
+export default Search;
 
 const styles = StyleSheet.create({
 	container: {
 		flex: 1,
 		backgroundColor: "#fcfffd",
-		paddingBottom: 20,
+		paddingTop: 20,
+		width: "100%",
 	},
-	headingText: {
-		fontSize: 24,
-		fontWeight: "bold",
-		margin: 10,
-	},
-	LinkText: {
-		fontSize: 16,
-		fontWeight: "500",
-		margin: 10,
-		color: "blue",
+	categoriesContainer: {
+		flexDirection: "row",
+		alignItems: "center",
+		gap: 10,
+		width: "100%",
+		borderRadius: 10,
+		backgroundColor: "#f2f2f2",
 	},
 	ImageText: {
-		paddingTop: 10,
-		fontSize: 18,
+		fontSize: 16,
 		fontWeight: "500",
-		textAlign: "center",
+		color: "#000",
+		flexWrap: "wrap",
+		width: "60%",
 	},
 });

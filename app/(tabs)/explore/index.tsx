@@ -1,21 +1,24 @@
 import React, { useState } from "react";
-import { StyleSheet, ScrollView, Text } from "react-native";
+import { StyleSheet, View } from "react-native";
 
-import { CustomSearchBar } from "../../../components";
+import { CustomSearchBar, Suggestions,Search } from "../../../components";
 
 const explore = () => {
 	const [searchValue, setSearchValue] = useState("");
+
 	return (
-		<ScrollView
-			style={styles.container}
-			contentContainerStyle={{ paddingHorizontal: 20, marginTop: 20 }}
-		>
+		<View style={styles.container}>
 			<CustomSearchBar
 				placeholder="Explore!"
 				onChangeText={setSearchValue}
+				value={searchValue}
 			/>
-			<Text>{searchValue}</Text>
-		</ScrollView>
+			{searchValue.length > 0 ? (
+				<Search	value={searchValue}/>
+			) : (
+				<Suggestions onPress={setSearchValue}/>
+			)}
+		</View>
 	);
 };
 
@@ -23,6 +26,8 @@ const styles = StyleSheet.create({
 	container: {
 		flex: 1,
 		backgroundColor: "#fcfffd",
+		paddingHorizontal: 20,
+		paddingTop: 20,
 	},
 });
 

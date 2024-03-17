@@ -6,31 +6,63 @@ const { width } = Dimensions.get("window");
 
 const MiniCardItem = ({ row, column }: { row: number; column: number }) => {
 	const id = row * 3 + column + 1;
-	const source = [
-		require("../../assets/home/carousel/1.jpg"),
-		require("../../assets/home/carousel/2.jpg"),
-		require("../../assets/home/carousel/3.jpg"),
-		require("../../assets/home/carousel/4.jpg"),
-		require("../../assets/home/carousel/5.jpg"),
-		require("../../assets/home/carousel/6.jpg"),
+	const data = [
+		{
+			id: 1,
+			title: "The art of war",
+			subtitle: "Sun Tzu",
+			image: require("../../assets/home/carousel/1.jpg"),
+		},
+		{
+			id: 2,
+			title: "The Alchemist",
+			subtitle: "Paulo Coelho",
+			image: require("../../assets/home/carousel/2.jpg"),
+		},
+		{
+			id: 3,
+			title: "The Great Gatsby",
+			subtitle: "F. Scott Fitzgerald",
+			image: require("../../assets/home/carousel/3.jpg"),
+		},
+		{
+			id: 4,
+			title: "The Catcher in the Rye",
+			subtitle: "J.D. Salinger",
+			image: require("../../assets/home/carousel/4.jpg"),
+		},
+		{
+			id: 5,
+			title: "The Hobbit",
+			subtitle: "J.R.R. Tolkien",
+			image: require("../../assets/home/carousel/5.jpg"),
+		},
+		{
+			id: 6,
+			title: "The Hitchhiker's Guide to the Galaxy",
+			subtitle: "Douglas Adams",
+			image: require("../../assets/home/carousel/6.jpg"),
+		},
 	];
 	return (
 		<Pressable
 			style={styles.container}
 			onPress={() => {
-				router.push(`/home/${id}`);
+				router.push(`/home/${data[id - 1].id}`);
 			}}
 		>
 			<Animated.Image
 				style={styles.image}
-				source={source[id - 1]}
+				source={data[id - 1].image}
 				sharedTransitionTag={`image-${id}`}
 			/>
 			<View style={styles.contentContainer}>
 				<Text style={{ fontSize: 20, width: width * 0.5 }}>
-					Beautiful Nature
+					{data[id - 1].title}
 				</Text>
-				<Text style={{ fontSize: 16, color: "gray" }}>Nature</Text>
+				<Text style={{ fontSize: 16, color: "gray" }}>
+					{data[id - 1].subtitle}
+				</Text>
 			</View>
 		</Pressable>
 	);

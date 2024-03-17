@@ -81,7 +81,7 @@ export default function TabLayout() {
 					tabBarIndicatorStyle: {
 						backgroundColor: "black",
 						position: "absolute",
-						top: 0,
+						top: -1,
 					},
 				}}
 			>

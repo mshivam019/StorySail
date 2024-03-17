@@ -8,26 +8,65 @@ import { Toast,ToastRef } from "../../../components";
 const Details = () => {
 	const { id } = useLocalSearchParams<{ id: string }>();
 	const toastRef = useRef<ToastRef>(null);
-	const imagePaths: { [key: string]: any } = {
-		"1": require("../../../assets/home/carousel/1.jpg"),
-		"2": require("../../../assets/home/carousel/2.jpg"),
-		"3": require("../../../assets/home/carousel/3.jpg"),
-		"4": require("../../../assets/home/carousel/4.jpg"),
-		"5": require("../../../assets/home/carousel/5.jpg"),
-		"6": require("../../../assets/home/carousel/6.jpg"),
-	};
-	const source =
-		id && imagePaths[id]
-			? imagePaths[id]
-			: require("../../../assets/home/carousel/1.jpg");
-	const [liked, setLiked] = useState(false);
+	const data = [
+		{
+			id: 1,
+			title: "The art of war",
+			subtitle: "Sun Tzu",
+			image: require("../../../assets/home/carousel/1.jpg"),
+			description:"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident,sunt in culpa qui officia deserunt mollit anim id est laborum.",
+			likeStatus: false,
+		},
+		{
+			id: 2,
+			title: "The Alchemist",
+			subtitle: "Paulo Coelho",
+			image: require("../../../assets/home/carousel/2.jpg"),
+			description:"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident,sunt in culpa qui officia deserunt mollit anim id est laborum.",
+			likeStatus: false,
+		},
+		{
+			id: 3,
+			title: "The Great Gatsby",
+			subtitle: "F. Scott Fitzgerald",
+			image: require("../../../assets/home/carousel/3.jpg"),
+			description:"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident,sunt in culpa qui officia deserunt mollit anim id est laborum.",
+			likeStatus: false,
+		},
+		{
+			id: 4,
+			title: "The Catcher in the Rye",
+			subtitle: "J.D. Salinger",
+			image: require("../../../assets/home/carousel/4.jpg"),
+			description:"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident,sunt in culpa qui officia deserunt mollit anim id est laborum.",
+			likeStatus: false,
+		},
+		{
+			id: 5,
+			title: "The Hobbit",
+			subtitle: "J.R.R. Tolkien",
+			image: require("../../../assets/home/carousel/5.jpg"),
+			description:"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident,sunt in culpa qui officia deserunt mollit anim id est laborum.",
+			likeStatus: true,
+		},
+		{
+			id: 6,
+			title: "The Hitchhiker's Guide to the Galaxy",
+			subtitle: "Douglas Adams",
+			image: require("../../../assets/home/carousel/6.jpg"),
+			description:"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident,sunt in culpa qui officia deserunt mollit anim id est laborum.",
+			likeStatus: false,
+		},
+	];
+	const currentBook = data.find((book) => book.id === parseInt(id ?? ""));
+	const [liked, setLiked] = useState(currentBook?.likeStatus ?? false);
 	return (
 		<ScrollView
 			style={styles.container}
 			contentContainerStyle={{ paddingBottom: 20 }}
 		>
 			<Animated.Image
-				source={source}
+				source={currentBook?.image}
 				sharedTransitionTag={`image-${id}`}
 				style={styles.image}
 			/>
@@ -39,8 +78,8 @@ const Details = () => {
 				}}
 			>
 				<View>
-					<Text style={styles.HeadingText}>Journal Entry {id}</Text>
-					<Text style={styles.subHeadingText}>Shivam Mishra</Text>
+					<Text style={styles.HeadingText}>{currentBook?.title}</Text>
+					<Text style={styles.subHeadingText}>{currentBook?.subtitle}</Text>
 				</View>
 				<Pressable
 					style={styles.heartContainer}
@@ -65,21 +104,7 @@ const Details = () => {
 				</Pressable>
 			</View>
 			<Text style={styles.descriptionText}>
-				Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do
-				eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
-				enim ad minim veniam, quis nostrud exercitation ullamco laboris
-				nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor
-				in reprehenderit in voluptate velit esse cillum dolore eu fugiat
-				nulla pariatur. Excepteur sint occaecat cupidatat non proident,
-				sunt in culpa qui officia deserunt mollit anim id est laborum.
-				{"\n\n"}
-				Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do
-				eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
-				enim ad minim veniam, quis nostrud exercitation ullamco laboris
-				nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor
-				in reprehenderit in voluptate velit esse cillum dolore eu fugiat
-				nulla pariatur. Excepteur sint occaecat cupidatat non proident,
-				sunt in culpa qui officia deserunt mollit anim id est laborum.
+				{currentBook?.description}
 			</Text>
 			<Toast ref={toastRef} />
 		</ScrollView>

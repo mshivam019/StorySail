@@ -144,6 +144,8 @@ function SearchBarComponent(props: SearchBarProps, ref: React.Ref<any>) {
 
 	const onCancel = useCallback(() => {
 		refInput.current?.blur();
+		refInput.current?.clear();
+		onChangeText?.("");
 	}, [refInput]);
 
 	const onCancelLayout = useCallback(

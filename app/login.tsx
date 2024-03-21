@@ -27,8 +27,7 @@ import {
 	statusCodes,
 } from "@react-native-google-signin/google-signin";
 import LottieView from "lottie-react-native";
-import { Toast,ToastRef } from "../components";
-import { SafeAreaView } from "react-native-safe-area-context";
+import { Toast, ToastRef } from "../components";
 import { Image as ExpoImage } from "expo-image";
 
 export default function Login() {
@@ -55,13 +54,11 @@ export default function Login() {
 		});
 
 		if (error)
-			if (toastRef.current) {
-				(toastRef.current).show({
-					type: "error",
-					text: "Invalid email or password!",
-					duration: 2000,
-				});
-			}
+			toastRef.current?.show({
+				type: "error",
+				text: "Invalid email or password!",
+				duration: 2000,
+			});
 		setLoading(false);
 	}
 
@@ -76,22 +73,18 @@ export default function Login() {
 		});
 
 		if (error) {
-			if (toastRef.current) {
-				(toastRef.current).show({
-					type: "error",
-					text: error.message,
-					duration: 2000,
-				});
-			}
+			toastRef.current?.show({
+				type: "error",
+				text: error.message,
+				duration: 2000,
+			});
 		}
 		if (!session)
-			if (toastRef.current) {
-				(toastRef.current).show({
-					type: "error",
-					text: "Error signing up!",
-					duration: 2000,
-				});
-			}
+			toastRef.current?.show({
+				type: "error",
+				text: "Error signing up!",
+				duration: 2000,
+			});
 		setLoading(false);
 	}
 
@@ -175,13 +168,11 @@ export default function Login() {
 		if (loading) return;
 		formButtonScale.value = withSequence(withSpring(0.8), withSpring(1));
 		if (!email || !password) {
-			if (toastRef.current) {
-				(toastRef.current).show({
-					type: "error",
-					text: "Please fill in all fields!",
-					duration: 2000,
-				});
-			}
+			toastRef.current?.show({
+				type: "error",
+				text: "Please fill in all fields!",
+				duration: 2000,
+			});
 			return;
 		}
 		if (isRegistering) {
@@ -191,7 +182,7 @@ export default function Login() {
 		}
 	};
 	return (
-		<SafeAreaView style={{ flex: 1 }}>
+		<View style={{ flex: 1 }}>
 			<Animated.View style={styles.container}>
 				<Animated.View
 					style={[StyleSheet.absoluteFill, imageAnimatedStyle]}
@@ -361,6 +352,6 @@ export default function Login() {
 				</KeyboardAvoidingView>
 			</Animated.View>
 			<Toast ref={toastRef} />
-		</SafeAreaView>
+		</View>
 	);
 }

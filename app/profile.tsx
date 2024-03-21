@@ -9,7 +9,7 @@ import {
 	Text,
 	ActivityIndicator,
 } from "react-native";
-import { Toast,ToastRef } from "../components";
+import { Toast, ToastRef } from "../components";
 import { useAuth } from "../provider/AuthProvider";
 import * as ImagePicker from "expo-image-picker";
 import { Image } from "expo-image";
@@ -73,22 +73,19 @@ export default function Profile() {
 				avatar_url,
 				full_name,
 			});
-			if (toastRef.current) {
-				(toastRef.current).show({
-					type: "success",
-					text: "Profile updated",
-					duration: 2000,
-				});
-			}
+
+			toastRef.current?.show({
+				type: "success",
+				text: "Profile updated",
+				duration: 2000,
+			});
 		} catch (error) {
 			if (error instanceof Error) {
-				if (toastRef.current) {
-					(toastRef.current).show({
-						type: "error",
-						text: "Error updating profile",
-						duration: 2000,
-					});
-				}
+				toastRef.current?.show({
+					type: "error",
+					text: "Error updating profile",
+					duration: 2000,
+				});
 			}
 		} finally {
 			setLoading(false);
@@ -101,13 +98,12 @@ export default function Profile() {
 			const { status } =
 				await ImagePicker.requestMediaLibraryPermissionsAsync();
 			if (status !== "granted") {
-				if (toastRef.current) {
-					(toastRef.current).show({
-						type: "error",
-						text: "Permission denied!",
-						duration: 2000,
-					});
-				}
+				toastRef.current?.show({
+					type: "error",
+					text: "Permission denied!",
+					duration: 2000,
+				});
+
 				return;
 			}
 			let result = await ImagePicker.launchImageLibraryAsync({
@@ -134,13 +130,11 @@ export default function Profile() {
 				.from("files")
 				.upload(filePath, decode(base64), { contentType });
 			if (error) {
-				if (toastRef.current) {
-					(toastRef.current).show({
-						type: "error",
-						text: "Error uploading image",
-						duration: 2000,
-					});
-				}
+				toastRef.current?.show({
+					type: "error",
+					text: "Error uploading image",
+					duration: 2000,
+				});
 			} else {
 				const output = supabase.storage
 					.from("files")
@@ -154,36 +148,31 @@ export default function Profile() {
 					.from("profiles")
 					.upsert(updates);
 				if (error) {
-					if (toastRef.current) {
-						(toastRef.current).show({
-							type: "error",
-							text: "Error updating image",
-							duration: 2000,
-						});
-					}
+					toastRef.current?.show({
+						type: "error",
+						text: "Error updating image",
+						duration: 2000,
+					});
 				}
 			}
 			setUserDetails({
 				...userDetails,
 				avatar_url: avatarUrl,
 			});
-			if (toastRef.current) {
-				(toastRef.current).show({
-					type: "success",
-					text: "Image updated",
-					duration: 2000,
-				});
-			}
+
+			toastRef.current?.show({
+				type: "success",
+				text: "Image updated",
+				duration: 2000,
+			});
 		} catch (error) {
 			console.log(error);
 
-			if (toastRef.current) {
-				(toastRef.current).show({
-					type: "error",
-					text: "Error uploading image",
-					duration: 2000,
-				});
-			}
+			toastRef.current?.show({
+				type: "error",
+				text: "Error uploading image",
+				duration: 2000,
+			});
 		} finally {
 			setImageLoading(false);
 		}

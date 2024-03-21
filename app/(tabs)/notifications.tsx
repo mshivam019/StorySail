@@ -7,6 +7,7 @@ import { useAuth } from "../../provider/AuthProvider";
 import { supabase } from "../../lib/supabase";
 import { useUserStore } from "../../store";
 import { Switch } from "../../components";
+import { ToastRef, Toast } from "../../components";
 
 Notifications.setNotificationHandler({
 	handleNotification: async () => ({
@@ -47,6 +48,7 @@ export default function PushNotifications() {
 	const responseListener = useRef<Notifications.Subscription>();
 	const { session, handleNotificationPermission } = useAuth();
 
+	const toastref = useRef<ToastRef>(null);
 	if (!session) {
 		return <Text>No user on the session!</Text>;
 	}
@@ -73,7 +75,11 @@ export default function PushNotifications() {
 				finalStatus = status;
 			}
 			if (finalStatus !== "granted") {
-				alert("Failed to get push token for push notification!");
+				toastref.current?.show({
+					type: "error",
+					text: "Failed to get push token for push notification!",
+					duration: 3000,
+				});
 				setShowNotification(false);
 				return "";
 			}
@@ -82,7 +88,11 @@ export default function PushNotifications() {
 			});
 			setShowNotification(true);
 		} else {
-			alert("Must use physical device for Push Notifications");
+			toastref.current?.show({
+				type: "error",
+				text: "Failed to get push token for push notification!",
+				duration: 3000,
+			});
 		}
 
 		return token?.data ?? "";
@@ -134,6 +144,7 @@ export default function PushNotifications() {
 						callBackfn={handleNotificationPermission}
 					/>
 				</View>
+				<Toast ref={toastref} />
 			</View>
 		);
 	}
@@ -160,6 +171,7 @@ export default function PushNotifications() {
 					await sendPushNotification(expoPushToken);
 				}}
 			/>
+			<Toast ref={toastref} />
 		</View>
 	);
 }

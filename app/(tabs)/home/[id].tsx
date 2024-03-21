@@ -1,9 +1,9 @@
-import React, { useState,useRef } from "react";
+import React, { useState, useRef } from "react";
 import { StyleSheet, Text, ScrollView, Pressable, View } from "react-native";
 import { useLocalSearchParams } from "expo-router";
 import Animated from "react-native-reanimated";
 import { FontAwesome } from "@expo/vector-icons";
-import { Toast,ToastRef } from "../../../components";
+import { Toast, ToastRef } from "../../../components";
 
 const Details = () => {
 	const { id } = useLocalSearchParams<{ id: string }>();
@@ -14,7 +14,8 @@ const Details = () => {
 			title: "The art of war",
 			subtitle: "Sun Tzu",
 			image: require("../../../assets/home/carousel/1.jpg"),
-			description:"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident,sunt in culpa qui officia deserunt mollit anim id est laborum.",
+			description:
+				"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident,sunt in culpa qui officia deserunt mollit anim id est laborum.",
 			likeStatus: false,
 		},
 		{
@@ -22,7 +23,8 @@ const Details = () => {
 			title: "The Alchemist",
 			subtitle: "Paulo Coelho",
 			image: require("../../../assets/home/carousel/2.jpg"),
-			description:"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident,sunt in culpa qui officia deserunt mollit anim id est laborum.",
+			description:
+				"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident,sunt in culpa qui officia deserunt mollit anim id est laborum.",
 			likeStatus: false,
 		},
 		{
@@ -30,7 +32,8 @@ const Details = () => {
 			title: "The Great Gatsby",
 			subtitle: "F. Scott Fitzgerald",
 			image: require("../../../assets/home/carousel/3.jpg"),
-			description:"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident,sunt in culpa qui officia deserunt mollit anim id est laborum.",
+			description:
+				"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident,sunt in culpa qui officia deserunt mollit anim id est laborum.",
 			likeStatus: false,
 		},
 		{
@@ -38,7 +41,8 @@ const Details = () => {
 			title: "The Catcher in the Rye",
 			subtitle: "J.D. Salinger",
 			image: require("../../../assets/home/carousel/4.jpg"),
-			description:"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident,sunt in culpa qui officia deserunt mollit anim id est laborum.",
+			description:
+				"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident,sunt in culpa qui officia deserunt mollit anim id est laborum.",
 			likeStatus: false,
 		},
 		{
@@ -46,7 +50,8 @@ const Details = () => {
 			title: "The Hobbit",
 			subtitle: "J.R.R. Tolkien",
 			image: require("../../../assets/home/carousel/5.jpg"),
-			description:"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident,sunt in culpa qui officia deserunt mollit anim id est laborum.",
+			description:
+				"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident,sunt in culpa qui officia deserunt mollit anim id est laborum.",
 			likeStatus: true,
 		},
 		{
@@ -54,7 +59,8 @@ const Details = () => {
 			title: "The Hitchhiker's Guide to the Galaxy",
 			subtitle: "Douglas Adams",
 			image: require("../../../assets/home/carousel/6.jpg"),
-			description:"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident,sunt in culpa qui officia deserunt mollit anim id est laborum.",
+			description:
+				"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident,sunt in culpa qui officia deserunt mollit anim id est laborum.",
 			likeStatus: false,
 		},
 	];
@@ -79,21 +85,21 @@ const Details = () => {
 			>
 				<View>
 					<Text style={styles.HeadingText}>{currentBook?.title}</Text>
-					<Text style={styles.subHeadingText}>{currentBook?.subtitle}</Text>
+					<Text style={styles.subHeadingText}>
+						{currentBook?.subtitle}
+					</Text>
 				</View>
 				<Pressable
 					style={styles.heartContainer}
 					onPress={() => {
 						setLiked(!liked);
-						if (toastRef.current) {
-							toastRef.current.show({
-								type: "success",
-								text: liked
-									? "Removed from favorites"
-									: "Added to favorites",
-								duration: 2000,
-							});
-						}
+						toastRef.current?.show({
+							type: "success",
+							text: liked
+								? "Removed from favorites"
+								: "Added to favorites",
+							duration: 2000,
+						});
 					}}
 				>
 					<FontAwesome

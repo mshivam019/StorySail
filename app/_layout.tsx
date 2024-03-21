@@ -17,7 +17,7 @@ const RootLayout = () => {
 
 	const handlePresentModalPress = () => bottomSheetRef.current?.present();
 	return (
-		<SafeAreaProvider style={{ flex: 1 }}>
+		<SafeAreaProvider>
 			<AuthProvider>
 				<GestureHandlerRootView style={{ flex: 1 }}>
 					<BottomSheetModalProvider>

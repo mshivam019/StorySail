@@ -9,10 +9,12 @@ import { Image } from "expo-image";
 import Switch from "./CustomSwitch";
 import { useAuth } from "../provider/AuthProvider";
 import { FontAwesome6 } from "@expo/vector-icons";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
 export type Ref = BottomSheetModal;
 
 const CustomBottomSheetModal = forwardRef<Ref, {}>((props, ref) => {
-	const snapPoints = useMemo(() => ["95%"], []);
+	const snapPoints = useMemo(() => ["100%"], []);
+	const insets = useSafeAreaInsets();
 	const { userDetails, setShowNotification, showNotification, getCoins } =
 		useUserStore();
 	const coins = getCoins();
@@ -25,6 +27,9 @@ const CustomBottomSheetModal = forwardRef<Ref, {}>((props, ref) => {
 	return (
 		<BottomSheetModal
 			ref={ref}
+			style={{
+				paddingTop:insets.top,
+			}}
 			index={0}
 			snapPoints={snapPoints}
 			handleStyle={{ alignSelf: "flex-start" }}

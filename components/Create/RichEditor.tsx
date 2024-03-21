@@ -144,8 +144,8 @@ const RichTextEditor = () => {
 							actions.setSuperscript,
 							actions.insertBulletsList,
 							actions.insertOrderedList,
-							actions.insertLine,							
-							actions.insertLink,
+							actions.insertLine,								
+							actions.setStrikethrough,
 						]}
 					/>
 					<RichToolbar
@@ -159,10 +159,8 @@ const RichTextEditor = () => {
 							actions.undo,
 							actions.redo,
 							actions.removeFormat,
-							actions.checkboxList,
-							actions.code,
-							actions.setStrikethrough,
-							actions.blockquote,
+							actions.indent,
+							actions.outdent,							
 						]}
 					/>
 					<RichEditor

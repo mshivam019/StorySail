@@ -30,7 +30,7 @@
     "expo-system-ui": "~2.9.3",
     "lottie-react-native": "6.5.1",
     "react": "18.2.0",
-    "react-native": "0.73.4",
+    "react-native": "0.73.6",
     "react-native-gesture-handler": "~2.14.0",
     "react-native-htmlview": "^0.17.0",
     "react-native-mmkv": "^2.12.1",

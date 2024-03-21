@@ -15,36 +15,6 @@ const RichTextEditor = () => {
 	const [showPreview, setShowPreview] = useState(false);
 	const toastRef = useRef<ToastRef>(null);
 
-	async function onPressAddImage() {
-		const { status } =
-			await ImagePicker.requestMediaLibraryPermissionsAsync();
-		if (status !== "granted") {
-			if (toastRef.current) {
-				toastRef.current.show({
-					type: "error",
-					text: "Permission denied!",
-					duration: 2000,
-				});
-			}
-			return;
-		}
-		let result = await ImagePicker.launchImageLibraryAsync({
-			mediaTypes: ImagePicker.MediaTypeOptions.Images,
-			allowsEditing: true,
-			aspect: [4, 3],
-			quality: 1,
-			base64: true,
-		});
-
-		if (result.canceled) {
-			return;
-		}
-		const img = result.assets[0];
-		RichText.current?.insertImage(
-			`data:${img.mimeType};base64,${img.base64}`,
-			"img"
-		);
-	}
 
 	return (
 		<ScrollView style={styles.container}>
@@ -165,9 +135,7 @@ const RichTextEditor = () => {
 						iconTint={"gray"}
 						selectedIconTint={"black"}
 						disabledIconTint={"darkgrey"}
-						onPressAddImage={onPressAddImage}
 						actions={[
-							actions.insertImage,
 							actions.alignLeft,
 							actions.alignCenter,
 							actions.alignRight,
@@ -176,7 +144,8 @@ const RichTextEditor = () => {
 							actions.setSuperscript,
 							actions.insertBulletsList,
 							actions.insertOrderedList,
-							actions.insertLine,
+							actions.insertLine,							
+							actions.insertLink,
 						]}
 					/>
 					<RichToolbar
@@ -191,7 +160,6 @@ const RichTextEditor = () => {
 							actions.redo,
 							actions.removeFormat,
 							actions.checkboxList,
-							actions.insertLink,
 							actions.code,
 							actions.setStrikethrough,
 							actions.blockquote,

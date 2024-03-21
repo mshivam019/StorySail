@@ -7,25 +7,25 @@ const Search = ({ value }: { value: string }) => {
 	const books = [
 		{
 			id: 1,
-			title: "The Alchemist",
+			title: "The art of war",
 			image: require("../../assets/home/carousel/1.jpg"),
 			tags: ["adventure", "fantasy", "fiction"],
 		},
 		{
 			id: 2,
-			title: "The Da Vinci Code",
+			title: "The Alchemist",
 			image: require("../../assets/home/carousel/2.jpg"),
 			tags: ["mystery", "thriller", "fiction"],
 		},
 		{
 			id: 3,
-			title: "The Kite Runner",
+			title: "The Great Gatsby",
 			image: require("../../assets/home/carousel/3.jpg"),
 			tags: ["drama", "romance", "fiction"],
 		},
 		{
 			id: 4,
-			title: "The Great Gatsby",
+			title: "The Hobbit",
 			image: require("../../assets/home/carousel/4.jpg"),
 			tags: ["romance", "drama", "fiction"],
 		},
@@ -37,7 +37,7 @@ const Search = ({ value }: { value: string }) => {
 		},
 		{
 			id: 6,
-			title: "To Kill a Mockingbird",
+			title: "The Hitchhiker's Guide to the Galaxy",
 			image: require("../../assets/home/carousel/6.jpg"),
 			tags: ["drama", "fiction"],
 		},
@@ -48,12 +48,17 @@ const Search = ({ value }: { value: string }) => {
 			<FlatList
 				data={books.filter(
 					(book) =>
-						book.title.includes(value) || book.tags.includes(value)
+						book.title
+							.toLowerCase()
+							.includes(value.toLowerCase()) ||
+						book.tags
+							.map((tag) => tag.toLowerCase())
+							.includes(value.toLowerCase())
 				)}
 				renderItem={({ item }) => (
 					<Pressable
 						style={styles.categoriesContainer}
-						onPress={() => router.navigate(`/home/${item.id}`)}
+						onPress={() => router.navigate(`/home/${item.title}`)}
 					>
 						<View
 							style={{

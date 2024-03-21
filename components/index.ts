@@ -14,6 +14,7 @@ import Suggestions from "./Explore/Suggestions";
 import Search from "./Explore/Search";
 import MyWorks from "./Create/MyWorks";
 import RichTextEditor from "./Create/RichEditor";
+import Poster from "./Create/Poster";
 
 export {
 	CustomBottomSheetModal,
@@ -35,5 +36,6 @@ export {
 	Suggestions,
 	Search,
 	MyWorks,
-	RichTextEditor
+	RichTextEditor,
+	Poster
 };

@@ -48,13 +48,13 @@ export interface UserStore {
 const useUserStore: () => UserStore = create<UserStore>()(
 	persist(
 		(set, get) => ({
-			isFirstLogin: true,
+			isFirstLogin: true as boolean,
 			setIsFirstLogin: (state: boolean) => {
 				set({
 					isFirstLogin: state,
 				});
 			},
-			user: null,
+			user: null as User | null,
 			setUser: (state: User | null) => {
 				set({
 					user: state,
@@ -73,7 +73,7 @@ const useUserStore: () => UserStore = create<UserStore>()(
 					userDetails: state,
 				});
 			},
-			showNotification: false,
+			showNotification: false as boolean,
 			setShowNotification: (state: boolean) => {
 				set({
 					showNotification: state,
@@ -135,7 +135,7 @@ const useUserStore: () => UserStore = create<UserStore>()(
 			getLastRewardDate: () => {
 				return get().userDetails.lastRewardDate;
 			},
-			setLastRewardDate:async () => {
+			setLastRewardDate: async () => {
 				const updates = {
 					id: get().user?.id,
 					lastRewardDate: new Date(),
@@ -146,7 +146,9 @@ const useUserStore: () => UserStore = create<UserStore>()(
 						lastRewardDate: new Date(),
 					},
 				});
-				const { error } = await supabase.from("profiles").upsert(updates);
+				const { error } = await supabase
+					.from("profiles")
+					.upsert(updates);
 				if (error) {
 					set({
 						userDetails: {

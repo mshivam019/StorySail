@@ -6,7 +6,7 @@ import { FontAwesome } from "@expo/vector-icons";
 import { Toast, ToastRef } from "../../../components";
 
 const Details = () => {
-	const { id } = useLocalSearchParams<{ id: string }>();
+	const { title } = useLocalSearchParams<{ title: string }>();
 	const toastRef = useRef<ToastRef>(null);
 	const data = [
 		{
@@ -64,7 +64,7 @@ const Details = () => {
 			likeStatus: false,
 		},
 	];
-	const currentBook = data.find((book) => book.id === parseInt(id ?? ""));
+	const currentBook = data.find((book) => book.title === title);
 	const [liked, setLiked] = useState(currentBook?.likeStatus ?? false);
 	return (
 		<ScrollView
@@ -73,7 +73,7 @@ const Details = () => {
 		>
 			<Animated.Image
 				source={currentBook?.image}
-				sharedTransitionTag={`image-${id}`}
+				sharedTransitionTag={`image-${title}`}
 				style={styles.image}
 			/>
 			<View

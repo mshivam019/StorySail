@@ -48,13 +48,13 @@ const MiniCardItem = ({ row, column }: { row: number; column: number }) => {
 		<Pressable
 			style={styles.container}
 			onPress={() => {
-				router.push(`/home/${data[id - 1].id}`);
+				router.push(`/home/${data[id - 1].title}`);
 			}}
 		>
 			<Animated.Image
 				style={styles.image}
 				source={data[id - 1].image}
-				sharedTransitionTag={`image-${id}`}
+				sharedTransitionTag={`image-${data[id - 1].title}`}
 			/>
 			<View style={styles.contentContainer}>
 				<Text style={{ fontSize: 20, width: width * 0.5 }}>

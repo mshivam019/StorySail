@@ -6,18 +6,25 @@ import {
 	RichToolbar,
 } from "react-native-pell-rich-editor";
 import HTMLView from "react-native-htmlview";
-import * as ImagePicker from "expo-image-picker";
 import Toast, { ToastRef } from "../CustomToast";
 
-const RichTextEditor = () => {
+const RichTextEditor = ({
+	article,
+	setArticle,
+	nextHandler,
+}: {
+	article: string;
+	setArticle: (text: string) => void;
+	nextHandler: () => void;
+}) => {
 	const RichText = useRef<RichEditor>(null);
-	const [article, setArticle] = useState("");
 	const [showPreview, setShowPreview] = useState(false);
 	const toastRef = useRef<ToastRef>(null);
 
-
 	return (
-		<ScrollView style={styles.container}>
+		<ScrollView style={styles.container} contentContainerStyle={{
+			gap: 20,
+		}}>
 			{showPreview ? (
 				<>
 					<Text style={styles.text}>Preview</Text>
@@ -144,7 +151,7 @@ const RichTextEditor = () => {
 							actions.setSuperscript,
 							actions.insertBulletsList,
 							actions.insertOrderedList,
-							actions.insertLine,								
+							actions.insertLine,
 							actions.setStrikethrough,
 						]}
 					/>
@@ -160,7 +167,7 @@ const RichTextEditor = () => {
 							actions.redo,
 							actions.removeFormat,
 							actions.indent,
-							actions.outdent,							
+							actions.outdent,
 						]}
 					/>
 					<RichEditor
@@ -177,6 +184,10 @@ const RichTextEditor = () => {
 			<Button
 				title={showPreview ? "Show Editor" : "Show Preview"}
 				onPress={() => setShowPreview(!showPreview)}
+			/>
+			<Button
+				title={"Next"}
+				onPress={() => nextHandler()}
 			/>
 			<Toast ref={toastRef} />
 		</ScrollView>
@@ -198,7 +209,7 @@ const styles = StyleSheet.create({
 	},
 	container: {
 		flex: 1,
-		backgroundColor: "#f6f8f9",
+		backgroundColor: "white",
 	},
 	editor: {
 		borderColor: "black",

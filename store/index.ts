@@ -1,2 +1,3 @@
 import useUserStore from "./userStore";
-export { useUserStore };
+import useWritingsStore from "./writingsStore";
+export { useUserStore,useWritingsStore };

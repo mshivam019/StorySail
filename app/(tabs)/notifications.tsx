@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from "react";
-import { Text, View, Button, Platform, StyleSheet } from "react-native";
+import { Text, View, Platform, StyleSheet, FlatList } from "react-native";
 import * as Device from "expo-device";
 import * as Notifications from "expo-notifications";
 import Constants from "expo-constants";
@@ -17,35 +17,10 @@ Notifications.setNotificationHandler({
 	}),
 });
 
-// Can use this function below or use Expo's Push Notification Tool from: https://expo.dev/notifications
-async function sendPushNotification(expoPushToken: string) {
-	const message = {
-		to: expoPushToken,
-		sound: "default",
-		title: "Original Title",
-		body: "And here is the body!",
-		data: { someData: "goes here" },
-	};
-
-	await fetch("https://exp.host/--/api/v2/push/send", {
-		method: "POST",
-		headers: {
-			Accept: "application/json",
-			"Accept-encoding": "gzip, deflate",
-			"Content-Type": "application/json",
-			Authorization: `Bearer <YOUR EXPO PUSH TOKEN>`,
-		},
-		body: JSON.stringify(message),
-	});
-}
-
 export default function PushNotifications() {
 	const { showNotification, setShowNotification } = useUserStore();
 	const [expoPushToken, setExpoPushToken] = useState("");
-	const [notification, setNotification] =
-		useState<Notifications.Notification>();
-	const notificationListener = useRef<Notifications.Subscription>();
-	const responseListener = useRef<Notifications.Subscription>();
+	const [notifications, setNotifications] = useState([]);
 	const { session, handleNotificationPermission } = useAuth();
 
 	const toastref = useRef<ToastRef>(null);
@@ -106,27 +81,6 @@ export default function PushNotifications() {
 				.upsert({ id: session?.user.id, expo_push_token: token });
 			//console.log(error);
 		});
-
-		notificationListener.current =
-			Notifications.addNotificationReceivedListener((notification) => {
-				setNotification(notification);
-			});
-
-		responseListener.current =
-			Notifications.addNotificationResponseReceivedListener(
-				(response) => {
-					console.log(response);
-				}
-			);
-
-		return () => {
-			Notifications.removeNotificationSubscription(
-				notificationListener.current!
-			);
-			Notifications.removeNotificationSubscription(
-				responseListener.current!
-			);
-		};
 	}, []);
 
 	if (!showNotification) {
@@ -151,26 +105,25 @@ export default function PushNotifications() {
 
 	return (
 		<View style={styles.container}>
-			<Text>Your expo push token: {expoPushToken}</Text>
 			<View style={{ alignItems: "center", justifyContent: "center" }}>
-				<Text>
-					Title: {notification && notification.request.content.title}
-				</Text>
-				<Text>
-					Body: {notification && notification.request.content.body}
-				</Text>
-				<Text>
-					Data:{" "}
-					{notification &&
-						JSON.stringify(notification.request.content.data)}
-				</Text>
+				{notifications.length > 0 ? (
+					notifications.map((notification) => (
+						<FlatList
+							data={notification}
+							renderItem={({ item }) => (
+								<View style={{ flexDirection: "row" }}>
+									<Text>{item.title}</Text>
+									<Text>{item.body}</Text>
+								</View>
+							)}
+							keyExtractor={(item) => item.id}
+							showsVerticalScrollIndicator={false}
+						/>
+					))
+				) : (
+					<Text>No notifications yet!</Text>
+				)}
 			</View>
-			<Button
-				title="Press to Send Notification"
-				onPress={async () => {
-					await sendPushNotification(expoPushToken);
-				}}
-			/>
 			<Toast ref={toastref} />
 		</View>
 	);

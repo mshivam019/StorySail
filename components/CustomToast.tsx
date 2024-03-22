@@ -1,4 +1,4 @@
-import {  StyleSheet, Text, Platform } from "react-native";
+import { StyleSheet, Text, Platform } from "react-native";
 import React, {
 	useState,
 	useCallback,
@@ -14,8 +14,8 @@ import Animated, {
 	withSpring,
 	runOnJS,
 } from "react-native-reanimated";
-import {AntDesign} from "@expo/vector-icons";
-import { Gesture, GestureDetector } from "react-native-gesture-handler";
+import { AntDesign } from "@expo/vector-icons";
+import { PanGestureHandler } from "react-native-gesture-handler";
 
 interface ToastProps {
 	// Add any additional props if needed
@@ -28,16 +28,17 @@ export interface ToastRef {
 		duration: number;
 	}) => void;
 }
+
 const Toast = forwardRef<ToastRef, ToastProps>(({}, ref) => {
 	const toastTopAnimation = useSharedValue(-100);
-	const context = useSharedValue(0);
+	const toastsideAnimation = useSharedValue(0);
 	const [showing, setShowing] = useState(false);
-	const [toastType, setToastType] = useState("success");
+	const [toastType, setToastType] = useState<"success" | "warning" | "error">(
+		"success"
+	);
 	const [toastText, setToastText] = useState("");
-	const [toastDuration, setToastDuration] = useState(0);
-	// If you're not using react-native-bars, please use the one below by uncommenting it
-	// const TOP_VALUE = 60;
 	const TOP_VALUE = Platform.OS === "ios" ? 60 : 30;
+
 	const show = useCallback(
 		({
 			type,
@@ -51,7 +52,6 @@ const Toast = forwardRef<ToastRef, ToastProps>(({}, ref) => {
 			setShowing(true);
 			setToastType(type);
 			setToastText(text);
-			setToastDuration(duration);
 			toastTopAnimation.value = withSequence(
 				withTiming(TOP_VALUE),
 				withDelay(
@@ -66,6 +66,7 @@ const Toast = forwardRef<ToastRef, ToastProps>(({}, ref) => {
 		},
 		[TOP_VALUE, toastTopAnimation]
 	);
+
 	useImperativeHandle(
 		ref,
 		() => ({
@@ -77,89 +78,82 @@ const Toast = forwardRef<ToastRef, ToastProps>(({}, ref) => {
 	const animatedTopStyles = useAnimatedStyle(() => {
 		return {
 			top: toastTopAnimation.value,
+			left: toastsideAnimation.value,
+			right: toastsideAnimation.value,
 		};
 	});
 
-	const pan = Gesture.Pan()
-		.onBegin(() => {
-			context.value = toastTopAnimation.value;
-		})
-		.onUpdate((event) => {
-			if (event.translationY < 100) {
-				toastTopAnimation.value = withSpring(
-					context.value + event.translationY,
-					{
-						damping: 600,
-						stiffness: 100,
-					}
+	const handleGesture = useCallback(
+		(event: {
+			nativeEvent: { translationX: number; translationY: number };
+		}) => {
+			if (Math.abs(event.nativeEvent.translationX) > 100) {
+				toastsideAnimation.value = withSpring(
+					event.nativeEvent.translationX > 0 ? 500 : -500,
+					{ velocity: 50 }
+				);
+			} else if (Math.abs(event.nativeEvent.translationY) > 100) {
+				toastsideAnimation.value = withSpring(
+					event.nativeEvent.translationY > 0 ? 500 : -500,
+					{ velocity: 50 }
 				);
 			}
-		})
-		.onEnd((event) => {
-			if (event.translationY < 0) {
-				toastTopAnimation.value = withTiming(
-					-100,
-					undefined,
-					(finish) => {
-						if (finish) {
-							runOnJS(setShowing)(false);
-						}
-					}
-				);
-			} else if (event.translationY > 0) {
-				toastTopAnimation.value = withSequence(
-					withTiming(TOP_VALUE),
-					withDelay(
-						toastDuration,
-						withTiming(-100, undefined, (finish) => {
-							if (finish) {
-								runOnJS(setShowing)(false);
-							}
-						})
-					)
-				);
-			}
-		});
+			setTimeout(() => {
+				toastsideAnimation.value = withSpring(0);
+				setShowing(false);
+			}, 500);
+		},
+		[]
+	);
 
 	return (
-		<>
-			{showing && (
-				<GestureDetector gesture={pan}>
-					<Animated.View
+		showing && (
+			<PanGestureHandler onGestureEvent={handleGesture}>
+				<Animated.View
+					style={[
+						styles.toastContainer,
+						toastType === "success"
+							? styles.successToastContainer
+							: toastType === "warning"
+							? styles.warningToastContainer
+							: styles.errorToastContainer,
+						animatedTopStyles,
+					]}
+				>
+					{toastType === "success" ? (
+						<AntDesign
+							name="checkcircleo"
+							size={24}
+							color="#1f8722"
+						/>
+					) : toastType === "warning" ? (
+						<AntDesign
+							name="exclamationcircleo"
+							size={24}
+							color="#f08135"
+						/>
+					) : (
+						<AntDesign
+							name="closecircleo"
+							size={24}
+							color="#d9100a"
+						/>
+					)}
+					<Text
 						style={[
-							styles.toastContainer,
+							styles.toastText,
 							toastType === "success"
-								? styles.successToastContainer
+								? styles.successToastText
 								: toastType === "warning"
-								? styles.warningToastContainer
-								: styles.errorToastContainer,
-							animatedTopStyles,
+								? styles.warningToastText
+								: styles.errorToastText,
 						]}
 					>
-						{
-							toastType === "success"
-							? <AntDesign name="checkcircleo" size={24} color="#1f8722" />
-							: toastType === "warning"
-							? <AntDesign name="exclamationcircleo" size={24} color="#f08135" />
-							: <AntDesign name="closecircleo" size={24} color="#d9100a" />
-
-						}
-						<Text
-							style={[
-								styles.toastText,
-								toastType === "success"
-									? styles.successToastText
-									: toastType === "warning"
-									? styles.warningToastText
-									: styles.errorToastText,
-							]}
-						>
-							{toastText}
-						</Text>
-					</Animated.View>
-				</GestureDetector>
-			)}
-		</>
+						{toastText}
+					</Text>
+				</Animated.View>
+			</PanGestureHandler>
+		)
 	);
 });
 
@@ -169,7 +163,7 @@ const styles = StyleSheet.create({
 	toastContainer: {
 		position: "absolute",
 		top: 0,
-		width: "90%",
+		width: "100%",
 		padding: 10,
 		borderRadius: 18,
 		borderWidth: 1,

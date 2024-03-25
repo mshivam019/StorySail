@@ -16,6 +16,7 @@ import Animated, {
 } from "react-native-reanimated";
 import { AntDesign } from "@expo/vector-icons";
 import { PanGestureHandler } from "react-native-gesture-handler";
+import { WINDOW_WIDTH } from "@gorhom/bottom-sheet";
 
 interface ToastProps {
 	// Add any additional props if needed
@@ -166,6 +167,7 @@ const styles = StyleSheet.create({
 		width: "100%",
 		padding: 10,
 		borderRadius: 18,
+		minWidth: WINDOW_WIDTH * 0.89,
 		borderWidth: 1,
 		flexDirection: "row",
 		alignItems: "center",

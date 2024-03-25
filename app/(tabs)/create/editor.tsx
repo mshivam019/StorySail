@@ -1,20 +1,20 @@
 import React, { useState } from "react";
 import { ScrollView, StyleSheet } from "react-native";
 import { Poster, RichTextEditor } from "../../../components";
-import { useLocalSearchParams } from "expo-router";
+import { Stack, useLocalSearchParams } from "expo-router";
 import { useWritingsStore } from "../../../store";
+import uuid from "react-native-uuid";
 
 const editor = () => {
-	const { title } = useLocalSearchParams();
-	const { articles } = useWritingsStore();
-	const existingArticle = articles.find((article) => article.title === title);
+	const { id } = useLocalSearchParams();
+	const { articles, drafts } = useWritingsStore();
+	const existingArticle =
+		articles.find((article) => article.id === id) ||
+		drafts.find((article) => article.id === id);
 	const [article, setArticle] = useState(
 		existingArticle ? existingArticle.content : ""
 	);
-	const [img, setImg] = useState(existingArticle ? existingArticle.img : "");
-	const [Articletitle, setTitle] = useState(
-		existingArticle ? existingArticle.title : ""
-	);
+
 	const [showEditor, setShowEditor] = useState(true);
 	const nextHandler = () => {
 		setShowEditor(false);
@@ -29,12 +29,23 @@ const editor = () => {
 				/>
 			) : (
 				<Poster
-					article={article}
 					setShowEditor={setShowEditor}
-					title={Articletitle}
-					setTitle={setTitle}
-					img={img}
-					setImg={setImg}
+					article={
+						existingArticle
+							? existingArticle
+							: {
+									id: uuid.v4().toString(),
+									title: "",
+									content: article,
+									category: "",
+									tags: [],
+									poster_image_url: "",
+									stars_count: 0,
+									user_id: "1",
+									created_at: new Date(),
+									updated_at: new Date(),
+							  }
+					}
 				/>
 			)}
 		</ScrollView>

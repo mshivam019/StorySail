@@ -15,6 +15,7 @@ import Search from "./Explore/Search";
 import MyWorks from "./Create/MyWorks";
 import RichTextEditor from "./Create/RichEditor";
 import Poster from "./Create/Poster";
+import DropDown from "./DropDown";
 
 export {
 	CustomBottomSheetModal,
@@ -37,5 +38,6 @@ export {
 	Search,
 	MyWorks,
 	RichTextEditor,
-	Poster
+	Poster,
+	DropDown,
 };

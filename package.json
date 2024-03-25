@@ -43,6 +43,7 @@
     "react-native-svg": "14.1.0",
     "react-native-tab-view": "^3.5.2",
     "react-native-url-polyfill": "^2.0.0",
+    "react-native-uuid": "^2.0.2",
     "react-native-webview": "^13.6.4",
     "rn-scratch-card": "^1.2.2",
     "zustand": "^4.5.2"

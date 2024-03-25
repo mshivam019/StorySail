@@ -6,7 +6,7 @@ import React, {
 } from "react";
 import { Session, User } from "@supabase/supabase-js";
 import { supabase } from "../lib/supabase";
-import { useUserStore } from "../store";
+import { useUserStore,useWritingsStore } from "../store";
 import { GoogleSignin } from "@react-native-google-signin/google-signin";
 import * as Notifications from "expo-notifications";
 import Constants from "expo-constants";
@@ -37,11 +37,13 @@ export const AuthProvider = ({ children }: PropsWithChildren) => {
 		setUser,
 		setIsFirstLogin,
 	} = useUserStore();
+	const {getArticlesByUser} = useWritingsStore();
 	const router = useRouter();
 
 	async function getProfile(userId: string) {
 		try {
 			if (!userId) return;
+			getArticlesByUser();
 			const { data, error, status } = await supabase
 				.from("profiles")
 				.select(`username, website, avatar_url, full_name, coins, lastRewardDate`)

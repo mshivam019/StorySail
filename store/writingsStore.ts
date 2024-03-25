@@ -1,23 +1,9 @@
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
 import { createJSONStorage } from "zustand/middleware";
-import { MMKV } from "react-native-mmkv";
 import { supabase } from "../lib/supabase";
+import { zustandStorage } from "./zustandStore";
 
-const storage = new MMKV();
-
-const zustandStorage = {
-	setItem: (name: string, value: string | number | boolean | Uint8Array) => {
-		return storage.set(name, value);
-	},
-	getItem: (name: string) => {
-		const value = storage.getString(name);
-		return value ?? null;
-	},
-	removeItem: (name: string) => {
-		return storage.delete(name);
-	},
-};
 
 export interface UserWriting {
 	id: string; // Unique identifier for the writing
@@ -113,7 +99,6 @@ const useWritingsStore = create<WritingsStore>()(
 					console.error("Error fetching articles:", error.message);
 					return;
 				}
-				console.log(data);
 				set({ articles: data });
 			},
 			saveDraft: (draft: UserWriting) => {

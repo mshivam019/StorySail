@@ -1,3 +1,7 @@
 import useUserStore from "./userStore";
 import useWritingsStore,{UserWriting} from "./writingsStore";
-export { useUserStore,useWritingsStore,UserWriting };
+import useStarStore from "./starStore";
+import useNotificationStore from "./notificationsStore";
+
+
+export { useUserStore,useWritingsStore,UserWriting,useStarStore,useNotificationStore };

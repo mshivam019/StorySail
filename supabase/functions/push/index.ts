@@ -9,6 +9,7 @@ interface Notification {
   id: string;
   user_id: string;
   body: string;
+  title: string;
 }
 
 interface WebhookPayload {
@@ -41,6 +42,7 @@ Deno.serve(async (req) => {
     body: JSON.stringify({
       to: data?.expo_push_token,
       sound: "default",
+      title:payload.record.title,
       body: payload.record.body,
     }),
   }).then((res) => res.json());

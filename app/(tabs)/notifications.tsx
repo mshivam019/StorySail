@@ -1,13 +1,14 @@
-import { useState, useEffect, useRef } from "react";
+import { useEffect, useRef, useCallback } from "react";
 import { Text, View, Platform, StyleSheet, FlatList } from "react-native";
 import * as Device from "expo-device";
 import * as Notifications from "expo-notifications";
 import Constants from "expo-constants";
 import { useAuth } from "../../provider/AuthProvider";
 import { supabase } from "../../lib/supabase";
-import { useUserStore } from "../../store";
+import { useUserStore, useNotificationStore } from "../../store";
 import { Switch } from "../../components";
 import { ToastRef, Toast } from "../../components";
+import { useFocusEffect } from "expo-router";
 
 Notifications.setNotificationHandler({
 	handleNotification: async () => ({
@@ -18,15 +19,73 @@ Notifications.setNotificationHandler({
 });
 
 export default function PushNotifications() {
+	const notificationListener = useRef<Notifications.Subscription>();
+	const responseListener = useRef<Notifications.Subscription>();
 	const { showNotification, setShowNotification } = useUserStore();
-	const [expoPushToken, setExpoPushToken] = useState("");
-	const [notifications, setNotifications] = useState([]);
 	const { session, handleNotificationPermission } = useAuth();
+	const {
+		notifications,
+		lastfetch,
+		setLastFetch,
+		getNotifications,
+		addNotification,
+	} = useNotificationStore();
 
 	const toastref = useRef<ToastRef>(null);
 	if (!session) {
 		return <Text>No user on the session!</Text>;
 	}
+
+	useEffect(() => {
+		notificationListener.current =
+			Notifications.addNotificationReceivedListener((notification) => {
+				addNotification({
+					id: notification.request.identifier,
+					title: notification.request.content.title ?? "",
+					body: notification.request.content.body ?? "",
+				});
+			});
+
+		responseListener.current =
+			Notifications.addNotificationResponseReceivedListener(
+				(response) => {
+					addNotification({
+						id: response.notification.request.identifier,
+						title:
+							response.notification.request.content.title ?? "",
+						body: response.notification.request.content.body ?? "",
+					});
+				}
+			);
+
+		return () => {
+			Notifications.removeNotificationSubscription(
+				notificationListener.current!
+			);
+			Notifications.removeNotificationSubscription(
+				responseListener.current!
+			);
+		};
+	}, []);
+
+	const fetchNotifications = async () => {
+		if (showNotification) {
+			//check if lastfetch was more than 5 minutes ago
+			const now = new Date();
+			const diff = now.getTime() - new Date(lastfetch).getTime();
+			if (diff > 300000) {
+				//fetch notifications
+				getNotifications();
+				setLastFetch(now);
+			}
+		}
+	};
+
+	useFocusEffect(
+		useCallback(() => {
+			fetchNotifications();
+		}, [])
+	);
 
 	async function registerForPushNotificationsAsync() {
 		let token;
@@ -75,7 +134,6 @@ export default function PushNotifications() {
 
 	useEffect(() => {
 		registerForPushNotificationsAsync().then(async (token) => {
-			setExpoPushToken(token);
 			const { error } = await supabase
 				.from("profiles")
 				.upsert({ id: session?.user.id, expo_push_token: token });
@@ -107,19 +165,22 @@ export default function PushNotifications() {
 		<View style={styles.container}>
 			<View style={{ alignItems: "center", justifyContent: "center" }}>
 				{notifications.length > 0 ? (
-					notifications.map((notification) => (
-						<FlatList
-							data={notification}
-							renderItem={({ item }) => (
-								<View style={{ flexDirection: "row" }}>
-									<Text>{item.title}</Text>
-									<Text>{item.body}</Text>
-								</View>
-							)}
-							keyExtractor={(item) => item.id}
-							showsVerticalScrollIndicator={false}
-						/>
-					))
+					<FlatList
+						data={notifications}
+						renderItem={({ item }) => (
+							<View style={styles.notificationContainer}>
+								<Text style={styles.notificationTitle}>
+									{item.title}
+								</Text>
+								<Text style={styles.notificationBody}>
+									{item.body}
+								</Text>
+							</View>
+						)}
+						keyExtractor={(item) => item.id}
+						showsVerticalScrollIndicator={false}
+						style={{ width: "100%", gap: 10, paddingTop: 10 }}
+					/>
 				) : (
 					<Text>No notifications yet!</Text>
 				)}
@@ -132,8 +193,7 @@ export default function PushNotifications() {
 const styles = StyleSheet.create({
 	container: {
 		flex: 1,
-		alignItems: "center",
-		justifyContent: "center",
+		backgroundColor: "#fff",
 	},
 	emptyContainer: {
 		marginTop: 20,
@@ -141,5 +201,24 @@ const styles = StyleSheet.create({
 		alignItems: "center",
 		justifyContent: "space-between",
 		width: "60%",
+	},
+	notificationContainer: {
+		justifyContent: "center",
+		backgroundColor: "#f5f5f5",
+		padding: 20,
+		margin: 10,
+		borderRadius: 10,
+		elevation: 5,
+		shadowColor: "black",
+		shadowOffset: { width: 0, height: 2 },
+		shadowOpacity: 0.25,
+		shadowRadius: 3.84,
+	},
+	notificationTitle: {
+		fontSize: 16,
+		fontWeight: "bold",
+	},
+	notificationBody: {
+		fontSize: 14,
 	},
 });

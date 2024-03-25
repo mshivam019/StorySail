@@ -30,7 +30,7 @@ export interface UserStore {
 	addCoins: (state: number) => Promise<PostgrestError | null>;
 }
 
-const useUserStore: () => UserStore = create<UserStore>()(
+const useUserStore = create<UserStore>()(
 	persist(
 		(set, get) => ({
 			isFirstLogin: true as boolean,

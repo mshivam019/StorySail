@@ -16,7 +16,7 @@ export interface StarStore {
 	setLastFetch: (state: Date) => void;
 	setNotifications: (state: Notification[]) => void;
 	addNotification: (notification: Notification) => void;
-	getNotifications: () => void;
+	getNotifications: () => Promise<void>;
 }
 
 const useNotificationStore = create<StarStore>()(

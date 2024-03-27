@@ -1,8 +1,7 @@
 import React from "react";
 import type { StyleProp, ViewStyle, ImageSourcePropType } from "react-native";
-import { StyleSheet, View, Pressable } from "react-native";
+import { StyleSheet, View } from "react-native";
 import { Image } from "expo-image";
-import { router } from "expo-router";
 
 interface Props {
 	style?: StyleProp<ViewStyle>;
@@ -23,19 +22,7 @@ export const SBImageItem: React.FC<Props> = ({ style, index: _index }) => {
 	];
 	return (
 		<View style={[styles.container, style]}>
-			<Pressable
-				style={styles.container}
-				onPress={() => router.push({
-          pathname: '/home/offers',
-          params: { id: `${index + 1}` },
-        })}
-			>
-				<Image
-					key={index}
-					style={styles.image}
-					source={source[index]}
-				/>
-			</Pressable>
+			<Image key={index} style={styles.image} source={source[index]} />
 		</View>
 	);
 };

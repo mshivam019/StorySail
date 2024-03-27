@@ -1,21 +1,12 @@
-import React, { useRef } from "react";
+import React from "react";
 import { AuthProvider } from "../provider/AuthProvider";
 import "react-native-gesture-handler";
-import { Pressable } from "react-native";
 import { Stack } from "expo-router";
-import {
-	BottomSheetModalProvider,
-	BottomSheetModal,
-} from "@gorhom/bottom-sheet";
+import { BottomSheetModalProvider } from "@gorhom/bottom-sheet";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import { SafeAreaProvider } from "react-native-safe-area-context";
-import { CustomBottomSheetModal } from "../components";
-import { AntDesign } from "@expo/vector-icons";
 
 const RootLayout = () => {
-	const bottomSheetRef = useRef<BottomSheetModal>(null);
-
-	const handlePresentModalPress = () => bottomSheetRef.current?.present();
 	return (
 		<SafeAreaProvider
 			initialMetrics={{
@@ -36,20 +27,10 @@ const RootLayout = () => {
 			<AuthProvider>
 				<GestureHandlerRootView style={{ flex: 1 }}>
 					<BottomSheetModalProvider>
-						<CustomBottomSheetModal ref={bottomSheetRef} />
 						<Stack
 							initialRouteName="login"
 							screenOptions={{
 								headerTitle: "Expobase",
-								headerRight: () => (
-									<Pressable
-										onPress={() => {
-											handlePresentModalPress();
-										}}
-									>
-										<AntDesign name="setting" size={24} />
-									</Pressable>
-								),
 							}}
 						>
 							<Stack.Screen
@@ -66,7 +47,12 @@ const RootLayout = () => {
 							/>
 							<Stack.Screen name="profile" />
 							<Stack.Screen name="settings" />
-							<Stack.Screen name="(tabs)" />
+							<Stack.Screen
+								name="(tabs)"
+								options={{
+									headerShown: false,
+								}}
+							/>
 						</Stack>
 					</BottomSheetModalProvider>
 				</GestureHandlerRootView>

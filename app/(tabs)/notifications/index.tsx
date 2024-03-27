@@ -3,11 +3,11 @@ import { Text, View, Platform, StyleSheet, FlatList } from "react-native";
 import * as Device from "expo-device";
 import * as Notifications from "expo-notifications";
 import Constants from "expo-constants";
-import { useAuth } from "../../provider/AuthProvider";
-import { supabase } from "../../lib/supabase";
-import { useUserStore, useNotificationStore } from "../../store";
-import { Switch } from "../../components";
-import { ToastRef, Toast } from "../../components";
+import { useAuth } from "../../../provider/AuthProvider";
+import { supabase } from "../../../lib/supabase";
+import { useUserStore, useNotificationStore } from "../../../store";
+import { Switch } from "../../../components";
+import { ToastRef, Toast } from "../../../components";
 import { useFocusEffect } from "expo-router";
 
 Notifications.setNotificationHandler({

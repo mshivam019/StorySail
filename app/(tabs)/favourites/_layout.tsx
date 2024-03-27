@@ -20,8 +20,7 @@ const StackLayout = () => {
 				),
 			}}
 		>
-			<Stack.Screen name="index" options={{ title: "Home" }} />
-			<Stack.Screen name="categories" options={{ title: "Categories" }} />
+			<Stack.Screen name="index" options={{ title: "Favourites" }} />
 		</Stack>
 	);
 };

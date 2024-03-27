@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { StyleSheet, View } from "react-native";
 
-import { CustomSearchBar, Suggestions,Search } from "../../components";
+import { CustomSearchBar, Suggestions,Search } from "../../../components";
 
 const explore = () => {
 	const [searchValue, setSearchValue] = useState("");

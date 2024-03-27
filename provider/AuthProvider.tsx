@@ -3,20 +3,23 @@ import React, {
 	useEffect,
 	createContext,
 	PropsWithChildren,
+	useRef,
 } from "react";
 import { Session, User } from "@supabase/supabase-js";
 import { supabase } from "../lib/supabase";
-import { useUserStore,useWritingsStore } from "../store";
+import { useUserStore, useWritingsStore } from "../store";
 import { GoogleSignin } from "@react-native-google-signin/google-signin";
 import * as Notifications from "expo-notifications";
 import Constants from "expo-constants";
 import { useRouter } from "expo-router";
+import { BottomSheetModal } from "@gorhom/bottom-sheet";
 
 type AuthProps = {
 	user: User | null;
 	session: Session | null;
-	initialized?: boolean;
 	signOut: () => Promise<void>;
+	bottomSheetRef: React.RefObject<BottomSheetModal>;
+	handlePresentModalPress: () => void;
 	handleNotificationPermission: () => Promise<void>;
 };
 
@@ -37,8 +40,12 @@ export const AuthProvider = ({ children }: PropsWithChildren) => {
 		setUser,
 		setIsFirstLogin,
 	} = useUserStore();
-	const {getArticlesByUser} = useWritingsStore();
+	const { getArticlesByUser } = useWritingsStore();
 	const router = useRouter();
+
+	const bottomSheetRef = useRef<BottomSheetModal>(null);
+
+	const handlePresentModalPress = () => bottomSheetRef.current?.present();
 
 	async function getProfile(userId: string) {
 		try {
@@ -46,7 +53,9 @@ export const AuthProvider = ({ children }: PropsWithChildren) => {
 			getArticlesByUser();
 			const { data, error, status } = await supabase
 				.from("profiles")
-				.select(`username, website, avatar_url, full_name, coins, lastRewardDate`)
+				.select(
+					`username, website, avatar_url, full_name, coins, lastRewardDate`
+				)
 				.eq("id", userId)
 				.single();
 			if (error && status !== 406) {
@@ -143,6 +152,8 @@ export const AuthProvider = ({ children }: PropsWithChildren) => {
 		session,
 		signOut,
 		handleNotificationPermission,
+		bottomSheetRef,
+		handlePresentModalPress,
 	};
 
 	return (

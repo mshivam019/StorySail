@@ -1,6 +1,6 @@
 import React, { useState, useRef } from "react";
 import { StyleSheet, Text, ScrollView, Pressable, View } from "react-native";
-import { useLocalSearchParams } from "expo-router";
+import { Stack, useLocalSearchParams } from "expo-router";
 import Animated from "react-native-reanimated";
 import { FontAwesome } from "@expo/vector-icons";
 import { Toast, ToastRef } from "../../../components";
@@ -71,6 +71,7 @@ const Details = () => {
 			style={styles.container}
 			contentContainerStyle={{ paddingBottom: 20 }}
 		>
+			<Stack.Screen options={{ title: title }} />
 			<Animated.Image
 				source={currentBook?.image}
 				sharedTransitionTag={`image-${title}`}

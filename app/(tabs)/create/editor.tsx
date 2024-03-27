@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { ScrollView, StyleSheet } from "react-native";
 import { Poster, RichTextEditor } from "../../../components";
-import { Stack, useLocalSearchParams } from "expo-router";
+import { useLocalSearchParams } from "expo-router";
 import { useWritingsStore } from "../../../store";
 import uuid from "react-native-uuid";
 

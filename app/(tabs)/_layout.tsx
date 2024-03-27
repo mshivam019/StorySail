@@ -55,6 +55,7 @@ export default function TabLayout() {
 					tabBarPosition="bottom"
 					initialRouteName="home"
 					screenOptions={{
+						animationEnabled: false,
 						lazy: true,
 						lazyPreloadDistance: 0,
 						lazyPlaceholder: () => {

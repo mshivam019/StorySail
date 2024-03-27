@@ -1,5 +1,11 @@
-import { StyleSheet, Text, View, Pressable } from "react-native";
-import React from "react";
+import {
+	StyleSheet,
+	Text,
+	View,
+	Pressable,
+	ActivityIndicator,
+} from "react-native";
+import React, { useEffect, useState } from "react";
 import { FontAwesome6 } from "@expo/vector-icons";
 import { useUserStore } from "../../store";
 
@@ -11,11 +17,9 @@ const RewardBanner = ({
 	setCoins: (state: number) => void;
 }) => {
 	const { addCoins, getLastRewardDate, setLastRewardDate } = useUserStore();
-
+	const [lastCheckin, setLastCheckin] = useState("");
 	const today = new Date().toISOString().split("T")[0];
-	const lastCheckin = new Date(getLastRewardDate())
-		.toISOString()
-		.split("T")[0];
+	const [loading, setLoading] = useState(true);
 
 	const rewardHandler = async () => {
 		setShowModal(true);
@@ -25,7 +29,7 @@ const RewardBanner = ({
 		if (error) {
 			console.log("Error adding coins", error);
 		} else {
-			const dateError = await setLastRewardDate();
+			const dateError = await setLastRewardDate(new Date());
 			if (dateError) {
 				console.log("Error setting last reward date", dateError);
 			} else {
@@ -33,9 +37,27 @@ const RewardBanner = ({
 			}
 		}
 	};
+
+	useEffect(() => {
+		const fetchLastCheckin = async () => {
+			try {
+				const data = await getLastRewardDate();
+				setLastCheckin(new Date(data).toISOString().split("T")[0]);
+				setLoading(false);
+			} catch (e) {
+				console.log(e);
+			} finally {
+				setLoading(false);
+			}
+		};
+		fetchLastCheckin();
+	}, [getLastRewardDate]);
+
 	return (
 		<View style={styles.rewardsContainer}>
-			{today !== lastCheckin ? (
+			{loading ? (
+				<ActivityIndicator size="large" color="#0000" />
+			) : today !== lastCheckin ? (
 				<Pressable
 					style={styles.rewardTextContainer}
 					onPress={() => {

@@ -4,8 +4,7 @@ import Animated from "react-native-reanimated";
 import { router } from "expo-router";
 const { width } = Dimensions.get("window");
 
-const MiniCardItem = ({ row, column }: { row: number; column: number }) => {
-	const id = row * 3 + column + 1;
+const MiniCardItem = ({ id,widthPercent }: { id: number;widthPercent:number }) => {
 	const data = [
 		{
 			id: 1,
@@ -46,7 +45,7 @@ const MiniCardItem = ({ row, column }: { row: number; column: number }) => {
 	];
 	return (
 		<Pressable
-			style={styles.container}
+			style={[styles.container,{width: width * widthPercent}]}
 			onPress={() => {
 				router.push(`/home/${data[id - 1].title}`);
 			}}
@@ -86,8 +85,8 @@ const styles = StyleSheet.create({
 		shadowOpacity: 0.25,
 		shadowRadius: 3.84,
 		padding: 10,
-		width: width * 0.8,
 		flexDirection: "row",
+		alignSelf: "center",
 	},
 	image: {
 		width: 100,

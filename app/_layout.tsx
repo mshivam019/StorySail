@@ -30,7 +30,7 @@ const RootLayout = () => {
 						<Stack
 							initialRouteName="login"
 							screenOptions={{
-								headerTitle: "Expobase",
+								headerTitle: "Story Sail",
 							}}
 						>
 							<Stack.Screen

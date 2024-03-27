@@ -4,6 +4,7 @@ import { createJSONStorage } from "zustand/middleware";
 import { zustandStorage } from "./zustandStore";
 import { supabase } from "../lib/supabase";
 import uuid from "react-native-uuid";
+import { Positions } from "../components/Favourites/SortableList/Config";
 
 export interface StarredWriting {
 	id: string; // Unique identifier for the starred writing

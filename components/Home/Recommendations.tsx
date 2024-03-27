@@ -57,7 +57,7 @@ const Recommendations = () => {
 				renderItem={({ item }) => (
 					<Pressable
 						onPress={() => {
-							router.navigate(`/home/${item.id}`);
+							router.navigate(`/home/${item.title}`);
 						}}
 						style={{
 							width: 275,

@@ -1,12 +1,8 @@
-import { View, Text } from 'react-native'
 import React from 'react'
+import { FavouritesList } from '../../../components'
 
 const Favourites = () => {
-  return (
-    <View>
-      <Text>Favourites</Text>
-    </View>
-  )
+  return <FavouritesList />
 }
 
 export default Favourites

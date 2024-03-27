@@ -17,7 +17,7 @@ const MiniCards = () => {
 				{[...Array(rows)].map((_, i) => (
 					<View key={i}>
 						{[...Array(columns)].map((_, j) => (
-							<MiniCardItem key={j} row={i} column={j} />
+							<MiniCardItem key={j} id={i * 3 + j+ 1} widthPercent={0.8} />
 						))}
 					</View>
 				))}

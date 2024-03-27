@@ -39,6 +39,7 @@ export const AuthProvider = ({ children }: PropsWithChildren) => {
 		user,
 		setUser,
 		setIsFirstLogin,
+		setLastRewardDate,
 	} = useUserStore();
 	const { getArticlesByUser } = useWritingsStore();
 	const router = useRouter();
@@ -108,6 +109,7 @@ export const AuthProvider = ({ children }: PropsWithChildren) => {
 			full_name: "Your name here!",
 			lastRewardDate: new Date("2021-01-01T00:00:00Z"),
 		});
+		setLastRewardDate(new Date ("2021-01-01T00:00:00Z"));
 	};
 
 	const handleNotificationPermission = async () => {

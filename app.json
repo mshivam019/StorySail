@@ -1,8 +1,8 @@
 {
   "expo": {
-    "name": "expo-base",
-    "slug": "expobase",
-    "scheme": "expobase",
+    "name": "Story Sail",
+    "slug": "storysail",
+    "scheme": "storysail",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",

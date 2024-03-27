@@ -25,8 +25,8 @@ export interface UserStore {
 	setShowNotification: (state: boolean) => void;
 	getCoins: () => number;
 	deductCoins: (state: number) => Promise<PostgrestError | null>;
-	getLastRewardDate: () => Date;
-	setLastRewardDate: () => Promise<PostgrestError | null>;
+	getLastRewardDate: () =>Date;
+	setLastRewardDate: (state:Date) => Promise<PostgrestError | null>;
 	addCoins: (state: number) => Promise<PostgrestError | null>;
 }
 
@@ -120,15 +120,15 @@ const useUserStore = create<UserStore>()(
 			getLastRewardDate: () => {
 				return get().userDetails.lastRewardDate;
 			},
-			setLastRewardDate: async () => {
+			setLastRewardDate: async (date) => {
 				const updates = {
 					id: get().user?.id,
-					lastRewardDate: new Date(),
+					lastRewardDate: new Date(date),
 				};
 				set({
 					userDetails: {
 						...get().userDetails,
-						lastRewardDate: new Date(),
+						lastRewardDate: new Date(date),
 					},
 				});
 				const { error } = await supabase

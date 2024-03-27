@@ -9,7 +9,7 @@ import { supabase } from "../../lib/supabase";
 import { decode } from "base64-arraybuffer";
 import * as FileSystem from "expo-file-system";
 import uuid from "react-native-uuid";
-import DropDown from "../DropDown";
+import DropDown from "../ExpandableDropDown";
 
 const Poster = ({
 	article,

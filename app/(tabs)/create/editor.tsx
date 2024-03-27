@@ -6,7 +6,7 @@ import { useWritingsStore } from "../../../store";
 import uuid from "react-native-uuid";
 
 const editor = () => {
-	const { id } = useLocalSearchParams();
+	const { id } = useLocalSearchParams<{id:string}>();
 	const { articles, drafts } = useWritingsStore();
 	const existingArticle =
 		articles.find((article) => article.id === id) ||

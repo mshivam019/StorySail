@@ -7,7 +7,7 @@ import React, {
 } from "react";
 import { Session, User } from "@supabase/supabase-js";
 import { supabase } from "../lib/supabase";
-import { useUserStore, useWritingsStore } from "../store";
+import { useUserStore, useWritingsStore, useHomeStore } from "../store";
 import { GoogleSignin } from "@react-native-google-signin/google-signin";
 import * as Notifications from "expo-notifications";
 import Constants from "expo-constants";
@@ -42,6 +42,9 @@ export const AuthProvider = ({ children }: PropsWithChildren) => {
 		setLastRewardDate,
 	} = useUserStore();
 	const { getArticlesByUser } = useWritingsStore();
+
+	const { setData, setLastFetch, refetchFlag } = useHomeStore();
+
 	const router = useRouter();
 
 	const bottomSheetRef = useRef<BottomSheetModal>(null);
@@ -70,13 +73,33 @@ export const AuthProvider = ({ children }: PropsWithChildren) => {
 		}
 	}
 
-	useEffect(() => {
-		// Listen for changes to authentication state
+	const fetchHomeData = async () => {
+		try {
+			console.log("fetching home data");
+			const { data, error } = await supabase
+				.from("app_home")
+				.select("*")
+				.eq("active", 1)
+				.single();
+			if (error) {
+				console.log("error fetching home data");
+			}
+			if (data) {
+				setData(data);
+				setLastFetch(new Date());
+			}
+		} catch (error) {
+			console.log("error fetching home data");
+		}
+	};
+
+	const supbaseFn = () => {
 		const { data } = supabase.auth.onAuthStateChange(async (_, session) => {
 			setSession(session);
 			if (session && session.user) {
 				if (session.user.id !== user?.id) {
 					setUser(session ? session.user : null);
+					fetchHomeData();
 					await getProfile(session.user.id);
 				}
 				if (isFirstLogin) {
@@ -87,10 +110,18 @@ export const AuthProvider = ({ children }: PropsWithChildren) => {
 				router.replace("/login");
 			}
 		});
+		return data;
+	};
+
+	
+
+	useEffect(() => {
+		// Listen for changes to authentication state
+		const data = supbaseFn();
 		return () => {
 			data.subscription.unsubscribe();
 		};
-	}, []);
+	}, [refetchFlag]);
 
 	// Log out the user
 	const signOut = async () => {
@@ -109,7 +140,7 @@ export const AuthProvider = ({ children }: PropsWithChildren) => {
 			full_name: "Your name here!",
 			lastRewardDate: new Date("2021-01-01T00:00:00Z"),
 		});
-		setLastRewardDate(new Date ("2021-01-01T00:00:00Z"));
+		setLastRewardDate(new Date("2021-01-01T00:00:00Z"));
 	};
 
 	const handleNotificationPermission = async () => {

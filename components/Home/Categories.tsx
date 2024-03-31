@@ -2,43 +2,22 @@ import React from "react";
 import { StyleSheet, View, FlatList, Text, Pressable } from "react-native";
 import { Image } from "expo-image";
 import { router } from "expo-router";
+import { useHomeStore } from "../../store";
 
 const Categories = () => {
-	const data = [
-		{
-			title: "Fantasy",
-			image: require("../../assets/home/carousel/1.jpg"),
-		},
-		{
-			title: "Adventure",
-			image: require("../../assets/home/carousel/2.jpg"),
-		},
-		{
-			title: "Romance",
-			image: require("../../assets/home/carousel/3.jpg"),
-		},
-		{
-			title: "Mystery",
-			image: require("../../assets/home/carousel/4.jpg"),
-		},
-		{ title: "Horror", image: require("../../assets/home/carousel/5.jpg") },
-		{
-			title: "Science Fiction",
-			image: require("../../assets/home/carousel/6.jpg"),
-		},
-	];
+	const {data} = useHomeStore();
 
 	return (
 		<View style={styles.container}>
 			<Text style={styles.headingText}>Categories</Text>
-			<FlatList
-				data={data}
+			{data && <FlatList
+				data={data.categories.categories}
 				renderItem={({ item }) => (
 					<Pressable
 						onPress={() =>
 							router.push({
 								pathname: "/home/categories",
-								params: { category: item.title },
+								params: { category: item.name },
 							})
 						}
 					>
@@ -50,7 +29,7 @@ const Categories = () => {
 							}}
 						>
 							<Image
-								source={item.image}
+								source={item.imageUrl}
 								style={{
 									width: "100%",
 									height: "100%",
@@ -58,13 +37,13 @@ const Categories = () => {
 								}}
 							/>
 						</View>
-						<Text style={styles.ImageText}>{item.title}</Text>
+						<Text style={styles.ImageText}>{item.name}</Text>
 					</Pressable>
 				)}
 				horizontal
 				showsHorizontalScrollIndicator={false}
-				keyExtractor={(item) => item.title}
-			/>
+				keyExtractor={(item) => item.name}
+			/>}
 		</View>
 	);
 };

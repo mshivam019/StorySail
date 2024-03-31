@@ -9,54 +9,58 @@ import Animated, {
 } from "react-native-reanimated";
 import Carousel from "react-native-reanimated-carousel";
 import { SBImageItem } from "./SBImage";
+import { useHomeStore } from "../../store";
 
 const window = Dimensions.get("window");
 const PAGE_WIDTH = window.width;
-const PAGE_HEIGHT = window.height;
 const colors = [
 	"#ffe190",
 	"#8fa6da",
 	"#6dd3f7",
 	"#9dd0b5",
-	"#f8a977",
+	"#90e0b5",
 	"#398cd5",
 ];
 
 function Cards() {
 	const progressValue = useSharedValue<number>(0);
-
+	const { data } = useHomeStore();
 	return (
 		<View
 			style={{
 				alignItems: "center",
 			}}
 		>
-			<Carousel
-				vertical={false}
-				width={PAGE_WIDTH}
-				height={PAGE_WIDTH * 0.8}
-				style={{
-					width: PAGE_WIDTH,
-				}}
-				loop
-				pagingEnabled={true}
-				snapEnabled={true}
-				autoPlay={true}
-				autoPlayInterval={8000}
-				onProgressChange={(_, absoluteProgress) =>
-					(progressValue.value = absoluteProgress)
-				}
-				mode="parallax"
-				modeConfig={{
-					parallaxScrollingScale: 0.9,
-					parallaxScrollingOffset: 50,
-				}}
-				panGestureHandlerProps={{
-					activeOffsetX: [-10, 10],
-				}}
-				data={colors}
-				renderItem={({ index }) => <SBImageItem index={index} />}
-			/>
+			{data && data.carousel_images.carouselImages && (
+				<Carousel
+					vertical={false}
+					width={PAGE_WIDTH}
+					height={PAGE_WIDTH * 0.8}
+					style={{
+						width: PAGE_WIDTH,
+					}}
+					loop
+					pagingEnabled={true}
+					snapEnabled={true}
+					autoPlay={true}
+					autoPlayInterval={8000}
+					onProgressChange={(_, absoluteProgress) =>
+						(progressValue.value = absoluteProgress)
+					}
+					mode="parallax"
+					modeConfig={{
+						parallaxScrollingScale: 0.9,
+						parallaxScrollingOffset: 50,
+					}}
+					panGestureHandlerProps={{
+						activeOffsetX: [-10, 10],
+					}}
+					data={data.carousel_images.carouselImages}
+					renderItem={({ index, item }) => (
+						<SBImageItem index={index} item={item} />
+					)}
+				/>
+			)}
 			{!!progressValue && (
 				<View
 					style={{

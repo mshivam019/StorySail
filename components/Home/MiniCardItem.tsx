@@ -2,65 +2,34 @@ import { StyleSheet, Text, Dimensions, View, Pressable } from "react-native";
 import React from "react";
 import Animated from "react-native-reanimated";
 import { router } from "expo-router";
+import { useHomeStore } from "../../store";
+
 const { width } = Dimensions.get("window");
 
+
 const MiniCardItem = ({ id,widthPercent }: { id: number;widthPercent:number }) => {
-	const data = [
-		{
-			id: 1,
-			title: "The art of war",
-			subtitle: "Sun Tzu",
-			image: require("../../assets/home/carousel/1.jpg"),
-		},
-		{
-			id: 2,
-			title: "The Alchemist",
-			subtitle: "Paulo Coelho",
-			image: require("../../assets/home/carousel/2.jpg"),
-		},
-		{
-			id: 3,
-			title: "The Great Gatsby",
-			subtitle: "F. Scott Fitzgerald",
-			image: require("../../assets/home/carousel/3.jpg"),
-		},
-		{
-			id: 4,
-			title: "The Catcher in the Rye",
-			subtitle: "J.D. Salinger",
-			image: require("../../assets/home/carousel/4.jpg"),
-		},
-		{
-			id: 5,
-			title: "The Hobbit",
-			subtitle: "J.R.R. Tolkien",
-			image: require("../../assets/home/carousel/5.jpg"),
-		},
-		{
-			id: 6,
-			title: "The Hitchhiker's Guide to the Galaxy",
-			subtitle: "Douglas Adams",
-			image: require("../../assets/home/carousel/6.jpg"),
-		},
-	];
+	const { data } = useHomeStore();
+	if(!data) return null;
+
+	const featuredPosts = data.featured_posts.featuredPosts;
 	return (
 		<Pressable
 			style={[styles.container,{width: width * widthPercent}]}
 			onPress={() => {
-				router.push(`/home/${data[id - 1].title}`);
+				router.push(`/home/${featuredPosts[id - 1].id}`);
 			}}
 		>
 			<Animated.Image
 				style={styles.image}
-				source={data[id - 1].image}
-				sharedTransitionTag={`image-${data[id - 1].title}`}
+				source={{uri:featuredPosts[id - 1].posterImageUrl}}
+				sharedTransitionTag={`image-${featuredPosts[id - 1].id}`}
 			/>
 			<View style={styles.contentContainer}>
 				<Text style={{ fontSize: 20, width: width * 0.5 }}>
-					{data[id - 1].title}
+					{featuredPosts[id - 1].title}
 				</Text>
 				<Text style={{ fontSize: 16, color: "gray" }}>
-					{data[id - 1].subtitle}
+					{featuredPosts[id - 1].category}
 				</Text>
 			</View>
 		</Pressable>

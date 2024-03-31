@@ -2,27 +2,26 @@ import React from "react";
 import type { StyleProp, ViewStyle, ImageSourcePropType } from "react-native";
 import { StyleSheet, View } from "react-native";
 import { Image } from "expo-image";
+import { CarouselImage } from "../../store/HomeStore";
 
 interface Props {
 	style?: StyleProp<ViewStyle>;
 	index?: number;
 	showIndex?: boolean;
 	img?: ImageSourcePropType;
+	item: CarouselImage;
 }
 
-export const SBImageItem: React.FC<Props> = ({ style, index: _index }) => {
+export const SBImageItem: React.FC<Props> = ({
+	style,
+	index: _index,
+	item,
+}) => {
 	const index = _index ?? 0;
-	const source = [
-		require("../../assets/home/carousel/1.jpg"),
-		require("../../assets/home/carousel/2.jpg"),
-		require("../../assets/home/carousel/3.jpg"),
-		require("../../assets/home/carousel/4.jpg"),
-		require("../../assets/home/carousel/5.jpg"),
-		require("../../assets/home/carousel/6.jpg"),
-	];
+
 	return (
 		<View style={[styles.container, style]}>
-			<Image key={index} style={styles.image} source={source[index]} />
+			<Image key={index} style={styles.image} source={item.imageUrl} />
 		</View>
 	);
 };

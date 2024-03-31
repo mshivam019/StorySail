@@ -3,6 +3,7 @@ import { StyleSheet, Text, View, FlatList, Pressable } from "react-native";
 import { MaterialIcons } from "@expo/vector-icons";
 import { Image } from "expo-image";
 import { router } from "expo-router";
+import { useHomeStore } from "../../store";
 
 const Suggestions = ({ onPress }: { onPress: (text: string) => void }) => {
 	const suggestions = [
@@ -43,29 +44,10 @@ const Suggestions = ({ onPress }: { onPress: (text: string) => void }) => {
 			color: "#bedbed",
 		},
 	];
-	const data = [
-		{
-			title: "Fantasy",
-			image: require("../../assets/home/carousel/1.jpg"),
-		},
-		{
-			title: "Adventure",
-			image: require("../../assets/home/carousel/2.jpg"),
-		},
-		{
-			title: "Romance",
-			image: require("../../assets/home/carousel/3.jpg"),
-		},
-		{
-			title: "Mystery",
-			image: require("../../assets/home/carousel/4.jpg"),
-		},
-		{ title: "Horror", image: require("../../assets/home/carousel/5.jpg") },
-		{
-			title: "Science Fiction",
-			image: require("../../assets/home/carousel/6.jpg"),
-		},
-	];
+	const { data } = useHomeStore();
+
+	if(!data) return null;
+	
 	return (
 		<View style={styles.suggestionsContainer}>
 			<View style={styles.suggestionsHeader}>
@@ -95,13 +77,13 @@ const Suggestions = ({ onPress }: { onPress: (text: string) => void }) => {
 			</View>
 			<Text style={styles.categoriesText}>Categories</Text>
 			<FlatList
-				data={data}
+				data={data.categories.categories}
 				renderItem={({ item }) => (
 					<Pressable
 						onPress={() =>
 							router.push({
 								pathname: "/home/categories",
-								params: { category: item.title },
+								params: { category: item.name },
 							})
 						}
 						style={styles.categoriesContainer}
@@ -114,7 +96,7 @@ const Suggestions = ({ onPress }: { onPress: (text: string) => void }) => {
 							}}
 						>
 							<Image
-								source={item.image}
+								source={item.imageUrl}
 								style={{
 									width: "100%",
 									height: "100%",
@@ -122,10 +104,10 @@ const Suggestions = ({ onPress }: { onPress: (text: string) => void }) => {
 								}}
 							/>
 						</View>
-						<Text style={styles.ImageText}>{item.title}</Text>
+						<Text style={styles.ImageText}>{item.name}</Text>
 					</Pressable>
 				)}
-				keyExtractor={(item) => item.title}
+				keyExtractor={(item) => item.name}
 				showsVerticalScrollIndicator={false}
 			/>
 		</View>

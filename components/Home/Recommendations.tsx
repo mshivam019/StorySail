@@ -3,40 +3,10 @@ import { StyleSheet, Text, View, FlatList, Pressable } from "react-native";
 import { Image } from "expo-image";
 import { Link } from "expo-router";
 import { router } from "expo-router";
+import { useHomeStore } from "../../store";
 
 const Recommendations = () => {
-	const data = [
-		{
-			id: 1,
-			title: "The art of war",
-			image: require("../../assets/home/carousel/1.jpg"),
-		},
-		{
-			id: 2,
-			title: "The Alchemist",
-			image: require("../../assets/home/carousel/2.jpg"),
-		},
-		{
-			id: 3,
-			title: "The Great Gatsby",
-			image: require("../../assets/home/carousel/3.jpg"),
-		},
-		{
-			id: 4,
-			title: "The Catcher in the Rye",
-			image: require("../../assets/home/carousel/4.jpg"),
-		},
-		{
-			id: 5,
-			title: "The Hobbit",
-			image: require("../../assets/home/carousel/5.jpg"),
-		},
-		{
-			id: 6,
-			title: "The Hitchhiker's Guide to the Galaxy",
-			image: require("../../assets/home/carousel/6.jpg"),
-		},
-	];
+	const { data } = useHomeStore();
 	return (
 		<View style={styles.container}>
 			<View
@@ -52,12 +22,12 @@ const Recommendations = () => {
 					<Text style={styles.LinkText}>See More</Text>
 				</Link>
 			</View>
-			<FlatList
-				data={data}
+			{data  && <FlatList
+				data={data.trending_posts.trendingPosts}
 				renderItem={({ item }) => (
 					<Pressable
 						onPress={() => {
-							router.navigate(`/home/${item.title}`);
+							router.navigate(`/home/${item.id}`);
 						}}
 						style={{
 							width: 275,
@@ -71,7 +41,7 @@ const Recommendations = () => {
 							}}
 						>
 							<Image
-								source={item.image}
+								source={item.posterImageUrl}
 								style={{
 									width: "100%",
 									height: "100%",
@@ -84,8 +54,8 @@ const Recommendations = () => {
 				)}
 				horizontal
 				showsHorizontalScrollIndicator={false}
-				keyExtractor={(item) => item.title}
-			/>
+				keyExtractor={(item) => item.id.toString()}
+			/>}
 		</View>
 	);
 };

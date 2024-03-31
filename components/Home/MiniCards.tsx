@@ -1,10 +1,13 @@
 import { StyleSheet, ScrollView, View, Text } from "react-native";
 import React from "react";
 import MiniCardItem from "./MiniCardItem";
+import { useHomeStore } from "../../store";
 
 const MiniCards = () => {
-	const rows = 2;
-	const columns = 3;
+	const { data } = useHomeStore();
+	const rows = data ? Math.ceil(data.featured_posts.featuredPosts.length / 3) : 0;
+	const columns = data ? Math.min(data.featured_posts.featuredPosts.length, 3) : 0;
+
 	return (
 		<View style={styles.container}>
 			<Text style={styles.headerText}>Featured</Text>

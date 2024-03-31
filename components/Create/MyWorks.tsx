@@ -4,8 +4,10 @@ import { FlatList } from "react-native-gesture-handler";
 import { useWritingsStore } from "../../store";
 import { router } from "expo-router";
 import { Ionicons } from "@expo/vector-icons";
+import { useHaptic } from "../../utils";
 
 const MyWorks = () => {
+	const haptic = useHaptic();
 	const { articles, drafts, deleteDraft, removeArticle } = useWritingsStore();
 	if (articles.length === 0 && drafts.length === 0) {
 		return (
@@ -16,51 +18,11 @@ const MyWorks = () => {
 	}
 	const DraftsCard = ({ title, id }: { title: string; id: string }) => {
 		return (
-			<Pressable
-				style={styles.cardContainer}
-				onPress={() =>
-					router.push({
-						pathname: "/create/editor",
-						params: { id: id },
-					})
-				}
-			>
+			<View style={styles.cardContainer}>
 				<Text numberOfLines={1} style={styles.cardTitle}>
 					{title}
 				</Text>
 				<View style={{ flexDirection: "row", gap: 10 }}>
-					<Ionicons name="create-outline" size={24} color="black" />
-					<Pressable
-						onPress={() => {
-							deleteDraft(id);
-						}}
-					>
-						<Ionicons
-							name="trash-outline"
-							size={24}
-							color="black"
-						/>
-					</Pressable>
-				</View>
-			</Pressable>
-		);
-	};
-
-	const PublishedCard = ({ title, id }: { title: string; id: string }) => {
-		return (
-			<Pressable
-				style={styles.cardContainer}
-				onPress={() =>
-					router.push({
-						pathname: `/home/${id}`,
-					})
-				}
-			>
-				<Text numberOfLines={1} style={styles.cardTitle}>
-					{title}
-				</Text>
-				<View style={{ flexDirection: "row", gap: 20 }}>
-					<Ionicons name="book-outline" size={24} color="black" />
 					<Pressable
 						onPress={() => {
 							router.push({
@@ -77,6 +39,53 @@ const MyWorks = () => {
 					</Pressable>
 					<Pressable
 						onPress={() => {
+							deleteDraft(id);
+						}}
+					>
+						<Ionicons
+							name="trash-outline"
+							size={24}
+							color="black"
+						/>
+					</Pressable>
+				</View>
+			</View>
+		);
+	};
+
+	const PublishedCard = ({ title, id }: { title: string; id: string }) => {
+		return (
+			<View style={styles.cardContainer}>
+				<Text numberOfLines={1} style={styles.cardTitle}>
+					{title}
+				</Text>
+				<View style={{ flexDirection: "row", gap: 20 }}>
+					<Pressable
+						onPress={() =>
+							router.push({
+								pathname: `/home/${id}`,
+							})
+						}
+					>
+						<Ionicons name="book-outline" size={24} color="black" />
+					</Pressable>
+					<Pressable
+						onPress={() => {
+							router.push({
+								pathname: "/create/editor",
+								params: { id: id },
+							});
+						}}
+					>
+						<Ionicons
+							name="create-outline"
+							size={24}
+							color="black"
+						/>
+					</Pressable>
+					<Pressable
+						onPress={() => {							
+							haptic && haptic();
 							removeArticle(id);
 						}}
 					>
@@ -87,7 +96,7 @@ const MyWorks = () => {
 						/>
 					</Pressable>
 				</View>
-			</Pressable>
+			</View>
 		);
 	};
 	return (

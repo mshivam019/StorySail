@@ -84,7 +84,7 @@ export default function PushNotifications() {
 	useFocusEffect(
 		useCallback(() => {
 			fetchNotifications();
-		}, [])
+		}, [showNotification, lastfetch])
 	);
 
 	async function registerForPushNotificationsAsync() {

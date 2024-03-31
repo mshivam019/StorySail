@@ -10,7 +10,6 @@ import {
 import { ParamListBase, TabNavigationState } from "@react-navigation/native";
 import { ActivityIndicator, Keyboard, View } from "react-native";
 import { CustomBottomSheetModal } from "../../components";
-import { BottomSheetModal } from "@gorhom/bottom-sheet";
 
 const { Navigator } = createMaterialTopTabNavigator();
 

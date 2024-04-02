@@ -1,5 +1,13 @@
 import { useEffect, useRef, useCallback } from "react";
-import { Text, View, Platform, StyleSheet, FlatList } from "react-native";
+import {
+	Text,
+	View,
+	Platform,
+	StyleSheet,
+	FlatList,
+	Animated,
+	Pressable,
+} from "react-native";
 import * as Device from "expo-device";
 import * as Notifications from "expo-notifications";
 import Constants from "expo-constants";
@@ -9,6 +17,7 @@ import { useUserStore, useNotificationStore } from "../../../store";
 import { Switch } from "../../../components";
 import { ToastRef, Toast } from "../../../components";
 import { useFocusEffect } from "expo-router";
+import { Swipeable } from "react-native-gesture-handler";
 
 Notifications.setNotificationHandler({
 	handleNotification: async () => ({
@@ -29,6 +38,7 @@ export default function PushNotifications() {
 		setLastFetch,
 		getNotifications,
 		addNotification,
+		deleteNotification,
 	} = useNotificationStore();
 
 	const toastref = useRef<ToastRef>(null);
@@ -86,6 +96,37 @@ export default function PushNotifications() {
 			fetchNotifications();
 		}, [showNotification, lastfetch])
 	);
+
+	const renderRightActions = (
+		progress: Animated.AnimatedInterpolation<number>,
+		dragX: Animated.AnimatedInterpolation<number>,
+		id: string
+	) => {
+		const opacity = dragX.interpolate({
+			inputRange: [-150, 0],
+			outputRange: [1, 0],
+			extrapolate: "clamp",
+		});
+
+		return (
+			<View style={styles.swipedRow}>
+				<View style={styles.swipedConfirmationContainer}>
+					<Text style={styles.deleteConfirmationText}>
+						Are you sure?
+					</Text>
+				</View>
+				<Animated.View style={[styles.deleteButton, { opacity }]}>
+					<Pressable
+						onPress={() => {
+							deleteNotification(id);
+						}}
+					>
+						<Text style={styles.deleteButtonText}>Delete</Text>
+					</Pressable>
+				</Animated.View>
+			</View>
+		);
+	};
 
 	async function registerForPushNotificationsAsync() {
 		let token;
@@ -168,14 +209,20 @@ export default function PushNotifications() {
 					<FlatList
 						data={notifications}
 						renderItem={({ item }) => (
-							<View style={styles.notificationContainer}>
-								<Text style={styles.notificationTitle}>
-									{item.title}
-								</Text>
-								<Text style={styles.notificationBody}>
-									{item.body}
-								</Text>
-							</View>
+							<Swipeable
+								renderRightActions={(progress, dragX) =>
+									renderRightActions(progress, dragX, item.id)
+								}
+							>
+								<View style={styles.notificationContainer}>
+									<Text style={styles.notificationTitle}>
+										{item.title}
+									</Text>
+									<Text style={styles.notificationBody}>
+										{item.body}
+									</Text>
+								</View>
+							</Swipeable>
 						)}
 						keyExtractor={(item) => item.id}
 						showsVerticalScrollIndicator={false}
@@ -220,5 +267,37 @@ const styles = StyleSheet.create({
 	},
 	notificationBody: {
 		fontSize: 14,
+	},
+	swipedRow: {
+		flexDirection: "row",
+		flex: 1,
+		alignItems: "center",
+		backgroundColor: "#d4d4d4",
+		margin: 10,
+		minHeight: 50,
+		borderRadius: 10,
+	},
+	swipedConfirmationContainer: {
+		flex: 1,
+		padding: 10,
+	},
+	deleteConfirmationText: {
+		color: "#000000",
+		fontWeight: "bold",
+		fontSize: 20,
+	},
+	deleteButton: {
+		backgroundColor: "#ec0e0e",
+		flexDirection: "column",
+		justifyContent: "center",
+		height: "100%",
+		padding: 10,
+		borderTopRightRadius: 10,
+		borderBottomRightRadius: 10,
+	},
+	deleteButtonText: {
+		color: "#fcfcfc",
+		fontWeight: "bold",
+		padding: 3,
 	},
 });

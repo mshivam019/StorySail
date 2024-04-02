@@ -17,6 +17,7 @@ export interface StarStore {
 	setNotifications: (state: Notification[]) => void;
 	addNotification: (notification: Notification) => void;
 	getNotifications: () => Promise<void>;
+	deleteNotification: (id: string) => Promise<void>;
 }
 
 const useNotificationStore = create<StarStore>()(
@@ -62,6 +63,24 @@ const useNotificationStore = create<StarStore>()(
 					set({ notifications: data });
 				}
 			},
+			deleteNotification: async (id: string) => {
+				const { error } = await supabase
+					.from("notifications")
+					.delete()
+					.eq("id", id);
+				if (error) {
+					console.error(
+						"Error deleting notification:",
+						error.message
+					);
+					return;
+				}
+				set({
+					notifications: get().notifications.filter(
+						(n) => n.id !== id
+					),
+				});
+			}
 		}),
 		{
 			name: "notification-storage",

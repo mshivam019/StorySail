@@ -14,6 +14,7 @@ import { Toast, ToastRef } from "../../../components";
 import { supabase } from "../../../lib/supabase";
 import HTMLView from "react-native-htmlview";
 import { useUserStore } from "../../../store";
+import { useHaptic } from "../../../utils";
 
 interface CurrentBook {
 	category: string;
@@ -32,6 +33,8 @@ const Details = () => {
 	const [loading, setLoading] = useState(true);
 	const { user, userDetails } = useUserStore();
 	const [currentBook, setCurrentBook] = useState<CurrentBook | null>(null);
+
+	const haptics = useHaptic();
 
 	const [liked, setLiked] = useState(false);
 
@@ -100,13 +103,6 @@ const Details = () => {
 					console.log("error adding star");
 				}
 				setLiked(true);
-				toastRef.current?.show({
-					type: "success",
-					text: liked
-						? "Removed from favorites"
-						: "Added to favorites",
-					duration: 2000,
-				});
 				const { data, error: err } = await supabase
 					.from("notifications")
 					.insert([
@@ -119,6 +115,12 @@ const Details = () => {
 						},
 					]);
 			}
+			haptics && haptics();
+			toastRef.current?.show({
+				type: "success",
+				text: liked ? "Removed from favorites" : "Added to favorites",
+				duration: 2000,
+			});
 		} catch (err) {
 			console.log(err);
 		}

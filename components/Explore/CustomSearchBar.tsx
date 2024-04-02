@@ -67,7 +67,7 @@ const TextInputTheme = {
 	light: {
 		backgroundColor: "transparent",
 		placeholderColor: "#8e8e93",
-		textInputBackground: "rgba(142,142,147,0.12)",
+		textInputBackground: "#fff",
 		textColor: "black",
 		selectionColor: "#2979ff",
 		clearIconColor: "#c7c7cc",

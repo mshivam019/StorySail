@@ -2,34 +2,37 @@ import { StyleSheet, Text, Dimensions, View, Pressable } from "react-native";
 import React from "react";
 import Animated from "react-native-reanimated";
 import { router } from "expo-router";
-import { useHomeStore } from "../../store";
 
 const { width } = Dimensions.get("window");
 
-
-const MiniCardItem = ({ id,widthPercent }: { id: number;widthPercent:number }) => {
-	const { data } = useHomeStore();
-	if(!data) return null;
-
-	const featuredPosts = data.featured_posts.featuredPosts;
+const MiniCardItem = ({
+	item,
+}: {
+	item: {
+		id: string;
+		title: string;
+		posterImageUrl: string;
+		category: string;
+	};
+}) => {
 	return (
 		<Pressable
-			style={[styles.container,{width: width * widthPercent}]}
+			style={styles.container}
 			onPress={() => {
-				router.push(`/home/${featuredPosts[id - 1].id}`);
+				router.push(`/home/${item.id}`);
 			}}
 		>
 			<Animated.Image
 				style={styles.image}
-				source={{uri:featuredPosts[id - 1].posterImageUrl}}
-				sharedTransitionTag={`image-${featuredPosts[id - 1].id}`}
+				source={{ uri: item.posterImageUrl }}
+				sharedTransitionTag={`image-${item.id}`}
 			/>
 			<View style={styles.contentContainer}>
 				<Text style={{ fontSize: 20, width: width * 0.5 }}>
-					{featuredPosts[id - 1].title}
+					{item.title}
 				</Text>
 				<Text style={{ fontSize: 16, color: "gray" }}>
-					{featuredPosts[id - 1].category}
+					{item.category}
 				</Text>
 			</View>
 		</Pressable>
@@ -56,6 +59,8 @@ const styles = StyleSheet.create({
 		padding: 10,
 		flexDirection: "row",
 		alignSelf: "center",
+		width: width * 0.8,
+		maxWidth: width * 0.8,
 	},
 	image: {
 		width: 100,

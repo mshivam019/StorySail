@@ -9,7 +9,7 @@ const styles = StyleSheet.create({
 		width: SIZE - 20,
 		height: 150,
 		backgroundColor: "white",
-		borderRadius: 20,
+		borderRadius: 30,
 		shadowColor: "#000",
 		shadowOffset: { width: 0, height: 1 },
 		shadowOpacity: 0.25,

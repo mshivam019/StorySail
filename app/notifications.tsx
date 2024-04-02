@@ -11,11 +11,11 @@ import {
 import * as Device from "expo-device";
 import * as Notifications from "expo-notifications";
 import Constants from "expo-constants";
-import { useAuth } from "../../../provider/AuthProvider";
-import { supabase } from "../../../lib/supabase";
-import { useUserStore, useNotificationStore } from "../../../store";
-import { Switch } from "../../../components";
-import { ToastRef, Toast } from "../../../components";
+import { useAuth } from "../provider/AuthProvider";
+import { supabase } from "../lib/supabase";
+import { useUserStore, useNotificationStore } from "../store";
+import { Switch } from "../components";
+import { ToastRef, Toast } from "../components";
 import { useFocusEffect } from "expo-router";
 import { Swipeable } from "react-native-gesture-handler";
 
@@ -208,6 +208,7 @@ export default function PushNotifications() {
 				{notifications.length > 0 ? (
 					<FlatList
 						data={notifications}
+                        contentContainerStyle={{paddingBottom:10}}
 						renderItem={({ item }) => (
 							<Swipeable
 								renderRightActions={(progress, dragX) =>
@@ -226,7 +227,7 @@ export default function PushNotifications() {
 						)}
 						keyExtractor={(item) => item.id}
 						showsVerticalScrollIndicator={false}
-						style={{ width: "100%", gap: 10, paddingTop: 10 }}
+						style={{ width: "100%", gap: 10, paddingVertical: 10,paddingHorizontal:10 }}
 					/>
 				) : (
 					<Text>No notifications yet!</Text>

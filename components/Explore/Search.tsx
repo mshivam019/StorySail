@@ -69,6 +69,10 @@ const Search = ({ value }: { value: string }) => {
 			{books.length > 0 ? (
 				<FlatList
 					data={books}
+					contentContainerStyle={{
+						paddingBottom: 10,
+						gap: 15,
+					}}
 					renderItem={({ item }) => (
 						<Pressable
 							style={styles.categoriesContainer}
@@ -126,7 +130,7 @@ const styles = StyleSheet.create({
 		gap: 10,
 		width: "100%",
 		borderRadius: 10,
-		backgroundColor: "#f2f2f2",
+		backgroundColor: "#ebebeb",
 	},
 	ImageText: {
 		fontSize: 16,

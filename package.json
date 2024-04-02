@@ -47,7 +47,8 @@
     "react-native-uuid": "^2.0.2",
     "react-native-webview": "^13.6.4",
     "rn-scratch-card": "^1.2.2",
-    "zustand": "^4.5.2"
+    "zustand": "^4.5.2",
+    "expo-linear-gradient": "~12.7.2"
   },
   "devDependencies": {
     "@babel/core": "^7.20.0",

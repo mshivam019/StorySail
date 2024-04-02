@@ -3,19 +3,25 @@ import React from "react";
 import { MyWorks } from "../../../components";
 import { EvilIcons } from "@expo/vector-icons";
 import { router } from "expo-router";
+import { LinearGradient } from "expo-linear-gradient";
 
 const Create = () => {
 	return (
-		<View style={styles.container}>
-			<Pressable
-				style={styles.LinkContainer}
-				onPress={() => router.push("/create/editor")}
-			>
-				<Text style={styles.text}> Write a new story!</Text>
-				<EvilIcons name="pencil" size={32} color="black" />
+		<LinearGradient
+			colors={[ "#cef7fde4","#ffffff"]}
+			style={{ flex: 1,padding: 20}}
+		>
+			<Pressable onPress={() => router.push("/create/editor")}>
+				<LinearGradient
+					colors={["#00d0bb", "#00baee"]}
+					style={styles.LinkContainer}
+				>
+					<Text style={styles.text}> Write a new story!</Text>
+					<EvilIcons name="pencil" size={32} color="white" />
+				</LinearGradient>
 			</Pressable>
 			<MyWorks />
-		</View>
+		</LinearGradient>
 	);
 };
 
@@ -28,6 +34,7 @@ const styles = StyleSheet.create({
 	text: {
 		fontSize: 20,
 		fontWeight: "bold",
+		color: "white",
 	},
 	LinkContainer: {
 		padding: 20,

@@ -2,27 +2,13 @@ import { Stack, router } from "expo-router";
 import { Pressable, View } from "react-native";
 import { Octicons } from "@expo/vector-icons";
 import { useAuth } from "../../../provider/AuthProvider";
+import React from "react";
 
 const StackLayout = () => {
 	const { handlePresentModalPress } = useAuth();
 	return (
 		<Stack
 			screenOptions={{
-				headerBackground() {
-					return (
-						<View
-							style={{
-								flex: 1,
-								backgroundColor: "#cef7fde4",
-							}}
-						/>
-					);
-				},
-				headerTitleStyle: {
-					fontWeight: "normal",
-					fontSize: 25,
-					fontFamily: "sans-serif",
-				},
 				headerRight: () => (
 					<View style={{ flexDirection: "row", gap: 20 }}>
 						<Pressable
@@ -38,7 +24,7 @@ const StackLayout = () => {
 									handlePresentModalPress();
 							}}
 						>
-							<Octicons name="gear" size={24} />
+							<Octicons name="gear" size={24}  />
 						</Pressable>
 					</View>
 				),
@@ -47,17 +33,14 @@ const StackLayout = () => {
 			<Stack.Screen
 				name="index"
 				options={{
-					title: "Craft",
-					
-					
+					title: "Account",
+					headerTitleStyle: {
+						fontWeight: "normal",
+						fontSize: 25,
+						fontFamily: "sans-serif",
+					},
+					headerTransparent: true,
 				}}
-			/>
-			<Stack.Screen
-				name="editor"
-				options={{
-					title: "Write",
-					
-				}}	
 			/>
 		</Stack>
 	);

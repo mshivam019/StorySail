@@ -7,6 +7,7 @@ import { ScrollView, ActivityIndicator, View, Text } from "react-native";
 import { supabase } from "../../../lib/supabase";
 import { useUserStore } from "../../../store";
 import { useFocusEffect } from "expo-router";
+import { LinearGradient } from "expo-linear-gradient";
 
 const WidgetList = () => {
 	const [data, setData] = useState<any[]>([]);
@@ -52,6 +53,7 @@ const WidgetList = () => {
 					flex: 1,
 					justifyContent: "center",
 					alignItems: "center",
+					backgroundColor: "#d2f4f9",
 				}}
 			>
 				<ActivityIndicator size="large" color="#000" />
@@ -65,6 +67,7 @@ const WidgetList = () => {
 					flex: 1,
 					justifyContent: "center",
 					alignItems: "center",
+					backgroundColor: "#d2f4f9",
 				}}
 			>
 				<Text
@@ -83,25 +86,29 @@ const WidgetList = () => {
 		<ScrollView
 			showsVerticalScrollIndicator={false}
 			style={{
-				paddingHorizontal: MARGIN,
-				marginTop: 20,
 				flex: 1,
+				backgroundColor: "#fff",
 			}}
 		>
-			<SortableList
-				editing={true}
-				length={data.length}
-				onDragEnd={(positions) => console.log(positions)}
+			<LinearGradient
+				colors={["#d2f4f9", "#ffffff"]}
+				style={{ flex: 1, paddingTop: 20, paddingHorizontal: MARGIN }}
 			>
-				{[...data].map((tile, index) => (
-					<Tile
-						onLongPress={() => true}
-						key={tile.id + "-" + index}
-						card={tile}
-						id={tile.id}
-					/>
-				))}
-			</SortableList>
+				<SortableList
+					editing={true}
+					length={data.length}
+					onDragEnd={(positions) => console.log(positions)}
+				>
+					{[...data].map((tile, index) => (
+						<Tile
+							onLongPress={() => true}
+							key={tile.id + "-" + index}
+							card={tile}
+							id={tile.id}
+						/>
+					))}
+				</SortableList>
+			</LinearGradient>
 		</ScrollView>
 	);
 };

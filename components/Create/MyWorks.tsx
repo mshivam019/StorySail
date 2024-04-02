@@ -5,6 +5,7 @@ import { useWritingsStore } from "../../store";
 import { router } from "expo-router";
 import { Ionicons } from "@expo/vector-icons";
 import { useHaptic } from "../../utils";
+import { LinearGradient } from "expo-linear-gradient";
 
 const MyWorks = () => {
 	const haptic = useHaptic();
@@ -84,7 +85,7 @@ const MyWorks = () => {
 						/>
 					</Pressable>
 					<Pressable
-						onPress={() => {							
+						onPress={() => {
 							haptic && haptic();
 							removeArticle(id);
 						}}
@@ -102,7 +103,11 @@ const MyWorks = () => {
 	return (
 		<View style={styles.container}>
 			{drafts.length > 0 && (
-				<View style={styles.draftsContainer}>
+				//linear gradient from green to blue
+				<LinearGradient
+					colors={["#1fa7ed", "#5989ec"]}
+					style={styles.draftsContainer}
+				>
 					<Text style={styles.title}>Drafts</Text>
 					<FlatList
 						data={drafts}
@@ -112,10 +117,13 @@ const MyWorks = () => {
 						keyExtractor={(item) => item.title}
 						showsVerticalScrollIndicator={false}
 					/>
-				</View>
+				</LinearGradient>
 			)}
 			{articles.length > 0 && (
-				<View style={styles.publishedContainer}>
+				<LinearGradient
+					colors={["#6e7bea", "#a25be8"]}
+					style={styles.publishedContainer}
+				>
 					<Text style={styles.title}>Published</Text>
 					<FlatList
 						data={articles}
@@ -125,7 +133,7 @@ const MyWorks = () => {
 						keyExtractor={(item) => item.title}
 						showsVerticalScrollIndicator={false}
 					/>
-				</View>
+				</LinearGradient>
 			)}
 		</View>
 	);
@@ -136,7 +144,6 @@ export default MyWorks;
 const styles = StyleSheet.create({
 	container: {
 		flex: 1,
-		backgroundColor: "white",
 		gap: 20,
 	},
 	draftsContainer: {
@@ -161,6 +168,7 @@ const styles = StyleSheet.create({
 		fontSize: 20,
 		fontWeight: "bold",
 		padding: 10,
+		color: "white",
 	},
 	cardTitle: {
 		fontSize: 16,
@@ -179,6 +187,6 @@ const styles = StyleSheet.create({
 		shadowOffset: { width: 0, height: 2 },
 		shadowOpacity: 0.25,
 		alignItems: "center",
-		margin: 5,
+		marginHorizontal: 10,
 	},
 });

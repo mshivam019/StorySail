@@ -2,12 +2,15 @@ import React, { useState } from "react";
 import { StyleSheet, View } from "react-native";
 
 import { CustomSearchBar, Suggestions,Search } from "../../../components";
+import { LinearGradient } from "expo-linear-gradient";
 
 const explore = () => {
 	const [searchValue, setSearchValue] = useState("");
 
 	return (
-		<View style={styles.container}>
+		<LinearGradient 
+		colors={["#def6fae3", "#ffffff"]}
+		style={styles.container}>
 			<CustomSearchBar
 				placeholder="Explore!"
 				onChangeText={setSearchValue}
@@ -18,7 +21,7 @@ const explore = () => {
 			) : (
 				<Suggestions onPress={setSearchValue}/>
 			)}
-		</View>
+		</LinearGradient>
 	);
 };
 

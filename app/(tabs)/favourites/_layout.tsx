@@ -1,6 +1,6 @@
-import { Stack } from "expo-router";
-import { Pressable } from "react-native";
-import { AntDesign } from "@expo/vector-icons";
+import { Stack, router } from "expo-router";
+import { Pressable, View } from "react-native";
+import { Octicons } from "@expo/vector-icons";
 import { useAuth } from "../../../provider/AuthProvider";
 
 const StackLayout = () => {
@@ -8,15 +8,39 @@ const StackLayout = () => {
 	return (
 		<Stack
 			screenOptions={{
+				headerBackground() {
+					return (
+						<View
+							style={{
+								flex: 1,
+								backgroundColor: "#d2f4f9",
+							}}
+						/>
+					);
+				},
+				headerTitleStyle: {
+					fontWeight: "normal",
+					fontSize: 25,
+					fontFamily: "sans-serif",
+				},
 				headerRight: () => (
-					<Pressable
-						onPress={() => {
-							handlePresentModalPress &&
-								handlePresentModalPress();
-						}}
-					>
-						<AntDesign name="setting" size={24} />
-					</Pressable>
+					<View style={{ flexDirection: "row", gap: 20 }}>
+						<Pressable
+							onPress={() => {
+								router.push("notifications");
+							}}
+						>
+							<Octicons name="bell" size={24} />
+						</Pressable>
+						<Pressable
+							onPress={() => {
+								handlePresentModalPress &&
+									handlePresentModalPress();
+							}}
+						>
+							<Octicons name="gear" size={24} />
+						</Pressable>
+					</View>
 				),
 			}}
 		>

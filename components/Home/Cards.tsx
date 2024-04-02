@@ -10,6 +10,7 @@ import Animated, {
 import Carousel from "react-native-reanimated-carousel";
 import { SBImageItem } from "./SBImage";
 import { useHomeStore } from "../../store";
+import { LinearGradient } from "expo-linear-gradient";
 
 const window = Dimensions.get("window");
 const PAGE_WIDTH = window.width;
@@ -26,7 +27,8 @@ function Cards() {
 	const progressValue = useSharedValue<number>(0);
 	const { data } = useHomeStore();
 	return (
-		<View
+		<LinearGradient
+			colors={["#cef7fde4", "transparent"]}
 			style={{
 				alignItems: "center",
 			}}
@@ -84,7 +86,7 @@ function Cards() {
 					})}
 				</View>
 			)}
-		</View>
+		</LinearGradient>
 	);
 }
 

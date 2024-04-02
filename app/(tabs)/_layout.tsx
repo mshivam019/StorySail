@@ -149,13 +149,16 @@ export default function TabLayout() {
 						}}
 					/>
 					<MaterialTopTabs.Screen
-						name="notifications"
+						name="account"
 						options={{
 							lazy: true,
 							tabBarIcon: (props) => (
 								<EvilIcons
-									name="bell"
-									style={{ fontSize: 30 }}
+									name="user"
+									style={{
+										fontSize: 30,
+										marginLeft: -1,
+									}}
 									{...props}
 								/>
 							),

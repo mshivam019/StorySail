@@ -31,9 +31,9 @@ const Home = () => {
 	return (
 		<ScrollView
 			style={styles.container}
-			contentContainerStyle={{ paddingHorizontal: 20 }}
 		>
 			<Cards />
+			<View style={{ flex:1,paddingHorizontal:20}} >
 			<RewardBanner setShowModal={setShowModal} setCoins={setCoins} />
 			<MiniCards />
 			<Categories />
@@ -44,6 +44,7 @@ const Home = () => {
 			>
 				<RewardCard coins={coins} />
 			</PopupModal>
+			</View>
 		</ScrollView>
 	);
 };

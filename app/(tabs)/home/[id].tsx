@@ -6,6 +6,7 @@ import {
 	Pressable,
 	View,
 	ActivityIndicator,
+	Share,
 } from "react-native";
 import { Stack, useLocalSearchParams } from "expo-router";
 import Animated from "react-native-reanimated";
@@ -21,7 +22,6 @@ interface CurrentBook {
 	content: string;
 	id: string;
 	poster_image_url: string;
-	stars_count: number;
 	tags: string[];
 	title: string;
 	user_id: string;
@@ -62,7 +62,7 @@ const Details = () => {
 			const { data, error, status } = await supabase
 				.from("user_writings")
 				.select(
-					"user_id,category,content,poster_image_url,stars_count,tags,title,updated_at,id"
+					"user_id,category,content,poster_image_url,tags,title,updated_at,id"
 				)
 				.eq("id", id)
 				.single();
@@ -147,7 +147,7 @@ const Details = () => {
 	return (
 		<ScrollView
 			style={styles.container}
-			contentContainerStyle={{ paddingBottom: 20 }}
+			contentContainerStyle={{ paddingBottom: 20, flex: 1 }}
 		>
 			<Stack.Screen options={{ title: currentBook.title }} />
 			<Animated.Image
@@ -162,24 +162,49 @@ const Details = () => {
 					justifyContent: "space-between",
 				}}
 			>
-				<View>
+				<View
+					style={{
+						flexDirection: "column",
+						width: "80%",
+					}}
+				>
 					<Text style={styles.HeadingText}>{currentBook?.title}</Text>
 					<Text style={styles.subHeadingText}>
 						{currentBook?.category}
 					</Text>
 				</View>
-				<Pressable
-					style={styles.heartContainer}
-					onPress={() => {
-						likeHandler();
+				<View
+					style={{
+						flexDirection: "row",
+						top: -25,
+						left: -40,
+						gap: 10,
+						marginRight: 10,
 					}}
 				>
-					<FontAwesome
-						name={liked ? "star" : "star-o"}
-						size={24}
-						color={liked ? "gold" : "black"}
-					/>
-				</Pressable>
+					<Pressable
+						style={styles.heartContainer}
+						onPress={() => {
+							likeHandler();
+						}}
+					>
+						<FontAwesome
+							name={liked ? "star" : "star-o"}
+							size={24}
+							color={liked ? "gold" : "black"}
+						/>
+					</Pressable>
+					<Pressable
+						style={styles.heartContainer}
+						onPress={() => {
+							Share.share({
+								message: `storysail://home/${currentBook?.id}`,
+							});
+						}}
+					>
+						<FontAwesome name="share" size={24} color="black" />
+					</Pressable>
+				</View>
 			</View>
 			<HTMLView
 				value={currentBook?.content}
@@ -189,7 +214,15 @@ const Details = () => {
 					marginTop: 10,
 				}}
 			/>
-
+			<Text
+				style={{
+					margin: 10,
+					color: "gray",
+				}}
+			>
+				{"Tags: " +
+					currentBook?.tags.map((tag) => `#${tag}`).join(", ")}
+			</Text>
 			<Toast ref={toastRef} />
 		</ScrollView>
 	);
@@ -220,17 +253,16 @@ const styles = StyleSheet.create({
 	},
 	p: {
 		fontSize: 18,
-		color: "#7d7d7d",
+		color: "#000000",
 	},
 	div: {
 		fontSize: 18,
-		color: "#7d7d7d",
+		color: "#000000",
 	},
 	heartContainer: {
 		backgroundColor: "#fcfffd",
 		padding: 10,
 		borderRadius: 50,
-		margin: 10,
 		shadowColor: "#000",
 		shadowOffset: {
 			width: 0,

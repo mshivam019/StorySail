@@ -37,20 +37,42 @@ const RootLayout = () => {
 								name="onboarding"
 								options={{
 									headerShown: false,
+									animation: "slide_from_right",
 								}}
 							/>
 							<Stack.Screen
 								name="login"
 								options={{
 									headerShown: false,
+									animation: "slide_from_bottom",
 								}}
 							/>
-							<Stack.Screen name="profile" />
-							<Stack.Screen name="settings" />
+							<Stack.Screen
+								name="profile"
+								options={{
+									headerTitle: "Profile",
+									animation: "slide_from_right",
+								}}
+							/>
+							<Stack.Screen
+								name="tc"
+								options={{
+									headerTitle: "Terms & Conditions",
+									animation: "slide_from_right",
+								}}
+							/>
 							<Stack.Screen
 								name="(tabs)"
 								options={{
 									headerShown: false,
+									animation: "slide_from_bottom",
+								}}
+							/>
+							<Stack.Screen
+								name="notifications"
+								options={{
+									headerTitle: "Notifications",
+									animation: "slide_from_bottom",
 								}}
 							/>
 						</Stack>

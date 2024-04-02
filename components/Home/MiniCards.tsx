@@ -1,29 +1,33 @@
-import { StyleSheet, ScrollView, View, Text } from "react-native";
+import { StyleSheet, FlatList, View, Text, ScrollView } from "react-native";
 import React from "react";
 import MiniCardItem from "./MiniCardItem";
 import { useHomeStore } from "../../store";
 
 const MiniCards = () => {
 	const { data } = useHomeStore();
-	const rows = data ? Math.ceil(data.featured_posts.featuredPosts.length / 3) : 0;
-	const columns = data ? Math.min(data.featured_posts.featuredPosts.length, 3) : 0;
+
+	if (!data) return null;
 
 	return (
 		<View style={styles.container}>
 			<Text style={styles.headerText}>Featured</Text>
 			<ScrollView
-				style={styles.container}
 				horizontal
 				showsHorizontalScrollIndicator={false}
-				contentContainerStyle={{ paddingTop: 10, paddingBottom: 30 }}
+				directionalLockEnabled={true}
+				alwaysBounceVertical={false}
 			>
-				{[...Array(rows)].map((_, i) => (
-					<View key={i}>
-						{[...Array(columns)].map((_, j) => (
-							<MiniCardItem key={j} id={i * 3 + j+ 1} widthPercent={0.8} />
-						))}
-					</View>
-				))}
+				<FlatList
+					data={data.featured_posts.featuredPosts}
+					contentContainerStyle={{ alignSelf: "flex-start" }}
+					showsVerticalScrollIndicator={false}
+					showsHorizontalScrollIndicator={false}
+					renderItem={({ item }) => <MiniCardItem item={item} />}
+					keyExtractor={(item) => item.id.toString()}
+					numColumns={
+						data.featured_posts.featuredPosts.length > 5 ? 3 : 2
+					}
+				/>
 			</ScrollView>
 		</View>
 	);

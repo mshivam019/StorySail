@@ -28,7 +28,7 @@ const CustomBottomSheetModal = forwardRef<Ref, {}>((props, ref) => {
 		<BottomSheetModal
 			ref={ref}
 			style={{
-				paddingTop:insets.top,
+				paddingTop: insets.top,
 			}}
 			index={0}
 			snapPoints={snapPoints}
@@ -54,7 +54,7 @@ const CustomBottomSheetModal = forwardRef<Ref, {}>((props, ref) => {
 							flexDirection: "row",
 							position: "absolute",
 							right: 30,
-							top:30,
+							top: 30,
 							width: "20%",
 						}}
 					>
@@ -107,7 +107,7 @@ const CustomBottomSheetModal = forwardRef<Ref, {}>((props, ref) => {
 				</Pressable>
 				<Pressable
 					onPress={() => {
-						router.push("/settings");
+						router.push("/tc");
 						handleDismiss();
 					}}
 					style={({ pressed }) => [
@@ -119,8 +119,8 @@ const CustomBottomSheetModal = forwardRef<Ref, {}>((props, ref) => {
 						},
 					]}
 				>
-					<AntDesign name="setting" size={24} color="black" />
-					<Text style={styles.textStyle}>App Settings</Text>
+					<AntDesign name="infocirlceo" size={24} color="black" />
+					<Text style={styles.textStyle}>Terms and Conditions</Text>
 					<AntDesign
 						name="right"
 						size={24}
@@ -168,7 +168,7 @@ const styles = StyleSheet.create({
 		flex: 1,
 		alignItems: "center",
 		paddingTop: 20,
-		backgroundColor: "#f5f5f5",
+		backgroundColor: "#fff",
 	},
 	userContainer: {
 		alignItems: "center",
@@ -191,7 +191,7 @@ const styles = StyleSheet.create({
 		flexDirection: "row",
 		alignItems: "center",
 		justifyContent: "center",
-		backgroundColor: "#f5f5f5",
+		backgroundColor: "#fff",
 		borderTopLeftRadius: 20,
 		borderTopRightRadius: 20,
 	},
@@ -201,7 +201,7 @@ const styles = StyleSheet.create({
 	headerTextStyle: {
 		fontSize: 20,
 		marginLeft: 20,
-		backgroundColor:"#d9d8d8",
+		backgroundColor: "#d9d8d8",
 		borderRadius: 10,
 		minWidth: 40,
 		textAlign: "center",

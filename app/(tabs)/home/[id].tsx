@@ -13,17 +13,16 @@ import { FontAwesome } from "@expo/vector-icons";
 import { Toast, ToastRef } from "../../../components";
 import { supabase } from "../../../lib/supabase";
 import HTMLView from "react-native-htmlview";
+import { useUserStore } from "../../../store";
 
 interface CurrentBook {
 	category: string;
 	content: string;
-	created_at: string;
 	id: string;
 	poster_image_url: string;
 	stars_count: number;
 	tags: string[];
 	title: string;
-	updated_at: string;
 	user_id: string;
 }
 
@@ -31,15 +30,37 @@ const Details = () => {
 	const { id } = useLocalSearchParams<{ id: string }>();
 	const toastRef = useRef<ToastRef>(null);
 	const [loading, setLoading] = useState(true);
+	const { user, userDetails } = useUserStore();
 	const [currentBook, setCurrentBook] = useState<CurrentBook | null>(null);
 
 	const [liked, setLiked] = useState(false);
+
+	const isStarred = async (id: string) => {
+		try {
+			const { data, error, status } = await supabase
+				.from("stars")
+				.select("id")
+				.eq("user_id", user?.id)
+				.eq("writing_id", id)
+				.single();
+			if (error && status !== 406) {
+				console.log("error fetching book");
+			}
+			if (data) {
+				setLiked(true);
+			}
+		} catch (err) {
+			console.log(err);
+		}
+	};
 
 	const getCurrentBook = async (id: string) => {
 		try {
 			const { data, error, status } = await supabase
 				.from("user_writings")
-				.select("*")
+				.select(
+					"user_id,category,content,poster_image_url,stars_count,tags,title,updated_at,id"
+				)
 				.eq("id", id)
 				.single();
 			if (error && status !== 406) {
@@ -47,7 +68,6 @@ const Details = () => {
 			}
 			if (data) {
 				setCurrentBook(data);
-				console.log(data);
 				setLoading(false);
 			}
 		} catch (err) {
@@ -57,8 +77,56 @@ const Details = () => {
 		}
 	};
 
+	const likeHandler = async () => {
+		try {
+			if (liked) {
+				const { error, status } = await supabase
+					.from("stars")
+					.delete()
+					.eq("user_id", user?.id)
+					.eq("writing_id", id);
+				if (error && status !== 406) {
+					console.log("error deleting star");
+				}
+				setLiked(false);
+			} else {
+				const { error, status } = await supabase.from("stars").upsert([
+					{
+						user_id: user?.id,
+						writing_id: id,
+					},
+				]);
+				if (error && status !== 406) {
+					console.log("error adding star");
+				}
+				setLiked(true);
+				toastRef.current?.show({
+					type: "success",
+					text: liked
+						? "Removed from favorites"
+						: "Added to favorites",
+					duration: 2000,
+				});
+				const { data, error: err } = await supabase
+					.from("notifications")
+					.insert([
+						{
+							user_id: currentBook?.user_id,
+							title: "New Like",
+							body: userDetails?.username
+								? `${userDetails?.username} liked your article ${currentBook?.title}`
+								: `Someone liked your article ${currentBook?.title}`,
+						},
+					]);
+			}
+		} catch (err) {
+			console.log(err);
+		}
+	};
+
 	useEffect(() => {
 		getCurrentBook(id ?? "");
+		isStarred(id ?? "");
 	}, [id]);
 
 	if (loading)
@@ -101,14 +169,7 @@ const Details = () => {
 				<Pressable
 					style={styles.heartContainer}
 					onPress={() => {
-						setLiked(!liked);
-						toastRef.current?.show({
-							type: "success",
-							text: liked
-								? "Removed from favorites"
-								: "Added to favorites",
-							duration: 2000,
-						});
+						likeHandler();
 					}}
 				>
 					<FontAwesome

@@ -1,87 +1,112 @@
-import { StyleSheet, Text, View, FlatList, Pressable } from "react-native";
-import React from "react";
+import {
+	StyleSheet,
+	Text,
+	View,
+	FlatList,
+	Pressable,
+	ActivityIndicator,
+} from "react-native";
+import React, { useState, useEffect } from "react";
 import { Image } from "expo-image";
 import { router } from "expo-router";
+import { supabase } from "../../lib/supabase";
 
 const Search = ({ value }: { value: string }) => {
-	const books = [
-		{
-			id: 1,
-			title: "The art of war",
-			image: require("../../assets/home/carousel/1.jpg"),
-			tags: ["adventure", "fantasy", "fiction"],
-		},
-		{
-			id: 2,
-			title: "The Alchemist",
-			image: require("../../assets/home/carousel/2.jpg"),
-			tags: ["mystery", "thriller", "fiction"],
-		},
-		{
-			id: 3,
-			title: "The Great Gatsby",
-			image: require("../../assets/home/carousel/3.jpg"),
-			tags: ["drama", "romance", "fiction"],
-		},
-		{
-			id: 4,
-			title: "The Hobbit",
-			image: require("../../assets/home/carousel/4.jpg"),
-			tags: ["romance", "drama", "fiction"],
-		},
-		{
-			id: 5,
-			title: "The Catcher in the Rye",
-			image: require("../../assets/home/carousel/5.jpg"),
-			tags: ["drama", "fiction"],
-		},
-		{
-			id: 6,
-			title: "The Hitchhiker's Guide to the Galaxy",
-			image: require("../../assets/home/carousel/6.jpg"),
-			tags: ["drama", "fiction"],
-		},
-	];
+	const debounce = (func: any, wait: number) => {
+		let timeout: any;
+		return function (this: any, ...args: any) {
+			const context: any = this;
+			if (timeout) clearTimeout(timeout);
+			timeout = setTimeout(() => {
+				timeout = null;
+				func.apply(context, args);
+			}, wait);
+		};
+	};
+	const [books, setBooks] = useState<any[]>([]);
+	const [loading, setLoading] = useState(true);
+	//perform search based on title using like operator
+	const fetchBooks = async (value: string) => {
+		try {
+			const { data, error } = await supabase
+				.from("user_writings")
+				.select("title,poster_image_url,id")
+				.or(`title.ilike.%${value}%, tags.cs.{${value}}`)
+				.order("stars_count", { ascending: false });
+				
+
+			if (error) console.log("error", error);
+			if (data && data?.length > 0) {
+				setBooks(data);
+			}
+		} catch (error) {
+			console.log("error", error);
+		} finally {
+			setLoading(false);
+		}
+	};
+	useEffect(() => {
+		const debounced = debounce(fetchBooks, 1000);
+		debounced(value);
+	}, [value]);
+
+	if (loading) {
+		return (
+			<View
+				style={{
+					flex: 1,
+					justifyContent: "center",
+					alignItems: "center",
+				}}
+			>
+				<ActivityIndicator size="large" color="#000" />
+			</View>
+		);
+	}
 
 	return (
 		<View style={styles.container}>
-			<FlatList
-				data={books.filter(
-					(book) =>
-						book.title
-							.toLowerCase()
-							.includes(value.toLowerCase()) ||
-						book.tags
-							.map((tag) => tag.toLowerCase())
-							.includes(value.toLowerCase())
-				)}
-				renderItem={({ item }) => (
-					<Pressable
-						style={styles.categoriesContainer}
-						onPress={() => router.navigate(`/home/${item.title}`)}
-					>
-						<View
-							style={{
-								width: 100,
-								height: 100,
-								margin: 10,
-							}}
+			{books.length > 0 ? (
+				<FlatList
+					data={books}
+					renderItem={({ item }) => (
+						<Pressable
+							style={styles.categoriesContainer}
+							onPress={() => router.navigate(`/home/${item.id}`)}
 						>
-							<Image
-								source={item.image}
+							<View
 								style={{
-									width: "100%",
-									height: "100%",
-									borderRadius: 10,
+									width: 100,
+									height: 100,
+									margin: 10,
 								}}
-							/>
-						</View>
-						<Text style={styles.ImageText}>{item.title}</Text>
-					</Pressable>
-				)}
-				keyExtractor={(item) => item.title}
-				showsVerticalScrollIndicator={false}
-			/>
+							>
+								<Image
+									source={item.poster_image_url}
+									style={{
+										width: "100%",
+										height: "100%",
+										borderRadius: 10,
+									}}
+								/>
+							</View>
+							<Text style={styles.ImageText}>{item.title}</Text>
+						</Pressable>
+					)}
+					keyExtractor={(item) => item.title}
+					showsVerticalScrollIndicator={false}
+				/>
+			) : (
+				<Text
+					style={{
+						fontSize: 20,
+						textAlign: "center",
+						marginTop: 20,
+					}}
+				>
+					No results found
+				</Text>
+			)}
 		</View>
 	);
 };

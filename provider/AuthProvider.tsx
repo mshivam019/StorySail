@@ -75,7 +75,6 @@ export const AuthProvider = ({ children }: PropsWithChildren) => {
 
 	const fetchHomeData = async () => {
 		try {
-			console.log("fetching home data");
 			const { data, error } = await supabase
 				.from("app_home")
 				.select("*")

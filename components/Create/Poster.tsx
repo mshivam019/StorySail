@@ -1,5 +1,5 @@
 import React, { useRef, useState } from "react";
-import { Button, StyleSheet, TextInput, View } from "react-native";
+import { Button, Pressable, StyleSheet, TextInput, View } from "react-native";
 import { Image } from "expo-image";
 import * as ImagePicker from "expo-image-picker";
 import Toast, { ToastRef } from "../CustomToast";
@@ -108,10 +108,16 @@ const Poster = ({
 				maxLength={50}
 			/>
 			{img && (
-				<Image
-					source={{ uri: img }}
-					style={{ width: 200, height: 200, alignSelf: "center" }}
-				/>
+				<Pressable
+					onPress={() => {
+						ImageUploadHandler();
+					}}
+				>
+					<Image
+						source={{ uri: img }}
+						style={{ width: 200, height: 200, alignSelf: "center" }}
+					/>
+				</Pressable>
 			)}
 
 			<DropDown data={data} value={category} setValue={setCategory} />
@@ -145,8 +151,8 @@ const Poster = ({
 								user &&
 								user.id &&
 								title.trim() &&
-								article.content.trim()
-								&& category.trim()
+								article.content.trim() &&
+								category.trim()
 							) {
 								addArticle({
 									id: article.id,

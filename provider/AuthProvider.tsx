@@ -92,11 +92,11 @@ export const AuthProvider = ({ children }: PropsWithChildren) => {
 		}
 	};
 
-	const supbaseFn = () => {		
-		fetchHomeData();
+	const supbaseFn = () => {	
 		const { data } = supabase.auth.onAuthStateChange(async (_, session) => {
 			setSession(session);
 			if (session && session.user) {
+				fetchHomeData();
 				if (session.user.id !== user?.id) {
 					setUser(session ? session.user : null);
 					await getProfile(session.user.id);

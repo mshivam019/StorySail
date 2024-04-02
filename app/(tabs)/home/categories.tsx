@@ -8,7 +8,7 @@ import {
 	Dimensions,
 } from "react-native";
 import React, { useEffect, useState } from "react";
-import { Stack, useLocalSearchParams } from "expo-router";
+import { Stack, router, useLocalSearchParams } from "expo-router";
 import { supabase } from "../../../lib/supabase";
 import Animated from "react-native-reanimated";
 const { width } = Dimensions.get("window");
@@ -75,7 +75,14 @@ const categories = () => {
 					data={categoryData}
 					renderItem={({ item }) => {
 						return (
-							<Pressable style={styles.cardContainer}>
+							<Pressable
+								style={styles.cardContainer}
+								onPress={() => {
+									router.push({
+										pathname: `/home/${item.id}`,
+									});
+								}}
+							>
 								<Animated.Image
 									style={styles.image}
 									source={{ uri: item.poster_image_url }}

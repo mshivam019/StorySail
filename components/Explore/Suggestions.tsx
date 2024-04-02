@@ -8,27 +8,27 @@ import { useHomeStore } from "../../store";
 const Suggestions = ({ onPress }: { onPress: (text: string) => void }) => {
 	const suggestions = [
 		{
-			text: "thriller",
+			text: "Thriller",
 			color: "#fddbc8",
 		},
 		{
-			text: "comedy",
+			text: "Comedy",
 			color: "#e8f6d5",
 		},
 		{
-			text: "action",
+			text: "Action",
 			color: "#cfd7f1",
 		},
 		{
-			text: "adventure",
+			text: "Adventure",
 			color: "#f1d4fc",
 		},
 		{
-			text: "drama",
+			text: "Drama",
 			color: "#fff8a9",
 		},
 		{
-			text: "romance",
+			text: "Romance",
 			color: "#f8e1cf",
 		},
 		{
@@ -40,7 +40,7 @@ const Suggestions = ({ onPress }: { onPress: (text: string) => void }) => {
 			color: "#ffdfc7",
 		},
 		{
-			text: "fantasy",
+			text: "Fantasy",
 			color: "#bedbed",
 		},
 	];

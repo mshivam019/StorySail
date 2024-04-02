@@ -34,6 +34,7 @@ const RewardBanner = ({
 				console.log("Error setting last reward date", dateError);
 			} else {
 				console.log("Coins added successfully");
+				setLastCheckin(new Date().toISOString().split("T")[0]);
 			}
 		}
 	};

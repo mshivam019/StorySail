@@ -26,7 +26,7 @@ const categories = () => {
 	const [range, setRange] = useState({ start: 0, end: 10 });
 	const [endReached, setEndReached] = useState(false);
 
-	const fetchCategoryData = async () => {
+	const fetchCategoryData = async (start: number, end: number) => {
 		try {
 			if (endReached) {
 				return;
@@ -35,8 +35,8 @@ const categories = () => {
 				.from("user_writings")
 				.select("title,poster_image_url,id")
 				.eq("category", category)
-				.order("stars", { ascending: false })
-				.range(range.start, range.end);
+				.order("stars_count", { ascending: false })
+				.range(start, end);
 			if (error) console.log("error", error);
 			if (data && data?.length > 0) {
 				if (categoryData.length > 0) {
@@ -56,7 +56,7 @@ const categories = () => {
 	};
 
 	useEffect(() => {
-		fetchCategoryData();
+		fetchCategoryData(0, 10);
 	}, []);
 
 	if (loading) {
@@ -94,15 +94,15 @@ const categories = () => {
 							</Pressable>
 						);
 					}}
-					keyExtractor={(item) => item.id}
+					keyExtractor={(_, index) => index.toString()}
 					showsVerticalScrollIndicator={false}
 					onEndReachedThreshold={0.5}
 					onEndReached={() => {
+						fetchCategoryData(range.start + 10, range.end + 10);
 						setRange({
 							start: range.start + 10,
 							end: range.end + 10,
 						});
-						fetchCategoryData();
 					}}
 				/>
 			) : (

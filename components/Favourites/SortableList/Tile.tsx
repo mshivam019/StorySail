@@ -17,7 +17,7 @@ const styles = StyleSheet.create({
 		elevation: 5,
 		padding: 14,
 		alignSelf: "center",
-		marginTop:3,
+		marginTop: 10,
 	},
 });
 interface TileProps {
@@ -32,32 +32,34 @@ interface TileProps {
 
 const Tile = ({ card, id }: TileProps) => {
 	return (
-		<View style={styles.container} pointerEvents="none">
-			<Pressable style={{ flex: 1 }} onPress={() => {
+		<Pressable
+			style={styles.container}
+			onPress={() => {
 				router.navigate(`/home/${id}`);
-			}}>
-				<Image
-					style={{
-						width: SIZE - 48,
-						height: 100,
-						borderRadius: 20,
-						alignSelf: "center",
-					}}
-					source={{ uri: card.poster_image_url }}
-				/>
-				<Text
-					style={{
-						color: "#000",
-						fontWeight: "bold",
-						fontSize: 16,
-						paddingTop: 10,
-					}}
-					numberOfLines={1}
-				>
-					{card.title}
-				</Text>
-			</Pressable>
-		</View>
+			}}
+		>
+			<Image
+				style={{
+					width: SIZE - 48,
+					height: 100,
+					borderRadius: 20,
+					alignSelf: "center",
+				}}
+				source={{ uri: card.poster_image_url }}
+			/>
+			<Text
+				style={{
+					color: "#000",
+					fontWeight: "bold",
+					fontSize: 16,
+					paddingTop: 10,
+					alignSelf: "center",
+				}}
+				numberOfLines={1}
+			>
+				{card.title}
+			</Text>
+		</Pressable>
 	);
 };
 

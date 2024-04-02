@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 
 import { MARGIN } from "./Config";
 import Tile from "./Tile";
@@ -6,6 +6,7 @@ import SortableList from "./SortableList";
 import { ScrollView, ActivityIndicator, View, Text } from "react-native";
 import { supabase } from "../../../lib/supabase";
 import { useUserStore } from "../../../store";
+import { useFocusEffect } from "expo-router";
 
 const WidgetList = () => {
 	const [data, setData] = useState<any[]>([]);
@@ -40,9 +41,9 @@ const WidgetList = () => {
 		}
 	};
 
-	useEffect(() => {
+	useFocusEffect(() => {
 		fetchFavorites();
-	}, []);
+	});
 
 	if (loading) {
 		return (

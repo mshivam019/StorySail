@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { ScrollView, StyleSheet} from "react-native";
+import { ScrollView, StyleSheet } from "react-native";
 import {
 	PopupModal,
 	Cards,
@@ -9,10 +9,23 @@ import {
 	Recommendations,
 } from "../../../components";
 import { RewardBanner } from "../../../components";
+import { useHomeStore } from "../../../store";
+import { useFocusEffect } from "expo-router";
 
 const Home = () => {
 	const [showModal, setShowModal] = useState(false);
 	const [coins, setCoins] = useState(0);
+	const { setRefetchFlag, lastFetch, setLastFetch, refetchFlag } =
+		useHomeStore();
+
+	useFocusEffect(() => {
+		// last fetch was more than an hour ago set the flag and update the date
+		const date = new Date();
+		if (date.getTime() - lastFetch.getTime() > 3600000) {
+			setRefetchFlag(!refetchFlag);
+			setLastFetch(date);
+		}
+	});
 
 	return (
 		<ScrollView
@@ -38,7 +51,7 @@ const styles = StyleSheet.create({
 	container: {
 		flex: 1,
 		backgroundColor: "#fcfffd",
-	}
+	},
 });
 
 export default Home;

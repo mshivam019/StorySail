@@ -92,13 +92,13 @@ export const AuthProvider = ({ children }: PropsWithChildren) => {
 		}
 	};
 
-	const supbaseFn = () => {
+	const supbaseFn = () => {		
+		fetchHomeData();
 		const { data } = supabase.auth.onAuthStateChange(async (_, session) => {
 			setSession(session);
 			if (session && session.user) {
 				if (session.user.id !== user?.id) {
 					setUser(session ? session.user : null);
-					fetchHomeData();
 					await getProfile(session.user.id);
 				}
 				if (isFirstLogin) {
@@ -130,6 +130,7 @@ export const AuthProvider = ({ children }: PropsWithChildren) => {
 		});
 		setSession(null);
 		setIsFirstLogin(false);
+		setData(null);
 		setUser(null);
 		setUserDetails({
 			coins: 0,

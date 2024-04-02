@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { ScrollView, StyleSheet } from "react-native";
+import { ScrollView, StyleSheet,View,ActivityIndicator } from "react-native";
 import {
 	PopupModal,
 	Cards,
@@ -17,6 +17,7 @@ const Home = () => {
 	const [coins, setCoins] = useState(0);
 	const { setRefetchFlag, lastFetch, setLastFetch, refetchFlag } =
 		useHomeStore();
+	const [loading, setLoading] = useState(true);
 
 	useFocusEffect(() => {
 		// last fetch was more than an hour ago set the flag and update the date
@@ -26,7 +27,18 @@ const Home = () => {
 			setRefetchFlag(!refetchFlag);
 			setLastFetch(date);
 		}
+		setTimeout(() => {
+			setLoading(false);
+		}, 2000);
 	});
+
+	if(loading){
+		return(
+			<View style={{flex:1,justifyContent:"center",alignItems:"center"}}>
+				<ActivityIndicator size="large" color="#000" />
+			</View>
+		)
+	}
 
 	return (
 		<ScrollView

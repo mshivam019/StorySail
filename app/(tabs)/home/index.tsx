@@ -21,7 +21,8 @@ const Home = () => {
 	useFocusEffect(() => {
 		// last fetch was more than an hour ago set the flag and update the date
 		const date = new Date();
-		if (date.getTime() - lastFetch.getTime() > 3600000) {
+		const lastFetchDate = new Date(lastFetch);
+		if (date.getTime() - lastFetchDate.getTime() > 3600000) {
 			setRefetchFlag(!refetchFlag);
 			setLastFetch(date);
 		}

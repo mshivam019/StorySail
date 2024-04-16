@@ -10,6 +10,7 @@ import { decode } from "base64-arraybuffer";
 import * as FileSystem from "expo-file-system";
 import uuid from "react-native-uuid";
 import DropDown from "../ExpandableDropDown";
+import DynamicInput from "./DynamicInput";
 
 const Poster = ({
 	article,
@@ -122,15 +123,20 @@ const Poster = ({
 
 			<DropDown data={data} value={category} setValue={setCategory} />
 
-			<TextInput
-				style={styles.input}
-				placeholder="Tags (comma separated)"
-				placeholderTextColor="gray"
-				value={tags.join(",")}
-				onChangeText={(text) =>
-					setTags(text.split(",").map((tag) => tag.trim()))
-				}
-				maxLength={50}
+			<DynamicInput
+				data={tags}
+				set={setTags}
+				placeHolderTextColor="gray"
+				placeholder="Add Tags"
+				textStyle={{ fontSize: 12 }}
+				itemColor="#2f7fff"
+				roundedItem={10}
+				style={{
+					borderBottomWidth: 1,
+					borderBottomColor: "black",
+					marginVertical: 20,
+					color: "#000000",
+				}}
 			/>
 
 			<Button

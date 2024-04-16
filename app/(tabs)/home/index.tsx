@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { ScrollView, StyleSheet,View,ActivityIndicator } from "react-native";
+import { ScrollView, StyleSheet, View, ActivityIndicator } from "react-native";
 import {
 	PopupModal,
 	Cards,
@@ -29,11 +29,8 @@ const Home = () => {
 	});
 
 	return (
-		<ScrollView
-			style={styles.container}
-		>
+		<ScrollView style={styles.container}>
 			<Cards />
-			<View style={{ flex:1,paddingHorizontal:20}} >
 			<RewardBanner setShowModal={setShowModal} setCoins={setCoins} />
 			<MiniCards />
 			<Categories />
@@ -44,7 +41,6 @@ const Home = () => {
 			>
 				<RewardCard coins={coins} />
 			</PopupModal>
-			</View>
 		</ScrollView>
 	);
 };

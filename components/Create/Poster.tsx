@@ -147,11 +147,12 @@ const Poster = ({
 			/>
 			<Button
 				title="Publish"
+				disabled={uploading}
 				onPress={() => {
 					if (uploading) return;
 					setUploading(true);
 					getPublicUrl()
-						.then((url) => {
+						.then(async (url) => {
 							if (
 								url &&
 								user &&
@@ -160,7 +161,7 @@ const Poster = ({
 								article.content.trim() &&
 								category.trim()
 							) {
-								addArticle({
+								const result = await addArticle({
 									id: article.id,
 									title: title,
 									content: article.content,
@@ -172,11 +173,19 @@ const Poster = ({
 									created_at: new Date(),
 									updated_at: new Date(),
 								});
-								toastRef.current?.show({
-									type: "success",
-									text: "Article published",
-									duration: 2000,
-								});
+								if (result instanceof Error) {
+									toastRef.current?.show({
+										type: "error",
+										text: "Error publishing article",
+										duration: 2000,
+									});
+								} else {
+									toastRef.current?.show({
+										type: "success",
+										text: "Article published",
+										duration: 2000,
+									});
+								}
 							} else {
 								toastRef.current?.show({
 									type: "error",

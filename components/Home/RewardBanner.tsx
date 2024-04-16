@@ -92,7 +92,8 @@ const styles = StyleSheet.create({
 	rewardsContainer: {
 		alignItems: "center",
 		justifyContent: "center",
-		width: "100%",
+		width: "95%",
+		alignSelf: "center",
 		marginVertical: 20,
 		padding: 10,
 		borderRadius: 10,
@@ -101,6 +102,10 @@ const styles = StyleSheet.create({
 		elevation: 5,
 		shadowColor: "#000",
 		flexDirection: "row",
+		shadowOffset: {
+			width: 0,
+			height: 2,
+		},
 	},
 	rewardTextContainer: {
 		flexDirection: "row",

@@ -22,7 +22,7 @@ export interface WritingsStore {
 	articles: UserWriting[];
 	drafts: UserWriting[];
 	setArticles: (state: UserWriting[]) => void;
-	addArticle: (state: UserWriting) => Promise<void>;
+	addArticle: (state: UserWriting) => Promise<Error|String>;
 	removeArticle: (id: string) => Promise<void>;
 	getArticlesByUser: () => Promise<void>;
 	saveDraft: (draft: UserWriting) => void;
@@ -45,13 +45,13 @@ const useWritingsStore = create<WritingsStore>()(
 
 				if (error) {
 					console.error("Error adding article:", error.message);
-					return;
+					return new Error(error.message);
 				}
 
 				if (state) {
 					if(get().articles.length === 0){
 						set({ articles: [state] });
-						return;
+						return "Article added successfully";
 					}
 					//check if the article already exists in the store
 					//if it does, update the article
@@ -68,6 +68,7 @@ const useWritingsStore = create<WritingsStore>()(
 				} else {
 					console.error("No data returned after adding article");
 				}
+				return "Article added successfully";
 			},
 			removeArticle: async (id: string) => {
 				const { error } = await supabase

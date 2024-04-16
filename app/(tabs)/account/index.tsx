@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useCallback, useState } from "react";
 import { StyleSheet, View, Text, Pressable } from "react-native";
 import { Image } from "expo-image";
 import { useUserStore } from "../../../store";
@@ -7,11 +7,17 @@ import { useFocusEffect, router } from "expo-router";
 import { useAuth } from "../../../provider/AuthProvider";
 import { LinearGradient } from "expo-linear-gradient";
 import { Feather } from "@expo/vector-icons";
+import { FlatList } from "react-native-gesture-handler";
 
 export default function Profile() {
 	const { userDetails, user } = useUserStore();
 	const [favourites, setFavourites] = useState(0);
-	const [Writings, setWritings] = useState(0);
+	const [Writings, setWritings] = useState<
+		{
+			id: string;
+			title: string;
+		}[]
+	>([]);
 	const { signOut } = useAuth();
 
 	const getData = async () => {
@@ -29,26 +35,27 @@ export default function Profile() {
 
 		const { data: writings, error: writingsError } = await supabase
 			.from("user_writings")
-			.select("id", { count: "exact" })
+			.select("id, title")
 			.eq("user_id", user?.id);
 
 		if (writingsError) {
 			console.log("error", writingsError);
 		} else {
-			setWritings(writings?.length);
+			setWritings(writings);
 		}
 	};
 
-	useFocusEffect(() => {
-		getData();
-	});
+	useFocusEffect(
+		useCallback(() => {
+			getData();
+		}, [])
+	);
 
 	return (
 		<View style={styles.container}>
 			<View style={{ width: "100%" }}>
 				<LinearGradient
-					colors={[ "#d2f4f9","#c0eff6","transparent"]}
-					
+					colors={["#d2f4f9", "#c0eff6", "transparent"]}
 					style={{
 						height: 200,
 						width: "100%",
@@ -95,6 +102,7 @@ export default function Profile() {
 						flexDirection: "row",
 						marginVertical: 6,
 						alignItems: "center",
+						justifyContent: "center",
 					}}
 				>
 					<Feather name="globe" size={16} color="#666" />
@@ -132,7 +140,7 @@ export default function Profile() {
 								fontSize: 18,
 							}}
 						>
-							{Writings}
+							{Writings.length}
 						</Text>
 						<Text
 							style={{
@@ -192,16 +200,19 @@ export default function Profile() {
 
 				<View style={{ flexDirection: "row", paddingTop: 16 }}>
 					<Pressable
-						style={{
-							width: 124,
-							height: 36,
-							alignItems: "center",
-							justifyContent: "center",
-							borderRadius: 10,
-							marginHorizontal: 20 * 2,
-							borderColor: "#000",
-							borderWidth: 1,
-						}}
+						style={({ pressed }) => [
+							{
+								width: 124,
+								height: 36,
+								alignItems: "center",
+								justifyContent: "center",
+								borderRadius: 10,
+								marginHorizontal: 20 * 2,
+								borderColor: "#000",
+								borderWidth: 1,
+							},
+							pressed && { backgroundColor: "#ecebeb" },
+						]}
 						onPress={() => router.navigate("/profile")}
 					>
 						<Text>Edit Profile</Text>
@@ -228,6 +239,64 @@ export default function Profile() {
 						</Text>
 					</Pressable>
 				</View>
+				<View
+					style={{
+						flex: 1,
+						margin: 20,
+						width: "100%",
+						flexDirection: "row",
+						alignItems: "center",
+						justifyContent: "center",
+						gap: 10,
+						borderBottomWidth: 1,
+						borderTopWidth: 1,
+						borderBottomColor: "#000",
+					}}
+				>
+					<Text
+						style={{
+							fontSize: 20,
+						}}
+					>
+						Writings
+					</Text>
+					<Feather name="edit" size={24} color="black" />
+				</View>
+				<FlatList
+					style={{
+						width: "100%",
+						alignSelf: "flex-start",
+					}}
+					data={Writings}
+					renderItem={({ item }) => (
+						<Pressable
+							style={({ pressed }) => [
+								styles.pressableStyle,
+								{
+									backgroundColor: pressed
+										? "#ecebeb"
+										: "transparent",
+									width: "100%",
+								},
+							]}
+							onPress={() => router.navigate(`/home/${item.id}`)}
+						>
+							<Text style={styles.textStyle} numberOfLines={1}>
+								{item.title}
+							</Text>
+							<Feather
+								name="chevron-right"
+								size={24}
+								color="black"
+								style={{
+									position: "absolute",
+									right: 10,
+								}}
+							/>
+						</Pressable>
+					)}
+					keyExtractor={(item) => item.id}
+				/>
 			</View>
 		</View>
 	);
@@ -235,7 +304,7 @@ export default function Profile() {
 
 const styles = StyleSheet.create({
 	container: {
-		flex:1,
+		flex: 1,
 		backgroundColor: "#fff",
 	},
 	pressableStyle: {

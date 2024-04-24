@@ -321,19 +321,35 @@ export default function Login() {
 											error.code ===
 											statusCodes.SIGN_IN_CANCELLED
 										) {
-											// user cancelled the login flow
+											toastRef.current?.show({
+												type: "error",
+												text: "Sign in cancelled!",
+												duration: 2000,
+											});
 										} else if (
 											error.code ===
 											statusCodes.IN_PROGRESS
 										) {
-											// operation (e.g. sign in) is in progress already
+											toastRef.current?.show({
+												type: "error",
+												text: "Sign in in progress!",
+												duration: 2000,
+											});
 										} else if (
 											error.code ===
 											statusCodes.PLAY_SERVICES_NOT_AVAILABLE
 										) {
-											// play services not available or outdated
+											toastRef.current?.show({
+												type: "error",
+												text: "Play services not available!",
+												duration: 2000,
+											});
 										} else {
-											// some other error happened
+											toastRef.current?.show({
+												type: "error",
+												text: "Error signing in!",
+												duration: 2000,
+											});
 										}
 									} finally {
 										setLoading(false);

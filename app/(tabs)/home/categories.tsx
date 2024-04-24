@@ -19,7 +19,7 @@ interface CategoryData {
 	id: string;
 }
 
-const categories = () => {
+const Categories = () => {
 	const { category } = useLocalSearchParams<{ category: string }>();
 	const [categoryData, setCategoryData] = useState<CategoryData[] | []>([]);
 	const [loading, setLoading] = useState(true);
@@ -128,7 +128,7 @@ const categories = () => {
 	);
 };
 
-export default categories;
+export default Categories;
 
 const styles = StyleSheet.create({
 	container: {

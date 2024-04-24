@@ -42,9 +42,6 @@ export default function PushNotifications() {
 	} = useNotificationStore();
 
 	const toastref = useRef<ToastRef>(null);
-	if (!session) {
-		return <Text>No user on the session!</Text>;
-	}
 
 	useEffect(() => {
 		notificationListener.current =
@@ -178,7 +175,6 @@ export default function PushNotifications() {
 			const { error } = await supabase
 				.from("profiles")
 				.upsert({ id: session?.user.id, expo_push_token: token });
-			//console.log(error);
 		});
 	}, []);
 

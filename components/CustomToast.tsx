@@ -4,6 +4,7 @@ import React, {
 	useCallback,
 	useImperativeHandle,
 	forwardRef,
+	RefObject,
 } from "react";
 import Animated, {
 	useSharedValue,
@@ -18,9 +19,6 @@ import { AntDesign } from "@expo/vector-icons";
 import { PanGestureHandler } from "react-native-gesture-handler";
 import { WINDOW_WIDTH } from "@gorhom/bottom-sheet";
 
-interface ToastProps {
-	// Add any additional props if needed
-}
 
 export interface ToastRef {
 	show: (config: {
@@ -30,7 +28,7 @@ export interface ToastRef {
 	}) => void;
 }
 
-const Toast = forwardRef<ToastRef, ToastProps>(({}, ref) => {
+const Toast = forwardRef<ToastRef>((ref) => {
 	const toastTopAnimation = useSharedValue(-100);
 	const toastsideAnimation = useSharedValue(0);
 	const [showing, setShowing] = useState(false);
@@ -69,7 +67,7 @@ const Toast = forwardRef<ToastRef, ToastProps>(({}, ref) => {
 	);
 
 	useImperativeHandle(
-		ref,
+		ref as RefObject<ToastRef> | null,
 		() => ({
 			show,
 		}),

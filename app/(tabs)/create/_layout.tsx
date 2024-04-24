@@ -48,15 +48,12 @@ const StackLayout = () => {
 				name="index"
 				options={{
 					title: "Craft",
-					
-					
 				}}
 			/>
 			<Stack.Screen
 				name="editor"
 				options={{
 					title: "Write",
-					
 				}}	
 			/>
 		</Stack>

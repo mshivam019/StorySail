@@ -5,7 +5,7 @@ import { useLocalSearchParams } from "expo-router";
 import { useWritingsStore } from "../../../store";
 import uuid from "react-native-uuid";
 
-const editor = () => {
+const Editor = () => {
 	const { id } = useLocalSearchParams<{id:string}>();
 	const { articles, drafts } = useWritingsStore();
 	const existingArticle =
@@ -60,4 +60,4 @@ const styles = StyleSheet.create({
 	},
 });
 
-export default editor;
+export default Editor;

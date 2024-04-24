@@ -4,7 +4,7 @@ import { StyleSheet, View } from "react-native";
 import { CustomSearchBar, Suggestions,Search } from "../../../components";
 import { LinearGradient } from "expo-linear-gradient";
 
-const explore = () => {
+const Explore = () => {
 	const [searchValue, setSearchValue] = useState("");
 
 	return (
@@ -34,4 +34,4 @@ const styles = StyleSheet.create({
 	},
 });
 
-export default explore;
+export default Explore;

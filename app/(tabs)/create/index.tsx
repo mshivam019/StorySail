@@ -1,29 +1,10 @@
-import { View, Text, StyleSheet, Pressable } from "react-native";
+import { Text, StyleSheet, Pressable } from "react-native";
 import React from "react";
-import { MyWorks } from "../../../components";
-import { EvilIcons } from "@expo/vector-icons";
+
 import { router } from "expo-router";
 import { LinearGradient } from "expo-linear-gradient";
-
-const Create = () => {
-	return (
-		<LinearGradient
-			colors={[ "#cef7fde4","#ffffff"]}
-			style={{ flex: 1,padding: 20}}
-		>
-			<Pressable onPress={() => router.push("/create/editor")}>
-				<LinearGradient
-					colors={["#00d0bb", "#00baee"]}
-					style={styles.LinkContainer}
-				>
-					<Text style={styles.text}> Write a new story!</Text>
-					<EvilIcons name="pencil" size={32} color="white" />
-				</LinearGradient>
-			</Pressable>
-			<MyWorks />
-		</LinearGradient>
-	);
-};
+import { EvilIcons } from "@expo/vector-icons";
+import { MyWorks } from "../../../components";
 
 const styles = StyleSheet.create({
 	container: {
@@ -50,5 +31,27 @@ const styles = StyleSheet.create({
 		marginBottom: 20,
 	},
 });
+
+function Create() {
+	return (
+		<LinearGradient
+			colors={[ "#cef7fde4","#ffffff"]}
+			style={{ flex: 1,padding: 20}}
+		>
+			<Pressable onPress={() => router.push("/create/editor")}>
+				<LinearGradient
+					colors={["#00d0bb", "#00baee"]}
+					style={styles.LinkContainer}
+				>
+					<Text style={styles.text}> Write a new story!</Text>
+					<EvilIcons name="pencil" size={32} color="white" />
+				</LinearGradient>
+			</Pressable>
+			<MyWorks />
+		</LinearGradient>
+	);
+}
+
+
 
 export default Create;

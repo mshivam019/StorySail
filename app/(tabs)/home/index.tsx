@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { ScrollView, StyleSheet, View, ActivityIndicator } from "react-native";
+import { ScrollView, StyleSheet} from "react-native";
 import {
 	PopupModal,
 	Cards,

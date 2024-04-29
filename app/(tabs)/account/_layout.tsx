@@ -2,9 +2,9 @@ import { Stack, router } from "expo-router";
 import { Pressable, View } from "react-native";
 import { Octicons } from "@expo/vector-icons";
 import { useAuth } from "../../../provider/AuthProvider";
-import React from "react";
 
-const StackLayout = () => {
+
+function StackLayout() {
 	const { handlePresentModalPress } = useAuth();
 	return (
 		<Stack
@@ -44,6 +44,6 @@ const StackLayout = () => {
 			/>
 		</Stack>
 	);
-};
+}
 
 export default StackLayout;

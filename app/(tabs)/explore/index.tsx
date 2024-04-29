@@ -1,10 +1,10 @@
 import React, { useState } from "react";
-import { StyleSheet, View } from "react-native";
-
-import { CustomSearchBar, Suggestions,Search } from "../../../components";
+import { StyleSheet } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
 
-const Explore = () => {
+import { CustomSearchBar, Suggestions,Search } from "../../../components";
+
+function Explore() {
 	const [searchValue, setSearchValue] = useState("");
 
 	return (
@@ -23,7 +23,7 @@ const Explore = () => {
 			)}
 		</LinearGradient>
 	);
-};
+}
 
 const styles = StyleSheet.create({
 	container: {

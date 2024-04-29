@@ -10,6 +10,7 @@
     "format": "yarn run prettier --write \"./src/**/*.{js,jsx,json,tsx,ts}\""
   },
   "dependencies": {
+    "@expo/vector-icons": "^14.0.0",
     "@gorhom/bottom-sheet": "^4.6.1",
     "@react-native-google-signin/google-signin": "^11.0.0",
     "@react-navigation/material-top-tabs": "^6.6.11",
@@ -23,6 +24,7 @@
     "expo-haptics": "~12.8.1",
     "expo-image": "~1.10.6",
     "expo-image-picker": "~14.7.1",
+    "expo-linear-gradient": "~12.7.2",
     "expo-linking": "~6.2.2",
     "expo-notifications": "~0.27.6",
     "expo-router": "~3.4.8",
@@ -47,14 +49,25 @@
     "react-native-uuid": "^2.0.2",
     "react-native-webview": "^13.6.4",
     "rn-scratch-card": "^1.2.2",
-    "zustand": "^4.5.2",
-    "expo-linear-gradient": "~12.7.2"
+    "zustand": "^4.5.2"
   },
   "devDependencies": {
     "@babel/core": "^7.20.0",
     "@types/react": "~18.2.45",
     "@types/react-native": "^0.73.0",
     "@types/react-native-htmlview": "^0.16.5",
+    "@typescript-eslint/eslint-plugin": "^6.3.0",
+    "@typescript-eslint/parser": "^6.3.0",
+    "eslint": "8.47.0",
+    "eslint-config-airbnb": "19.0.4",
+    "eslint-config-airbnb-base": "^15.0.0",
+    "eslint-config-next": "13.4.13",
+    "eslint-config-prettier": "^9.0.0",
+    "eslint-plugin-import": "^2.25.2",
+    "eslint-plugin-jsx-a11y": "6.7.1",
+    "eslint-plugin-prettier": "5.0.0",
+    "eslint-plugin-react": "7.33.1",
+    "eslint-plugin-react-hooks": "4.6.0",
     "sharp-cli": "^4.2.0",
     "typescript": "^5.3.0"
   },

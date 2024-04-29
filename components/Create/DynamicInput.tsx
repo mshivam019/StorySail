@@ -8,10 +8,10 @@ import {
   } from "react-native";
   import React, { useState } from "react";
   
-  const CloseIcon = ({ height, color }:{
+  function CloseIcon({ height, color }:{
     height?: number,
     color?: string
-  }) => {
+  }) {
     return (
       <View style={{ flexDirection: "row" }}>
         <View
@@ -21,7 +21,7 @@ import {
             backgroundColor: color ?? "white",
             transform: [{ rotate: "45deg" }],
           }}
-        ></View>
+        />
         <View
           style={{
             width: 1.5,
@@ -30,12 +30,12 @@ import {
             marginLeft: -2,
             transform: [{ rotate: "-45deg" }],
           }}
-        ></View>
+        />
       </View>
     );
-  };
+  }
   
-  const DynamicInput = ({
+  function DynamicInput({
     style,
     textStyle,
     placeholder,
@@ -59,13 +59,13 @@ import {
     btnHeight?: number,
     btnColor?: string,
     backgroundColor?: string,
-  }) => {
+  }) {
     const [input, setInput] = useState("");
   
     if (set === undefined || set === null) {
-      throw "set can't be null or undefined";
+      throw new Error("set can't be null or undefined");
     } else if (data === undefined || data === null) {
-      throw "data can't be null or undefined";
+      throw new Error( "data can't be null or undefined");
     }
   
     return (
@@ -84,7 +84,7 @@ import {
       >
         <ScrollView
           style={{ minWidth: "100%", height: "100%" }}
-          horizontal={true}
+          horizontal
           showsHorizontalScrollIndicator={false}
         >
           {data?.length > 0 && (
@@ -95,8 +95,7 @@ import {
                 alignItems: "center",
               }}
             >
-              {data?.map((item, index) => {
-                return (
+              {data?.map((item, index) => (
                   <View
                     key={index}
                     style={{
@@ -128,8 +127,7 @@ import {
                       <CloseIcon color={btnColor} height={btnHeight} />
                     </TouchableOpacity>
                   </View>
-                );
-              })}
+                ))}
             </View>
           )}
           <TextInput
@@ -155,6 +153,6 @@ import {
         </ScrollView>
       </View>
     );
-  };
+  }
   
   export default DynamicInput;

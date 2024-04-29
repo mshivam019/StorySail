@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef } from "react";
+import React, { useEffect, useState } from "react";
 import { Redirect, withLayoutContext } from "expo-router";
 import { useAuth } from "../../provider/AuthProvider";
 import { AntDesign, EvilIcons, Ionicons } from "@expo/vector-icons";

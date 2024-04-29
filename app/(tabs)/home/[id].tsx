@@ -103,7 +103,7 @@ const Details = () => {
 					console.log("error adding star");
 				}
 				setLiked(true);
-				const { data, error: err } = await supabase
+				await supabase
 					.from("notifications")
 					.insert([
 						{

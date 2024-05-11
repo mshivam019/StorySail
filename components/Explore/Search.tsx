@@ -120,9 +120,10 @@ export default Search;
 const styles = StyleSheet.create({
 	container: {
 		flex: 1,
-		backgroundColor: "#fcfffd",
+		backgroundColor: "transparent",
 		paddingTop: 20,
 		width: "100%",
+		marginTop: 10,
 	},
 	categoriesContainer: {
 		flexDirection: "row",
@@ -130,7 +131,7 @@ const styles = StyleSheet.create({
 		gap: 10,
 		width: "100%",
 		borderRadius: 10,
-		backgroundColor: "#ebebeb",
+		backgroundColor: "#fafafa",
 	},
 	ImageText: {
 		fontSize: 16,

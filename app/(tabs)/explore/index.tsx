@@ -15,6 +15,7 @@ function Explore() {
 				placeholder="Explore!"
 				onChangeText={setSearchValue}
 				value={searchValue}
+				cancelButton={false}			
 			/>
 			{searchValue.length > 0 ? (
 				<Search	value={searchValue}/>

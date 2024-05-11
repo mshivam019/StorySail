@@ -93,10 +93,11 @@ export default function TabLayout() {
 					}}
 				>
 					<MaterialTopTabs.Screen
-						name="home"
+						name="home"						
 						options={{
 							lazy: true,
 							title: "Home",
+							tabBarLabel: "Home",
 							tabBarIcon: (props) => (
 								<AntDesign
 									name="home"
@@ -110,6 +111,7 @@ export default function TabLayout() {
 						name="explore"
 						options={{
 							lazy: true,
+							tabBarLabel: "Explore",
 							tabBarIcon: (props) => (
 								<EvilIcons
 									name="search"
@@ -123,6 +125,7 @@ export default function TabLayout() {
 						name="create"
 						options={{
 							lazy: true,
+							tabBarLabel: "Create",
 							tabBarIcon: (props) => (
 								<Ionicons
 									name="create-outline"
@@ -136,6 +139,7 @@ export default function TabLayout() {
 						name="favourites"
 						options={{
 							lazy: true,
+							tabBarLabel: "Favourites",
 							tabBarIcon: (props) => (
 								<EvilIcons
 									name="star"
@@ -152,6 +156,7 @@ export default function TabLayout() {
 						name="account"
 						options={{
 							lazy: true,
+							tabBarLabel: "Account",
 							tabBarIcon: (props) => (
 								<EvilIcons
 									name="user"

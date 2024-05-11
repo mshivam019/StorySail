@@ -29,7 +29,9 @@ const Home = () => {
 	});
 
 	return (
-		<ScrollView style={styles.container}>
+		<ScrollView style={styles.container}
+		overScrollMode="never"
+		>
 			<Cards />
 			<RewardBanner setShowModal={setShowModal} setCoins={setCoins} />
 			<MiniCards />

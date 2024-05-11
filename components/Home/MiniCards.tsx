@@ -3,7 +3,7 @@ import React from "react";
 import MiniCardItem from "./MiniCardItem";
 import { useHomeStore } from "../../store";
 
-const MiniCards = () => {
+function MiniCards() {
 	const { data } = useHomeStore();
 
 	if (!data) return null;
@@ -14,7 +14,7 @@ const MiniCards = () => {
 			<ScrollView
 				horizontal
 				showsHorizontalScrollIndicator={false}
-				directionalLockEnabled={true}
+				directionalLockEnabled
 				alwaysBounceVertical={false}
 			>
 				<FlatList
@@ -31,7 +31,7 @@ const MiniCards = () => {
 			</ScrollView>
 		</View>
 	);
-};
+}
 
 export default MiniCards;
 

@@ -1,7 +1,6 @@
 import { create } from "zustand";
-import { persist } from "zustand/middleware";
-import { createJSONStorage } from "zustand/middleware";
-import { zustandStorage } from "./zustandStore";
+import { persist , createJSONStorage } from "zustand/middleware";
+import zustandStorage from "./zustandStore";
 import { supabase } from "../lib/supabase";
 
 export interface Notification {
@@ -36,8 +35,8 @@ const useNotificationStore = create<StarStore>()(
 					set({ notifications: [notification] });
 					return;
 				}
-				//check if the notification already exists in the store
-				//if it does, ignore
+				// check if the notification already exists in the store
+				// if it does, ignore
 				if (get().notifications.find((n) => n.id === notification.id)) {
 					return;
 				}

@@ -6,11 +6,11 @@ import {
     Dimensions,
     TouchableOpacity,
   } from "react-native";
-  import React, { useState } from "react";
+  import { useState } from "react";
   
-  function CloseIcon({ height, color }:{
-    height?: number,
-    color?: string
+  function CloseIcon({ height=0, color="black" }:{
+    height: number,
+    color: string
   }) {
     return (
       <View style={{ flexDirection: "row" }}>
@@ -36,29 +36,29 @@ import {
   }
   
   function DynamicInput({
-    style,
-    textStyle,
-    placeholder,
-    placeHolderTextColor,
-    set,
-    data,
-    roundedItem,
-    itemColor,
-    btnHeight,
-    btnColor,
-    backgroundColor,
+    style = {},
+    textStyle = {},
+    placeholder = "",
+    placeHolderTextColor = "",
+    set = () => {},
+    data = [],
+    roundedItem = 0,
+    itemColor = "",
+    btnHeight = 0,
+    btnColor = "",
+    backgroundColor = "",
   }:{
-    style?: any,
-    textStyle?: any,
-    placeholder?: string,
+    style: any,
+    textStyle: any,
+    placeholder: string,
     placeHolderTextColor: string,
     set: (value: any) => void,
     data: string[],
-    roundedItem?: number,
-    itemColor?: string,
-    btnHeight?: number,
-    btnColor?: string,
-    backgroundColor?: string,
+    roundedItem: number,
+    itemColor: string,
+    btnHeight: number,
+    btnColor: string,
+    backgroundColor: string,
   }) {
     const [input, setInput] = useState("");
   
@@ -95,9 +95,9 @@ import {
                 alignItems: "center",
               }}
             >
-              {data?.map((item, index) => (
+              {data?.map((item) => (
                   <View
-                    key={index}
+                    key={item}
                     style={{
                       flexDirection: "row",
                       alignItems: "center",

@@ -1,11 +1,10 @@
 import React from "react";
 import { StyleSheet, Text, View, FlatList, Pressable } from "react-native";
 import { Image } from "expo-image";
-import { Link } from "expo-router";
-import { router } from "expo-router";
+import { Link , router } from "expo-router";
 import { useHomeStore } from "../../store";
 
-const Recommendations = () => {
+function Recommendations() {
 	const { data } = useHomeStore();
 	return (
 		<View style={styles.container}>
@@ -58,7 +57,7 @@ const Recommendations = () => {
 			/>}
 		</View>
 	);
-};
+}
 
 export default Recommendations;
 

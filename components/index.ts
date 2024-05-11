@@ -17,7 +17,7 @@ import MyWorks from "./Create/MyWorks";
 import RichTextEditor from "./Create/RichEditor";
 import Preview from "./Create/Preview";
 import DropDown from "./ExpandableDropDown";
-import FavouritesList from "./Favourites/FavouritesList";
+import WidgetList from "./Favourites/WidgetList";
 import TabButtons from "./Create/TabButtons";
 
 export {
@@ -44,6 +44,6 @@ export {
 	RichTextEditor,
 	Preview,
 	DropDown,
-	FavouritesList,
-	TabButtons
+	WidgetList,
+	TabButtons,
 };

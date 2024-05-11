@@ -14,7 +14,7 @@ export enum CustomTab {
 	Tab2,
 }
 
-const RichTextEditor = ({
+function RichTextEditor({
 	article,
 	setArticle,
 	nextHandler,
@@ -22,7 +22,7 @@ const RichTextEditor = ({
 	article: string;
 	setArticle: (text: string) => void;
 	nextHandler: () => void;
-}) => {
+}) {
 	const RichText = useRef<RichEditor>(null);
 	const toastRef = useRef<ToastRef>(null);
 	const [selectedTab, setSelectedTab] = useState<CustomTab>(CustomTab.Tab1);
@@ -62,9 +62,9 @@ const RichTextEditor = ({
 						style={[styles.richBar]}
 						editor={RichText}
 						disabled={false}
-						iconTint={"gray"}
-						selectedIconTint={"black"}
-						disabledIconTint={"darkgrey"}
+						iconTint="gray"
+						selectedIconTint="black"
+						disabledIconTint="darkgrey"
 						actions={[
 							actions.heading1,
 							actions.heading2,
@@ -161,9 +161,9 @@ const RichTextEditor = ({
 						style={[styles.richBar]}
 						editor={RichText}
 						disabled={false}
-						iconTint={"gray"}
-						selectedIconTint={"black"}
-						disabledIconTint={"darkgrey"}
+						iconTint="gray"
+						selectedIconTint="black"
+						disabledIconTint="darkgrey"
 						actions={[
 							actions.alignLeft,
 							actions.alignCenter,
@@ -181,9 +181,9 @@ const RichTextEditor = ({
 						style={[styles.richBar]}
 						editor={RichText}
 						disabled={false}
-						iconTint={"gray"}
-						selectedIconTint={"black"}
-						disabledIconTint={"darkgrey"}
+						iconTint="gray"
+						selectedIconTint="black"
+						disabledIconTint="darkgrey"
 						actions={[
 							actions.undo,
 							actions.redo,
@@ -196,7 +196,7 @@ const RichTextEditor = ({
 						containerStyle={styles.editor}
 						ref={RichText}
 						style={styles.rich}
-						placeholder={"Start Writing Here"}
+						placeholder="Start Writing Here"
 						onChange={(text) => setArticle(text)}
 						initialHeight={400}
 						initialContentHTML={article}
@@ -207,7 +207,7 @@ const RichTextEditor = ({
 			<Toast ref={toastRef} />
 		</ScrollView>
 	);
-};
+}
 
 export default RichTextEditor;
 

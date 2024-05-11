@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import { Redirect, withLayoutContext } from "expo-router";
-import { useAuth } from "../../provider/AuthProvider";
 import { AntDesign, EvilIcons, Ionicons } from "@expo/vector-icons";
 import {
 	createMaterialTopTabNavigator,
@@ -9,6 +8,7 @@ import {
 } from "@react-navigation/material-top-tabs";
 import { ParamListBase, TabNavigationState } from "@react-navigation/native";
 import { ActivityIndicator, Keyboard, View } from "react-native";
+import { useAuth } from "../../provider/AuthProvider";
 import { CustomBottomSheetModal } from "../../components";
 
 const { Navigator } = createMaterialTopTabNavigator();
@@ -57,8 +57,7 @@ export default function TabLayout() {
 						animationEnabled: false,
 						lazy: true,
 						lazyPreloadDistance: 0,
-						lazyPlaceholder: () => {
-							return (
+						lazyPlaceholder: () => (
 								<View
 									style={{
 										flex: 1,
@@ -72,8 +71,7 @@ export default function TabLayout() {
 										color="black"
 									/>
 								</View>
-							);
-						},
+							),
 						tabBarInactiveTintColor: "gray",
 						tabBarActiveTintColor: "black",
 						tabBarShowIcon: true,
@@ -172,5 +170,5 @@ export default function TabLayout() {
 				</MaterialTopTabs>
 			</>
 		);
-	else return <Redirect href="/login" />;
+	return <Redirect href="/login" />;
 }

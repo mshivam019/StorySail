@@ -1,11 +1,11 @@
 import React, { useState } from "react";
 import { ScrollView, StyleSheet } from "react-native";
-import { Preview, RichTextEditor } from "../../../components";
 import { useLocalSearchParams } from "expo-router";
-import { useWritingsStore } from "../../../store";
 import uuid from "react-native-uuid";
+import { Preview, RichTextEditor } from "../../../components";
+import { useWritingsStore } from "../../../store";
 
-const Editor = () => {
+function Editor() {
 	const { id } = useLocalSearchParams<{id:string}>();
 	const { articles, drafts } = useWritingsStore();
 	const existingArticle =
@@ -31,9 +31,7 @@ const Editor = () => {
 				<Preview
 					setShowEditor={setShowEditor}
 					article={
-						existingArticle
-							? existingArticle
-							: {
+						existingArticle || {
 									id: uuid.v4().toString(),
 									title: "",
 									content: article,
@@ -50,7 +48,7 @@ const Editor = () => {
 			)}
 		</ScrollView>
 	);
-};
+}
 
 const styles = StyleSheet.create({
 	container: {

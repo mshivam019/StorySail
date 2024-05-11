@@ -3,8 +3,8 @@ import { Pressable, View } from "react-native";
 import { Octicons } from "@expo/vector-icons";
 import { useAuth } from "../../../provider/AuthProvider";
 
-const StackLayout = () => {
-	const { handlePresentModalPress } = useAuth();
+function StackLayout() {
+	const { handlePresentModalPress = () => {} } = useAuth();
 	return (
 		<Stack
 			screenOptions={{
@@ -34,8 +34,7 @@ const StackLayout = () => {
 						</Pressable>
 						<Pressable
 							onPress={() => {
-								handlePresentModalPress &&
-									handlePresentModalPress();
+								handlePresentModalPress();
 							}}
 						>
 							<Octicons name="gear" size={24} />
@@ -54,10 +53,10 @@ const StackLayout = () => {
 				name="editor"
 				options={{
 					title: "Write",
-				}}	
+				}}
 			/>
 		</Stack>
 	);
-};
+}
 
 export default StackLayout;

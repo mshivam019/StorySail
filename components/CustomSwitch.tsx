@@ -9,7 +9,7 @@ import Animated, {
 	useDerivedValue,
 } from "react-native-reanimated";
 
-const Switch = ({
+function Switch({
 	activeColor,
 	inActiveColor,
     active,
@@ -21,15 +21,13 @@ const Switch = ({
     active: boolean;
     setActive: (state: boolean) => void;
 	callBackfn?: () => void;
-}) => {
+}) {
 	// value for Switch Animation
 	const switchTranslate = useSharedValue(0);
 	// state for activate Switch
 	
 	// Progress Value
-	const progress = useDerivedValue(() => {
-		return withTiming(active ? 22 : 0);
-	});
+	const progress = useDerivedValue(() => withTiming(active ? 22 : 0));
 
 	// useEffect for change the switchTranslate Value
 	useEffect(() => {
@@ -41,8 +39,7 @@ const Switch = ({
 	}, [active, switchTranslate]);
 
 	// Circle Animation
-	const customSpringStyles = useAnimatedStyle(() => {
-		return {
+	const customSpringStyles = useAnimatedStyle(() => ({
 			transform: [
 				{
 					translateX: withSpring(switchTranslate.value, {
@@ -55,8 +52,7 @@ const Switch = ({
 					}),
 				},
 			],
-		};
-	});
+		}));
 
 	// Background Color Animation
 	const backgroundColorStyle = useAnimatedStyle(() => {
@@ -82,7 +78,7 @@ const Switch = ({
 			</Animated.View>
 		</Pressable>
 	);
-};
+}
 
 export default Switch;
 

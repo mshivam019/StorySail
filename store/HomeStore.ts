@@ -1,7 +1,6 @@
 import { create } from "zustand";
-import { persist } from "zustand/middleware";
-import { createJSONStorage } from "zustand/middleware";
-import { zustandStorage } from "./zustandStore";
+import { persist , createJSONStorage } from "zustand/middleware";
+import zustandStorage from "./zustandStore";
 
 export interface CarouselImage {
 	id: number;

@@ -3,18 +3,18 @@ import React from "react";
 import { ScratchCard } from "rn-scratch-card";
 import LottieView from "lottie-react-native";
 
-const RewardCard = ({ coins }: { coins: number }) => {
+function RewardCard({ coins }: { coins: number }) {
 	return (
 		<View style={styles.card}>
 			<View style={styles.backgroundView}>
 				<LottieView
 					source={require("../../assets/home/coins.json")}
 					autoPlay
-					loop={true}
+					loop
 					style={{ width: 300, height: 200,alignSelf:"center" }}
 				/>
 				<Text style={styles.modalText}>
-					You've earned {coins} coins
+					You have earned {coins} coins
 				</Text>
 			</View>
 			<ScratchCard
@@ -24,7 +24,7 @@ const RewardCard = ({ coins }: { coins: number }) => {
 			/>
 		</View>
 	);
-};
+}
 
 export default RewardCard;
 

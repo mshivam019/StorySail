@@ -1,3 +1,3 @@
-import { useHaptic } from "./hooks/useHaptic";
+import { useHaptic, FeedbackType } from "./hooks/useHaptic";
 
-export { useHaptic };
+export { useHaptic, FeedbackType };

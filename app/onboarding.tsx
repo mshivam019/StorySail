@@ -8,7 +8,7 @@ import Animated, {
 import { OnboardingData, data } from "../data";
 import { RenderItem, Pagination, CustomButton } from "../components";
 
-const OnboardingScreen = () => {
+function OnboardingScreen() {
 	const flatListRef = useAnimatedRef<FlatList<OnboardingData>>();
 	const x = useSharedValue(0);
 	const flatListIndex = useSharedValue(0);
@@ -35,14 +35,12 @@ const OnboardingScreen = () => {
 				ref={flatListRef}
 				onScroll={onScroll}
 				data={data}
-				renderItem={({ item, index }) => {
-					return <RenderItem item={item} index={index} x={x} />;
-				}}
+				renderItem={({ item, index }) => <RenderItem item={item} index={index} x={x} />}
 				keyExtractor={(item) => item.id}
 				scrollEventThrottle={16}
-				horizontal={true}
+				horizontal
 				bounces={false}
-				pagingEnabled={true}
+				pagingEnabled
 				showsHorizontalScrollIndicator={false}
 				onViewableItemsChanged={onViewableItemsChanged}
 				viewabilityConfig={{
@@ -61,7 +59,7 @@ const OnboardingScreen = () => {
 			</View>
 		</View>
 	);
-};
+}
 
 export default OnboardingScreen;
 

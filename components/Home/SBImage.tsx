@@ -7,12 +7,10 @@ import { CarouselImage } from "../../store/HomeStore";
 interface Props {
 	style?: StyleProp<ViewStyle>;
 	index?: number;
-	showIndex?: boolean;
-	img?: ImageSourcePropType;
 	item: CarouselImage;
 }
 
-export const SBImageItem: React.FC<Props> = ({
+const SBImageItem: React.FC<Props> = ({
 	style,
 	index: _index,
 	item,
@@ -41,3 +39,5 @@ const styles = StyleSheet.create({
 		borderRadius: 8,
 	},
 });
+
+export default SBImageItem;

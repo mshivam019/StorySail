@@ -6,15 +6,15 @@ import {
 	Pressable,
 	ActivityIndicator,
 } from "react-native";
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { Image } from "expo-image";
 import { router } from "expo-router";
 import { supabase } from "../../lib/supabase";
 
-const Search = ({ value }: { value: string }) => {
+function Search({ value }: { value: string }) {
 	const debounce = (func: any, wait: number) => {
 		let timeout: any;
-		return function (this: any, ...args: any) {
+		return function hello (this: any, ...args: any) {
 			const context: any = this;
 			if (timeout) clearTimeout(timeout);
 			timeout = setTimeout(() => {
@@ -25,7 +25,7 @@ const Search = ({ value }: { value: string }) => {
 	};
 	const [books, setBooks] = useState<any[]>([]);
 	const [loading, setLoading] = useState(true);
-	//perform search based on title using like operator
+	// perform search based on title using like operator
 	const fetchBooks = async (value: string) => {
 		try {
 			const { data, error } = await supabase
@@ -113,7 +113,7 @@ const Search = ({ value }: { value: string }) => {
 			)}
 		</View>
 	);
-};
+}
 
 export default Search;
 

@@ -3,9 +3,8 @@ import { Pressable, View } from "react-native";
 import { Octicons } from "@expo/vector-icons";
 import { useAuth } from "../../../provider/AuthProvider";
 
-
 function StackLayout() {
-	const { handlePresentModalPress } = useAuth();
+	const { handlePresentModalPress = () => {} } = useAuth();
 	return (
 		<Stack
 			screenOptions={{
@@ -20,11 +19,10 @@ function StackLayout() {
 						</Pressable>
 						<Pressable
 							onPress={() => {
-								handlePresentModalPress &&
-									handlePresentModalPress();
+								handlePresentModalPress();
 							}}
 						>
-							<Octicons name="gear" size={24}  />
+							<Octicons name="gear" size={24} />
 						</Pressable>
 					</View>
 				),

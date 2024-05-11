@@ -5,19 +5,15 @@ import { MMKV } from "react-native-mmkv";
 const storage = new MMKV();
 
 const zustandStorage = {
-	setItem: (name: string, value: any) => {
-		return storage.set(name, value);
-	},
+	setItem: (name: string, value: any) => storage.set(name, value),
 	getItem: (name: string) => {
 		const value = storage.getString(name);
 		return value ?? null;
 	},
-	removeItem: (name: string) => {
-		return storage.delete(name);
-	},
+	removeItem: (name: string) => storage.delete(name),
 };
 
-const supabaseUrl = "https://iawrnpgcvsjmwdgpkaav.supabase.co";
+export const supabaseUrl = "https://iawrnpgcvsjmwdgpkaav.supabase.co";
 const supabaseAnonKey =
 	"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imlhd3JucGdjdnNqbXdkZ3BrYWF2Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3MDk4ODYxMzMsImV4cCI6MjAyNTQ2MjEzM30.9xk7DrUOAXrxHZN3ctIV32uisn4amMEIRJoNrv6uGYA";
 

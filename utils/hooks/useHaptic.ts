@@ -2,7 +2,7 @@ import { useCallback, useMemo } from "react";
 import { Platform } from "react-native";
 import * as Haptics from "expo-haptics";
 
-type FeedbackType =
+export type FeedbackType =
   | "light"
   | "medium"
   | "heavy"
@@ -13,19 +13,15 @@ type FeedbackType =
 
 export const useHaptic = (feedbackType: FeedbackType = "selection") => {
   const createHapticHandler = useCallback(
-    (type: Haptics.ImpactFeedbackStyle) => {
-      return Platform.OS === "web"
+    (type: Haptics.ImpactFeedbackStyle) => Platform.OS === "web"
         ? undefined
-        : () => Haptics.impactAsync(type);
-    },
+        : () => Haptics.impactAsync(type),
     [],
   );
   const createNotificationFeedback = useCallback(
-    (type: Haptics.NotificationFeedbackType) => {
-      return Platform.OS === "web"
+    (type: Haptics.NotificationFeedbackType) => Platform.OS === "web"
         ? undefined
-        : () => Haptics.notificationAsync(type);
-    },
+        : () => Haptics.notificationAsync(type),
     [],
   );
 

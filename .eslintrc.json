@@ -1,61 +1,69 @@
 {
-    "env": {
-      "browser": true,
-      "es2021": true
-    },
-    "extends": [
-      "eslint:recommended",
-      "airbnb",
-      "plugin:import/errors",
-      "plugin:react/recommended",
-      "plugin:jsx-a11y/recommended",
-      "next/core-web-vitals",
-      "prettier"
-    ],
-    "parser": "@typescript-eslint/parser",
-    "parserOptions": {
-      "ecmaFeatures": {
-        "jsx": true
-      },
-      "ecmaVersion": "latest",
-      "sourceType": "module"
-    },
-    "plugins": ["react", "@typescript-eslint"],
-    "rules": {
-      "react/jsx-filename-extension": [
-        "error",
-        { "extensions": [".jsx", ".tsx"] }
-      ],
-      "import/extensions": [
-        "error",
-        "ignorePackages",
-        {
-          "js": "never",
-          "jsx": "never",
-          "ts": "never",
-          "tsx": "never"
-        }
-      ],
-      "import-prefer-default-export": "off",
-      "react/jsx-props-no-spreading": "off",
-      "react/require-default-props": "off",
-      "react/no-array-index-key": "off",
-      "react-hooks/rules-of-hooks": "off",
-      "no-return-assign": "off",
-      "no-underscore-dangle": "off",
-      "no-use-before-define": "off",
-      "no-nested-ternary": "off",
-      "jsx-a11y/click-events-have-key-events": "off",
-      "jsx-a11y/no-static-element-interactions": "off",
-      "react/no-unstable-nested-components": "off",
-      "no-unused-expressions": "off"
-    },
-    "settings": {
-      "import/resolver": {
-        "node": {
-          "extensions": [".js", ".jsx", ".ts", ".tsx"]
-        }
-      }
-    }
-  }
-  
+	"env": {
+		"browser": true,
+		"es2021": true
+	},
+	"extends": [
+		"eslint:recommended",
+		"airbnb",
+		"plugin:import/errors",
+		"plugin:react/recommended",
+		"plugin:jsx-a11y/recommended",
+		"next/core-web-vitals",
+		"prettier"
+	],
+	"parser": "@typescript-eslint/parser",
+	"parserOptions": {
+		"ecmaFeatures": {
+			"jsx": true
+		},
+		"ecmaVersion": "latest",
+		"sourceType": "module"
+	},
+	"plugins": ["react", "@typescript-eslint"],
+	"rules": {
+		"react/jsx-filename-extension": [
+			"error",
+			{ "extensions": [".jsx", ".tsx"] }
+		],
+		"import/extensions": [
+			"error",
+			"ignorePackages",
+			{
+				"js": "never",
+				"jsx": "never",
+				"ts": "never",
+				"tsx": "never"
+			}
+		],
+		"react/no-unstable-nested-components": [
+			"error",
+			{
+				"allowAsProps": true
+			}
+		],
+		"no-console": "off",
+		"no-use-before-define": "off",
+		"react-hooks/exhaustive-deps": "off",
+		"react/function-component-definition": "off",
+		"no-shadow": "off",
+		"react/jsx-props-no-spreading": "off",
+		"react/destructuring-assignment": "off",
+		"react/require-default-props": "off",
+		"react/no-array-index-key": "off",
+		"global-require": "off",
+		"jsx-a11y/alt-text": "off",
+		"no-unused-vars": "off",
+		"no-param-reassign": "off",
+		"no-nested-ternary": "off",
+		"no-undef": "off",
+		"import/no-unresolved": "off"
+	},
+	"settings": {
+		"import/resolver": {
+			"node": {
+				"extensions": [".js", ".jsx", ".ts", ".tsx"]
+			}
+		}
+	}
+}

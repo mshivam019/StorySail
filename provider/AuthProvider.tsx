@@ -4,15 +4,16 @@ import React, {
 	createContext,
 	PropsWithChildren,
 	useRef,
+	useMemo,
 } from "react";
 import { Session, User } from "@supabase/supabase-js";
-import { supabase } from "../lib/supabase";
-import { useUserStore, useWritingsStore, useHomeStore } from "../store";
 import { GoogleSignin } from "@react-native-google-signin/google-signin";
 import * as Notifications from "expo-notifications";
 import Constants from "expo-constants";
 import { useRouter } from "expo-router";
 import { BottomSheetModal } from "@gorhom/bottom-sheet";
+import { useUserStore, useWritingsStore, useHomeStore } from "../store";
+import { supabase } from "../lib/supabase";
 
 type AuthProps = {
 	user: User | null;
@@ -30,7 +31,7 @@ export function useAuth() {
 	return React.useContext(AuthContext);
 }
 
-export const AuthProvider = ({ children }: PropsWithChildren) => {
+export function AuthProvider({ children }: PropsWithChildren) {
 	const [session, setSession] = useState<Session | null>(null);
 	const {
 		setUserDetails,
@@ -92,7 +93,7 @@ export const AuthProvider = ({ children }: PropsWithChildren) => {
 		}
 	};
 
-	const supbaseFn = () => {	
+	const supbaseFn = () => {
 		const { data } = supabase.auth.onAuthStateChange(async (_, session) => {
 			setSession(session);
 			if (session && session.user) {
@@ -111,8 +112,6 @@ export const AuthProvider = ({ children }: PropsWithChildren) => {
 		});
 		return data;
 	};
-
-	
 
 	useEffect(() => {
 		// Listen for changes to authentication state
@@ -180,16 +179,19 @@ export const AuthProvider = ({ children }: PropsWithChildren) => {
 		}
 	};
 
-	const value = {
-		user,
-		session,
-		signOut,
-		handleNotificationPermission,
-		bottomSheetRef,
-		handlePresentModalPress,
-	};
+	const value = useMemo(
+		() => ({
+			user,
+			session,
+			signOut,
+			bottomSheetRef,
+			handlePresentModalPress,
+			handleNotificationPermission,
+		}),
+		[user, session]
+	);
 
 	return (
 		<AuthContext.Provider value={value}>{children}</AuthContext.Provider>
 	);
-};
+}

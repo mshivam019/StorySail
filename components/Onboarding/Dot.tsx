@@ -13,7 +13,7 @@ type Props = {
   x: SharedValue<number>;
 };
 
-const Dot = ({index, x}: Props) => {
+function Dot({index, x}: Props) {
   const {width: SCREEN_WIDTH} = useWindowDimensions();
 
   const animatedDotStyle = useAnimatedStyle(() => {
@@ -52,14 +52,14 @@ const Dot = ({index, x}: Props) => {
     );
 
     return {
-      backgroundColor: backgroundColor,
+      backgroundColor,
     };
   });
 
   return (
     <Animated.View style={[styles.dots, animatedDotStyle, animatedColor]} />
   );
-};
+}
 
 export default Dot;
 

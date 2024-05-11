@@ -1,9 +1,7 @@
-import { Pressable, StyleSheet, Text, View } from "react-native";
-import React, { useState } from "react";
+import { Pressable, StyleSheet, View } from "react-native";
+import { useState } from "react";
 import Animated, {
-	interpolateColor,
 	runOnJS,
-	useAnimatedStyle,
 	useSharedValue,
 	withTiming,
 } from "react-native-reanimated";
@@ -18,11 +16,7 @@ type TabButtonsProps = {
 	setSelectedTab: (index: number) => void;
 };
 
-const TabButtons = ({
-	buttons,
-	selectedTab,
-	setSelectedTab,
-}: TabButtonsProps) => {
+function TabButtons({ buttons, selectedTab, setSelectedTab }: TabButtonsProps) {
 	const [dimensions, setDimensions] = useState({ height: 20, width: 100 });
 	const tabPositionX = useSharedValue(0);
 
@@ -66,20 +60,10 @@ const TabButtons = ({
 				}}
 			>
 				{buttons.map((button, index) => {
-					const textColor = useAnimatedStyle(() => {
-						const color = interpolateColor(
-							index === selectedTab ? 0 : 1,
-							[0, 1],
-							["#000", "#fff"]
-						);
-
-						return {
-							color,
-						};
-					});
+					const textColor = index === selectedTab ? "black" : "white";
 					return (
 						<Pressable
-							key={index}
+							key={button.title}
 							onPress={() => {
 								onTabPress(index);
 							}}
@@ -89,14 +73,13 @@ const TabButtons = ({
 							}}
 						>
 							<Animated.Text
-								style={[
-									{
-										textAlign: "center",
-										fontSize: 16,
-										fontWeight: "bold",
-									},
-									textColor,
-								]}
+								style={{
+									textAlign: "center",
+									fontSize: 16,
+									fontWeight: "bold",
+
+									color: textColor,
+								}}
 							>
 								{button.title}
 							</Animated.Text>
@@ -106,7 +89,7 @@ const TabButtons = ({
 			</View>
 		</View>
 	);
-};
+}
 
 export default TabButtons;
 

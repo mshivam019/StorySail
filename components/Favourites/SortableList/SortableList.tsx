@@ -15,7 +15,7 @@ interface ListProps {
   length: number;
 }
 
-const List = ({ children, editing, onDragEnd,length }: ListProps) => {
+function List({ children, editing, onDragEnd,length }: ListProps) {
 	const scrollY = useSharedValue(0);
 	const scrollView = useAnimatedRef<Animated.ScrollView>();
 	const positions = useSharedValue<Positions>( Object.assign(
@@ -43,8 +43,7 @@ const List = ({ children, editing, onDragEnd,length }: ListProps) => {
       key={length}
 			scrollEventThrottle={16}
 		>
-			{children.map((child) => {
-				return (
+			{children.map((child) => (
 					<Item
 						key={child.props.id}
 						positions={positions}
@@ -56,10 +55,9 @@ const List = ({ children, editing, onDragEnd,length }: ListProps) => {
 					>
 						{child}
 					</Item>
-				);
-			})}
+				))}
 		</Animated.ScrollView>
 	);
-};
+}
 
 export default List;

@@ -20,14 +20,14 @@ import Animated, {
 	withSequence,
 	withSpring,
 } from "react-native-reanimated";
-import { supabase } from "../lib/supabase";
 import {
 	GoogleSignin,
 	statusCodes,
 } from "@react-native-google-signin/google-signin";
 import LottieView from "lottie-react-native";
-import { Toast, ToastRef } from "../components";
 import { Image as ExpoImage } from "expo-image";
+import { Toast, ToastRef } from "../components";
+import { supabase } from "../lib/supabase";
 
 
 const { height, width } = Dimensions.get("window");
@@ -50,8 +50,8 @@ export default function Login() {
 	async function signInWithEmail() {
 		setLoading(true);
 		const { error } = await supabase.auth.signInWithPassword({
-			email: email,
-			password: password,
+			email,
+			password,
 		});
 
 		if (error)
@@ -69,8 +69,8 @@ export default function Login() {
 			data: { session },
 			error,
 		} = await supabase.auth.signUp({
-			email: email,
-			password: password,
+			email,
+			password,
 		});
 
 		if (error) {
@@ -128,7 +128,7 @@ export default function Login() {
 			}),
 			transform: [
 				{
-					rotate: withTiming(interpolation + "deg", {
+					rotate: withTiming(`${interpolation  }deg`, {
 						duration: 1000,
 					}),
 				},
@@ -136,20 +136,16 @@ export default function Login() {
 		};
 	});
 
-	const formAnimatedStyle = useAnimatedStyle(() => {
-		return {
+	const formAnimatedStyle = useAnimatedStyle(() => ({
 			opacity:
 				imagePosition.value === 0
 					? withDelay(400, withTiming(1, { duration: 800 }))
 					: withTiming(0, { duration: 300 }),
-		};
-	});
+		}));
 
-	const formButtonAnimatedStyle = useAnimatedStyle(() => {
-		return {
+	const formButtonAnimatedStyle = useAnimatedStyle(() => ({
 			transform: [{ scale: formButtonScale.value }],
-		};
-	});
+		}));
 
 	const loginHandler = () => {
 		imagePosition.value = 0;
@@ -262,7 +258,7 @@ export default function Login() {
 								onChangeText={(text) => setEmail(text)}
 								value={email}
 								style={styles.textInput}
-								autoCapitalize={"none"}
+								autoCapitalize="none"
 							/>
 							<TextInput
 								placeholder="Password"
@@ -270,7 +266,7 @@ export default function Login() {
 								style={styles.textInput}
 								onChangeText={(text) => setPassword(text)}
 								value={password}
-								secureTextEntry={true}
+								secureTextEntry
 								autoCapitalize="none"
 							/>
 							<Animated.View
@@ -302,7 +298,7 @@ export default function Login() {
 										const userInfo =
 											await GoogleSignin.signIn();
 										if (userInfo.idToken) {
-											const { data, error } =
+											const { error } =
 												await supabase.auth.signInWithIdToken(
 													{
 														provider: "google",
@@ -434,7 +430,7 @@ const styles = StyleSheet.create({
 	bottomContainer: {
 		justifyContent: "center",
 		height: height / 3,
-		width: width,
+		width,
 	},
 	textInput: {
 		height: 50,

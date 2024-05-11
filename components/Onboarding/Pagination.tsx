@@ -1,5 +1,4 @@
 import {StyleSheet, View} from 'react-native';
-import React from 'react';
 import {SharedValue} from 'react-native-reanimated';
 import Dot from './Dot';
 
@@ -7,15 +6,13 @@ type Props = {
   data: Object[];
   x: SharedValue<number>;
 };
-const Pagination = ({data, x}: Props) => {
+function Pagination({data, x}: Props) {
   return (
     <View style={styles.paginationContainer}>
-      {data.map((_, index) => {
-        return <Dot index={index} x={x} key={index} />;
-      })}
+      {data.map((_, index) => <Dot index={index} x={x} key={index} />)}
     </View>
   );
-};
+}
 
 export default Pagination;
 

@@ -9,13 +9,13 @@ import React, { useEffect, useState } from "react";
 import { FontAwesome6 } from "@expo/vector-icons";
 import { useUserStore } from "../../store";
 
-const RewardBanner = ({
+function RewardBanner({
 	setShowModal,
 	setCoins,
 }: {
 	setShowModal: (state: boolean) => void;
 	setCoins: (state: number) => void;
-}) => {
+}) {
 	const { addCoins, getLastRewardDate, setLastRewardDate } = useUserStore();
 	const [lastCheckin, setLastCheckin] = useState("");
 	const today = new Date().toISOString().split("T")[0];
@@ -81,7 +81,7 @@ const RewardBanner = ({
 			)}
 		</View>
 	);
-};
+}
 
 export default RewardBanner;
 

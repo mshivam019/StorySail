@@ -8,9 +8,9 @@ import Animated, {
 	useSharedValue,
 } from "react-native-reanimated";
 import Carousel from "react-native-reanimated-carousel";
-import { SBImageItem } from "./SBImage";
-import { useHomeStore } from "../../store";
 import { LinearGradient } from "expo-linear-gradient";
+import SBImageItem from "./SBImage";
+import { useHomeStore } from "../../store";
 
 const window = Dimensions.get("window");
 const PAGE_WIDTH = window.width;
@@ -42,13 +42,13 @@ function Cards() {
 						width: PAGE_WIDTH,
 					}}
 					loop
-					pagingEnabled={true}
-					snapEnabled={true}
-					autoPlay={true}
+					pagingEnabled
+					snapEnabled
+					autoPlay
 					autoPlayInterval={8000}
-					onProgressChange={(_, absoluteProgress) =>
-						(progressValue.value = absoluteProgress)
-					}
+					onProgressChange={(_, absoluteProgress) => {
+						progressValue.value = absoluteProgress;
+					}}
 					mode="parallax"
 					modeConfig={{
 						parallaxScrollingScale: 0.9,
@@ -72,18 +72,16 @@ function Cards() {
 						alignSelf: "center",
 					}}
 				>
-					{colors.map((backgroundColor, index) => {
-						return (
-							<PaginationItem
-								backgroundColor={backgroundColor}
-								animValue={progressValue}
-								index={index}
-								key={index}
-								isRotate={false}
-								length={colors.length}
-							/>
-						);
-					})}
+					{colors.map((backgroundColor, index) => (
+						<PaginationItem
+							backgroundColor={backgroundColor}
+							animValue={progressValue}
+							index={index}
+							key={backgroundColor}
+							isRotate={false}
+							length={colors.length}
+						/>
+					))}
 				</View>
 			)}
 		</LinearGradient>

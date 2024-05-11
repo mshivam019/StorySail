@@ -22,7 +22,7 @@ type Props = {
 	setValue: (value: string) => void;
 };
 
-const DropDown = ({ data, value, setValue }: Props) => {
+function DropDown({ data, value, setValue }: Props) {
 	const listRef = useAnimatedRef();
 	const heightValue = useSharedValue(0);
 	const open = useSharedValue(false);
@@ -45,6 +45,7 @@ const DropDown = ({ data, value, setValue }: Props) => {
 					if (heightValue.value === 0) {
 						runOnUI(() => {
 							"worklet";
+
 							heightValue.value = withTiming(
 								measure(listRef)!.height
 							);
@@ -57,7 +58,7 @@ const DropDown = ({ data, value, setValue }: Props) => {
 				style={styles.titleContainer}
 			>
 				<Text style={styles.textTitle}>
-					{value ? value : data.title}
+					{value || data.title}
 				</Text>
 				<Animated.View style={iconStyle}>
 					<MaterialIcons
@@ -86,7 +87,7 @@ const DropDown = ({ data, value, setValue }: Props) => {
 			</Animated.View>
 		</View>
 	);
-};
+}
 
 export default DropDown;
 

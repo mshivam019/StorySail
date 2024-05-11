@@ -4,7 +4,7 @@ import { Image } from "expo-image";
 import { router } from "expo-router";
 import { useHomeStore } from "../../store";
 
-const Categories = () => {
+function Categories() {
 	const {data} = useHomeStore();
 
 	return (
@@ -46,7 +46,7 @@ const Categories = () => {
 			/>}
 		</View>
 	);
-};
+}
 
 export default Categories;
 

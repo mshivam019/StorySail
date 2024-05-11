@@ -5,7 +5,7 @@ import { router } from "expo-router";
 
 const { width } = Dimensions.get("window");
 
-const MiniCardItem = ({
+function MiniCardItem({
 	item,
 }: {
 	item: {
@@ -14,7 +14,7 @@ const MiniCardItem = ({
 		posterImageUrl: string;
 		category: string;
 	};
-}) => {
+}) {
 	return (
 		<Pressable
 			style={styles.container}
@@ -37,7 +37,7 @@ const MiniCardItem = ({
 			</View>
 		</Pressable>
 	);
-};
+}
 
 export default MiniCardItem;
 

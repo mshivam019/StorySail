@@ -27,10 +27,8 @@ import Animated, {
 	withTiming,
 } from "react-native-reanimated";
 import { Ionicons } from "@expo/vector-icons";
-import equals from "react-fast-compare";
 
 const IS_ANDROID = Platform.OS === "android";
-const { width: SCREEN_WIDTH } = Dimensions.get("window");
 
 export const springConfig = {
 	stiffness: 1000,
@@ -224,8 +222,7 @@ function SearchBarComponent(props: SearchBarProps, ref: React.Ref<any>) {
 		};
 	});
 
-	const textStyle = useAnimatedStyle(() => {
-		return {
+	const textStyle = useAnimatedStyle(() => ({
 			opacity: withTiming(isFocus.value ? 1 : 0, timingConfig),
 			transform: [
 				{ scale: withTiming(isFocus.value ? 1 : 0, timingConfig) },
@@ -235,8 +232,7 @@ function SearchBarComponent(props: SearchBarProps, ref: React.Ref<any>) {
 						: withTiming(dimensions.width, { duration: 650 }),
 				},
 			],
-		};
-	});
+		}));
 
 	return (
 		<View>
@@ -381,4 +377,4 @@ SearchBar.defaultProps = {
 	isDarkTheme: false,
 };
 
-export default React.memo(SearchBar, equals);
+export default React.memo(SearchBar);

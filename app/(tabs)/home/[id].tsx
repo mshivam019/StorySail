@@ -11,9 +11,9 @@ import {
 import { Stack, useLocalSearchParams } from "expo-router";
 import Animated from "react-native-reanimated";
 import { FontAwesome } from "@expo/vector-icons";
+import HTMLView from "react-native-htmlview";
 import { Toast, ToastRef } from "../../../components";
 import { supabase } from "../../../lib/supabase";
-import HTMLView from "react-native-htmlview";
 import { useUserStore } from "../../../store";
 import { useHaptic } from "../../../utils";
 
@@ -27,14 +27,14 @@ interface CurrentBook {
 	user_id: string;
 }
 
-const Details = () => {
+function Details() {
 	const { id } = useLocalSearchParams<{ id: string }>();
 	const toastRef = useRef<ToastRef>(null);
 	const [loading, setLoading] = useState(true);
 	const { user, userDetails } = useUserStore();
 	const [currentBook, setCurrentBook] = useState<CurrentBook | null>(null);
 
-	const haptics = useHaptic();
+	const haptics = useHaptic() || (() => {});
 
 	const [liked, setLiked] = useState(false);
 
@@ -115,7 +115,7 @@ const Details = () => {
 						},
 					]);
 			}
-			haptics && haptics();
+			haptics();
 			toastRef.current?.show({
 				type: "success",
 				text: liked ? "Removed from favorites" : "Added to favorites",
@@ -220,13 +220,13 @@ const Details = () => {
 					color: "gray",
 				}}
 			>
-				{"Tags: " +
-					currentBook?.tags.map((tag) => `#${tag}`).join(", ")}
+				{`Tags: ${ 
+					currentBook?.tags.map((tag) => `#${tag}`).join(", ")}`}
 			</Text>
 			<Toast ref={toastRef} />
 		</ScrollView>
 	);
-};
+}
 
 export default Details;
 

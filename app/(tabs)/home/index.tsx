@@ -1,5 +1,7 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { ScrollView, StyleSheet} from "react-native";
+
+import { useFocusEffect } from "expo-router";
 import {
 	PopupModal,
 	Cards,
@@ -7,12 +9,11 @@ import {
 	RewardCard,
 	Categories,
 	Recommendations,
+	RewardBanner,
 } from "../../../components";
-import { RewardBanner } from "../../../components";
 import { useHomeStore } from "../../../store";
-import { useFocusEffect } from "expo-router";
 
-const Home = () => {
+function Home() {
 	const [showModal, setShowModal] = useState(false);
 	const [coins, setCoins] = useState(0);
 	const { setRefetchFlag, lastFetch, setLastFetch, refetchFlag } =
@@ -45,7 +46,7 @@ const Home = () => {
 			</PopupModal>
 		</ScrollView>
 	);
-};
+}
 
 const styles = StyleSheet.create({
 	container: {

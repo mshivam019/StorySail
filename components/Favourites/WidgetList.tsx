@@ -1,15 +1,15 @@
-import React, { useState } from "react";
+import { useState } from "react";
 
-import { MARGIN } from "./Config";
-import Tile from "./Tile";
-import SortableList from "./SortableList";
 import { ScrollView, ActivityIndicator, View, Text } from "react-native";
-import { supabase } from "../../../lib/supabase";
-import { useUserStore } from "../../../store";
 import { useFocusEffect } from "expo-router";
 import { LinearGradient } from "expo-linear-gradient";
+import { MARGIN } from "./SortableList/Config";
+import Tile from "./SortableList/Tile";
+import SortableList from "./SortableList/SortableList";
+import { supabase } from "../../lib/supabase";
+import { useUserStore } from "../../store";
 
-const WidgetList = () => {
+function WidgetList() {
 	const [data, setData] = useState<any[]>([]);
 	const [loading, setLoading] = useState(true);
 	const { user } = useUserStore();
@@ -96,14 +96,13 @@ const WidgetList = () => {
 				style={{ flex: 1, paddingTop: 20, paddingHorizontal: MARGIN }}
 			>
 				<SortableList
-					editing={true}
+					editing
 					length={data.length}
 					onDragEnd={(positions) => console.log(positions)}
 				>
-					{[...data].map((tile, index) => (
+					{[...data].map((tile) => (
 						<Tile
-							onLongPress={() => true}
-							key={tile.id + "-" + index}
+							key={tile.id}
 							card={tile}
 							id={tile.id}
 						/>
@@ -112,6 +111,6 @@ const WidgetList = () => {
 			</LinearGradient>
 		</ScrollView>
 	);
-};
+}
 
 export default WidgetList;

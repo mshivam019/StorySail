@@ -1,15 +1,15 @@
 import { View, StyleSheet, Text, Pressable } from "react-native";
 import React, { forwardRef, useMemo } from "react";
 import { BottomSheetModal } from "@gorhom/bottom-sheet";
-import { AntDesign, Feather } from "@expo/vector-icons";
+import { AntDesign, Feather , FontAwesome6 } from "@expo/vector-icons";
 import { BottomSheetModalMethods } from "@gorhom/bottom-sheet/lib/typescript/types";
 import { router } from "expo-router";
-import { useUserStore } from "../../store";
 import { Image } from "expo-image";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
+import { useUserStore } from "../../store";
 import Switch from "../CustomSwitch";
 import { useAuth } from "../../provider/AuthProvider";
-import { FontAwesome6 } from "@expo/vector-icons";
-import { useSafeAreaInsets } from "react-native-safe-area-context";
+
 export type Ref = BottomSheetModal;
 
 const CustomBottomSheetModal = forwardRef<Ref, {}>((props, ref) => {
@@ -133,8 +133,8 @@ const CustomBottomSheetModal = forwardRef<Ref, {}>((props, ref) => {
 					<Text style={styles.textStyle}>Notifications</Text>
 					<View style={{ position: "absolute", right: 20 }}>
 						<Switch
-							activeColor={"#4cd964"}
-							inActiveColor={"#F2F5F7"}
+							activeColor="#4cd964"
+							inActiveColor="#F2F5F7"
 							active={showNotification}
 							setActive={setShowNotification}
 							callBackfn={handleNotificationPermission}
@@ -162,6 +162,8 @@ const CustomBottomSheetModal = forwardRef<Ref, {}>((props, ref) => {
 		</BottomSheetModal>
 	);
 });
+
+CustomBottomSheetModal.displayName = "CustomBottomSheetModal";
 
 const styles = StyleSheet.create({
 	contentContainer: {

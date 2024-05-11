@@ -5,7 +5,7 @@ import { Image } from "expo-image";
 import { router } from "expo-router";
 import { useHomeStore } from "../../store";
 
-const Suggestions = ({ onPress }: { onPress: (text: string) => void }) => {
+function Suggestions({ onPress }: { onPress: (text: string) => void }) {
 	const suggestions = [
 		{
 			text: "Thriller",
@@ -57,7 +57,7 @@ const Suggestions = ({ onPress }: { onPress: (text: string) => void }) => {
 			<View style={styles.suggestions}>
 				{suggestions.map((suggestion, index) => (
 					<Pressable
-						key={index}
+						key={suggestion.text}
 						style={{
 							backgroundColor: suggestion.color,
 							borderRadius: 5,
@@ -110,7 +110,7 @@ const Suggestions = ({ onPress }: { onPress: (text: string) => void }) => {
 			}
 		</View>
 	);
-};
+}
 
 export default Suggestions;
 

@@ -11,13 +11,12 @@ import {
 import * as Device from "expo-device";
 import * as Notifications from "expo-notifications";
 import Constants from "expo-constants";
+import { useFocusEffect } from "expo-router";
+import { Swipeable } from "react-native-gesture-handler";
 import { useAuth } from "../provider/AuthProvider";
 import { supabase } from "../lib/supabase";
 import { useUserStore, useNotificationStore } from "../store";
-import { Switch } from "../components";
-import { ToastRef, Toast } from "../components";
-import { useFocusEffect } from "expo-router";
-import { Swipeable } from "react-native-gesture-handler";
+import { Switch , ToastRef, Toast } from "../components";
 
 Notifications.setNotificationHandler({
 	handleNotification: async () => ({
@@ -77,11 +76,11 @@ export default function PushNotifications() {
 
 	const fetchNotifications = async () => {
 		if (showNotification) {
-			//check if lastfetch was more than 5 minutes ago
+			// check if lastfetch was more than 5 minutes ago
 			const now = new Date();
 			const diff = now.getTime() - new Date(lastfetch).getTime();
 			if (diff > 300000) {
-				//fetch notifications
+				// fetch notifications
 				getNotifications();
 				setLastFetch(now);
 			}
@@ -175,6 +174,7 @@ export default function PushNotifications() {
 			const { error } = await supabase
 				.from("profiles")
 				.upsert({ id: session?.user.id, expo_push_token: token });
+			console.log("error", error);
 		});
 	}, []);
 
@@ -186,8 +186,8 @@ export default function PushNotifications() {
 				<View style={styles.emptyContainer}>
 					<Text>Enable Notifications</Text>
 					<Switch
-						activeColor={"#4cd964"}
-						inActiveColor={"#F2F5F7"}
+						activeColor="#4cd964"
+						inActiveColor="#F2F5F7"
 						active={showNotification}
 						setActive={setShowNotification}
 						callBackfn={handleNotificationPermission}

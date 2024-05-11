@@ -1,5 +1,4 @@
 import { useState, useRef } from "react";
-import { supabase } from "../lib/supabase";
 import {
 	StyleSheet,
 	View,
@@ -9,13 +8,14 @@ import {
 	Text,
 	ActivityIndicator,
 } from "react-native";
-import { Toast, ToastRef } from "../components";
-import { useAuth } from "../provider/AuthProvider";
 import * as ImagePicker from "expo-image-picker";
 import { Image } from "expo-image";
 import * as FileSystem from "expo-file-system";
 import { decode } from "base64-arraybuffer";
 import { Redirect } from "expo-router";
+import { useAuth } from "../provider/AuthProvider";
+import { Toast, ToastRef } from "../components";
+import { supabase } from "../lib/supabase";
 import { useUserStore } from "../store";
 import { UserDetails } from "../store/userStore";
 
@@ -28,25 +28,25 @@ export default function Profile() {
 	const [username, setUsername] = useState(userDetails.username);
 	const [website, setWebsite] = useState(userDetails.website);
 	const [avatarUrl, setAvatarUrl] = useState(userDetails.avatar_url);
-	const [full_name, setFull_name] = useState(userDetails.full_name);
+	const [fullName, setFullName] = useState(userDetails.full_name);
 	const [imageLoading, setImageLoading] = useState(false);
 	const { session } = useAuth();
 	const toastRef = useRef<ToastRef>(null);
 
 	if (!session) {
-		return <Redirect href={"/login"} />;
+		return <Redirect href="/login" />;
 	}
 
 	async function updateProfile({
 		username,
 		website,
-		avatar_url,
-		full_name,
+		avatarUrl,
+		fullName,
 	}: {
 		username: string;
 		website: string;
-		avatar_url: string;
-		full_name: string;
+		avatarUrl: string;
+		fullName: string;
 	}) {
 		try {
 			setLoading(true);
@@ -56,8 +56,8 @@ export default function Profile() {
 				id: session?.user.id,
 				username,
 				website,
-				full_name,
-				avatar_url,
+				full_name: fullName,
+				avatar_url: avatarUrl,
 				updated_at: new Date(),
 			};
 
@@ -70,8 +70,8 @@ export default function Profile() {
 				...userDetails,
 				username,
 				website,
-				avatar_url,
-				full_name,
+				avatar_url: avatarUrl,
+				full_name: fullName,
 			});
 
 			toastRef.current?.show({
@@ -106,7 +106,7 @@ export default function Profile() {
 
 				return;
 			}
-			let result = await ImagePicker.launchImageLibraryAsync({
+			const result = await ImagePicker.launchImageLibraryAsync({
 				mediaTypes: ImagePicker.MediaTypeOptions.Images,
 				allowsEditing: true,
 				aspect: [4, 3],
@@ -209,8 +209,8 @@ export default function Profile() {
 			</View>
 			<View style={styles.verticallySpaced}>
 				<TextInput
-					value={full_name}
-					onChangeText={(text) => setFull_name(text)}
+					value={fullName}
+					onChangeText={(text) => setFullName(text)}
 					style={styles.input}
 					placeholder="full name here"
 				/>
@@ -231,8 +231,8 @@ export default function Profile() {
 						updateProfile({
 							username,
 							website,
-							avatar_url: avatarUrl,
-							full_name,
+							avatarUrl,
+							fullName,
 						})
 					}
 					disabled={loading}

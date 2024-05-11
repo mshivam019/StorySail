@@ -6,8 +6,8 @@ import Animated, {
   interpolate,
   useAnimatedStyle,
 } from 'react-native-reanimated';
-import {OnboardingData} from '../../data';
 import LottieView from 'lottie-react-native';
+import {OnboardingData} from '../../data';
 
 type Props = {
   index: number;
@@ -15,7 +15,7 @@ type Props = {
   item: OnboardingData;
 };
 
-const RenderItem = ({index, x, item}: Props) => {
+function RenderItem({index, x, item}: Props) {
   const {width: SCREEN_WIDTH} = useWindowDimensions();
 
   const lottieAnimationStyle = useAnimatedStyle(() => {
@@ -48,7 +48,7 @@ const RenderItem = ({index, x, item}: Props) => {
     );
 
     return {
-      transform: [{scale: scale}],
+      transform: [{scale}],
     };
   });
 
@@ -83,7 +83,7 @@ const RenderItem = ({index, x, item}: Props) => {
       </Text>
     </View>
   );
-};
+}
 
 export default RenderItem;
 

@@ -1,12 +1,11 @@
-import React from "react";
-import { AuthProvider } from "../provider/AuthProvider";
-import "react-native-gesture-handler";
+import { GestureHandlerRootView } from "react-native-gesture-handler";
 import { Stack } from "expo-router";
 import { BottomSheetModalProvider } from "@gorhom/bottom-sheet";
-import { GestureHandlerRootView } from "react-native-gesture-handler";
-import { SafeAreaProvider } from "react-native-safe-area-context";
 
-const RootLayout = () => {
+import { SafeAreaProvider } from "react-native-safe-area-context";
+import { AuthProvider } from "../provider/AuthProvider";
+
+function RootLayout() {
 	return (
 		<SafeAreaProvider
 			initialMetrics={{
@@ -81,6 +80,6 @@ const RootLayout = () => {
 			</AuthProvider>
 		</SafeAreaProvider>
 	);
-};
+}
 
 export default RootLayout;

@@ -1,8 +1,7 @@
-import React from 'react'
-import { FavouritesList } from '../../../components'
+import { WidgetList } from "../../../components";
 
-const Favourites = () => {
-  return <FavouritesList />
+function Favourites() {
+	return <WidgetList />;
 }
 
-export default Favourites
+export default Favourites;

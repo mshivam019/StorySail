@@ -1,15 +1,84 @@
 import { StyleSheet, Text, View, Pressable } from "react-native";
-import React from "react";
 import { FlatList } from "react-native-gesture-handler";
-import { useWritingsStore } from "../../store";
 import { router } from "expo-router";
 import { Ionicons } from "@expo/vector-icons";
-import { useHaptic } from "../../utils";
 import { LinearGradient } from "expo-linear-gradient";
+import { useHaptic } from "../../utils";
+import { useWritingsStore } from "../../store";
 
-const MyWorks = () => {
-	const haptic = useHaptic();
-	const { articles, drafts, deleteDraft, removeArticle } = useWritingsStore();
+function DraftsCard({ title = "", id = "" }: { title: string; id: string }) {
+	const { deleteDraft } = useWritingsStore();
+	return (
+		<View style={styles.cardContainer}>
+			<Text numberOfLines={1} style={styles.cardTitle}>
+				{title}
+			</Text>
+			<View style={{ flexDirection: "row", gap: 10 }}>
+				<Pressable
+					onPress={() => {
+						router.push({
+							pathname: "/create/editor",
+							params: { id },
+						});
+					}}
+				>
+					<Ionicons name="create-outline" size={24} color="black" />
+				</Pressable>
+				<Pressable
+					onPress={() => {
+						deleteDraft(id);
+					}}
+				>
+					<Ionicons name="trash-outline" size={24} color="black" />
+				</Pressable>
+			</View>
+		</View>
+	);
+}
+
+function PublishedCard({ title, id }: { title: string; id: string }) {
+	const { removeArticle } = useWritingsStore();
+	const haptic = useHaptic() || (() => {});
+	return (
+		<View style={styles.cardContainer}>
+			<Text numberOfLines={1} style={styles.cardTitle}>
+				{title}
+			</Text>
+			<View style={{ flexDirection: "row", gap: 20 }}>
+				<Pressable
+					onPress={() =>
+						router.push({
+							pathname: `/home/${id}`,
+						})
+					}
+				>
+					<Ionicons name="book-outline" size={24} color="black" />
+				</Pressable>
+				<Pressable
+					onPress={() => {
+						router.push({
+							pathname: "/create/editor",
+							params: { id },
+						});
+					}}
+				>
+					<Ionicons name="create-outline" size={24} color="black" />
+				</Pressable>
+				<Pressable
+					onPress={() => {
+						haptic();
+						removeArticle(id);
+					}}
+				>
+					<Ionicons name="trash-outline" size={24} color="black" />
+				</Pressable>
+			</View>
+		</View>
+	);
+}
+
+function MyWorks() {
+	const { articles, drafts } = useWritingsStore();
 	if (articles.length === 0 && drafts.length === 0) {
 		return (
 			<View style={styles.container}>
@@ -17,89 +86,7 @@ const MyWorks = () => {
 			</View>
 		);
 	}
-	const DraftsCard = ({ title, id }: { title: string; id: string }) => {
-		return (
-			<View style={styles.cardContainer}>
-				<Text numberOfLines={1} style={styles.cardTitle}>
-					{title}
-				</Text>
-				<View style={{ flexDirection: "row", gap: 10 }}>
-					<Pressable
-						onPress={() => {
-							router.push({
-								pathname: "/create/editor",
-								params: { id: id },
-							});
-						}}
-					>
-						<Ionicons
-							name="create-outline"
-							size={24}
-							color="black"
-						/>
-					</Pressable>
-					<Pressable
-						onPress={() => {
-							deleteDraft(id);
-						}}
-					>
-						<Ionicons
-							name="trash-outline"
-							size={24}
-							color="black"
-						/>
-					</Pressable>
-				</View>
-			</View>
-		);
-	};
 
-	const PublishedCard = ({ title, id }: { title: string; id: string }) => {
-		return (
-			<View style={styles.cardContainer}>
-				<Text numberOfLines={1} style={styles.cardTitle}>
-					{title}
-				</Text>
-				<View style={{ flexDirection: "row", gap: 20 }}>
-					<Pressable
-						onPress={() =>
-							router.push({
-								pathname: `/home/${id}`,
-							})
-						}
-					>
-						<Ionicons name="book-outline" size={24} color="black" />
-					</Pressable>
-					<Pressable
-						onPress={() => {
-							router.push({
-								pathname: "/create/editor",
-								params: { id: id },
-							});
-						}}
-					>
-						<Ionicons
-							name="create-outline"
-							size={24}
-							color="black"
-						/>
-					</Pressable>
-					<Pressable
-						onPress={() => {
-							haptic && haptic();
-							removeArticle(id);
-						}}
-					>
-						<Ionicons
-							name="trash-outline"
-							size={24}
-							color="black"
-						/>
-					</Pressable>
-				</View>
-			</View>
-		);
-	};
 	return (
 		<View style={styles.container}>
 			{drafts.length > 0 && (
@@ -136,7 +123,7 @@ const MyWorks = () => {
 			)}
 		</View>
 	);
-};
+}
 
 export default MyWorks;
 

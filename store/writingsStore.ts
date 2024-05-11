@@ -1,8 +1,7 @@
 import { create } from "zustand";
-import { persist } from "zustand/middleware";
-import { createJSONStorage } from "zustand/middleware";
+import { persist , createJSONStorage } from "zustand/middleware";
 import { supabase } from "../lib/supabase";
-import { zustandStorage } from "./zustandStore";
+import zustandStorage from "./zustandStore";
 
 
 export interface UserWriting {
@@ -53,9 +52,9 @@ const useWritingsStore = create<WritingsStore>()(
 						set({ articles: [state] });
 						return "Article added successfully";
 					}
-					//check if the article already exists in the store
-					//if it does, update the article
-					let newArticles = get().articles.map((article) =>
+					// check if the article already exists in the store
+					// if it does, update the article
+					const newArticles = get().articles.map((article) =>
 						article.id === state.id ? state : article
 					);
 					// if it doesn't, add the article to the store
@@ -103,13 +102,13 @@ const useWritingsStore = create<WritingsStore>()(
 				set({ articles: data });
 			},
 			saveDraft: (draft: UserWriting) => {
-				//match id of the new article with the id of the article in the store then update the article
+				// match id of the new article with the id of the article in the store then update the article
 				if(get().drafts.length === 0){
 					set({ drafts: [draft] });
 					return;
 				}
-				//check if the draft already exists in the store
-				let newDrafts = get().drafts.map((d) =>
+				// check if the draft already exists in the store
+				const newDrafts = get().drafts.map((d) =>
 					d.id === draft.id ? draft : d
 				);
 				// if it doesn't, add the draft to the store

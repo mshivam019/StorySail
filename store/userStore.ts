@@ -1,8 +1,8 @@
 import { create } from "zustand";
-import { persist } from "zustand/middleware";
-import { createJSONStorage } from "zustand/middleware";
-import { zustandStorage } from "./zustandStore";
+import { persist , createJSONStorage } from "zustand/middleware";
+
 import { User, PostgrestError } from "@supabase/supabase-js";
+import zustandStorage from "./zustandStore";
 import { supabase } from "../lib/supabase";
 
 export interface UserDetails {
@@ -64,9 +64,7 @@ const useUserStore = create<UserStore>()(
 					showNotification: state,
 				});
 			},
-			getCoins: () => {
-				return get().userDetails.coins;
-			},
+			getCoins: () => get().userDetails.coins,
 			deductCoins: async (state: number) => {
 				const updates = {
 					id: get().user?.id,
@@ -117,9 +115,7 @@ const useUserStore = create<UserStore>()(
 				}
 				return error;
 			},
-			getLastRewardDate: () => {
-				return get().userDetails.lastRewardDate;
-			},
+			getLastRewardDate: () => get().userDetails.lastRewardDate,
 			setLastRewardDate: async (date) => {
 				const updates = {
 					id: get().user?.id,

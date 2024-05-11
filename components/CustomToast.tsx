@@ -74,13 +74,11 @@ const Toast = forwardRef<ToastRef,{}>((props,ref) => {
 		[show]
 	);
 
-	const animatedTopStyles = useAnimatedStyle(() => {
-		return {
+	const animatedTopStyles = useAnimatedStyle(() => ({
 			top: toastTopAnimation.value,
 			left: toastsideAnimation.value,
 			right: toastsideAnimation.value,
-		};
-	});
+		}));
 
 	const handleGesture = useCallback(
 		(event: {
@@ -155,6 +153,8 @@ const Toast = forwardRef<ToastRef,{}>((props,ref) => {
 		)
 	);
 });
+
+Toast.displayName = "Toast";
 
 export default Toast;
 

@@ -1,13 +1,13 @@
 import React, { useCallback, useState } from "react";
 import { StyleSheet, View, Text, Pressable } from "react-native";
 import { Image } from "expo-image";
-import { useUserStore } from "../../../store";
-import { supabase } from "../../../lib/supabase";
 import { useFocusEffect, router } from "expo-router";
-import { useAuth } from "../../../provider/AuthProvider";
 import { LinearGradient } from "expo-linear-gradient";
 import { Feather } from "@expo/vector-icons";
 import { FlatList } from "react-native-gesture-handler";
+import { useAuth } from "../../../provider/AuthProvider";
+import { supabase } from "../../../lib/supabase";
+import { useUserStore } from "../../../store";
 
 export default function Profile() {
 	const { userDetails, user } = useUserStore();
@@ -21,7 +21,7 @@ export default function Profile() {
 	const { signOut } = useAuth();
 
 	const getData = async () => {
-		//count entries where userid is equal to the current user
+		// count entries where userid is equal to the current user
 		const { data, error } = await supabase
 			.from("stars")
 			.select("id", { count: "exact" })
@@ -76,6 +76,7 @@ export default function Profile() {
 						borderWidth: 2,
 						marginTop: -90,
 					}}
+					alt="Profile Picture"
 				/>
 
 				<Text

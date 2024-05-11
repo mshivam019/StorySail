@@ -13,9 +13,9 @@ import Animated, {
 	withSpring,
 	withTiming,
 } from "react-native-reanimated";
+import { router } from "expo-router";
 import { useUserStore } from "../../store";
 import { OnboardingData } from "../../data";
-import { router } from "expo-router";
 
 type Props = {
 	dataLength: number;
@@ -24,22 +24,19 @@ type Props = {
 	x: SharedValue<number>;
 };
 
-const CustomButton = ({ flatListRef, flatListIndex, dataLength, x }: Props) => {
+function CustomButton({ flatListRef, flatListIndex, dataLength, x }: Props) {
 	const { width: SCREEN_WIDTH } = useWindowDimensions();
 	const { setIsFirstLogin } = useUserStore();
 
-	const buttonAnimationStyle = useAnimatedStyle(() => {
-		return {
+	const buttonAnimationStyle = useAnimatedStyle(() => ({
 			width:
 				flatListIndex.value === dataLength - 1
 					? withSpring(140)
 					: withSpring(60),
 			height: 60,
-		};
-	});
+		}));
 
-	const arrowAnimationStyle = useAnimatedStyle(() => {
-		return {
+	const arrowAnimationStyle = useAnimatedStyle(() => ({
 			width: 30,
 			height: 30,
 			opacity:
@@ -54,11 +51,9 @@ const CustomButton = ({ flatListRef, flatListIndex, dataLength, x }: Props) => {
 							: withTiming(0),
 				},
 			],
-		};
-	});
+		}));
 
-	const textAnimationStyle = useAnimatedStyle(() => {
-		return {
+	const textAnimationStyle = useAnimatedStyle(() => ({
 			opacity:
 				flatListIndex.value === dataLength - 1
 					? withTiming(1)
@@ -71,8 +66,7 @@ const CustomButton = ({ flatListRef, flatListIndex, dataLength, x }: Props) => {
 							: withTiming(-100),
 				},
 			],
-		};
-	});
+		}));
 	const animatedColor = useAnimatedStyle(() => {
 		const backgroundColor = interpolateColor(
 			x.value,
@@ -81,7 +75,7 @@ const CustomButton = ({ flatListRef, flatListIndex, dataLength, x }: Props) => {
 		);
 
 		return {
-			backgroundColor: backgroundColor,
+			backgroundColor,
 		};
 	});
 
@@ -111,7 +105,7 @@ const CustomButton = ({ flatListRef, flatListIndex, dataLength, x }: Props) => {
 			</Animated.View>
 		</TouchableWithoutFeedback>
 	);
-};
+}
 
 export default CustomButton;
 

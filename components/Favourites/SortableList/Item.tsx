@@ -37,7 +37,7 @@ interface ItemProps {
 	scrollY: SharedValue<number>;
 }
 
-const Item = ({
+function Item({
 	children,
 	positions,
 	id,
@@ -45,7 +45,7 @@ const Item = ({
 	scrollView,
 	scrollY,
 	editing,
-}: ItemProps) => {
+}: ItemProps) {
 	const inset = useSafeAreaInsets();
 	const containerHeight =
 		Dimensions.get("window").height - inset.top - inset.bottom;
@@ -178,6 +178,6 @@ const Item = ({
 			</PanGestureHandler>
 		</Animated.View>
 	);
-};
+}
 
 export default Item;

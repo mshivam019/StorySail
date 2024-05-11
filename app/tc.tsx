@@ -1,24 +1,23 @@
 import { ScrollView, Text, StyleSheet } from "react-native";
 import React from "react";
 
-const settings = () => {
-	return (
+const settings = () => (
 		<ScrollView style={styles.container} contentContainerStyle={{gap:10,paddingBottom:30}}>
 			<Text style={styles.heading}>Terms & Conditions</Text>
 			<Text style={styles.description}>
       Welcome to Story Sail!
 {"\n\n"}
-These terms and conditions outline the rules and regulations for the use of mshivam019's Website, located at mshivam019.vercel.app.
+These terms and conditions outline the rules and regulations for the use of mshivam019&apos;s Website, located at mshivam019.vercel.app.
 {"\n\n"}
 By accessing this website we assume you accept these terms and conditions. Do not continue to use mshivam019 if you do not agree to take all of the terms and conditions stated on this page.
 {"\n\n"}
-The following terminology applies to these Terms and Conditions, Privacy Statement and Disclaimer Notice and all Agreements: "Client", "You" and "Your" refers to you, the person log on this website and compliant to the Company's terms and conditions. "The Company", "Ourselves", "We", "Our" and "Us", refers to our Company. "Party", "Parties", or "Us", refers to both the Client and ourselves. All terms refer to the offer, acceptance and consideration of payment necessary to undertake the process of our assistance to the Client in the most appropriate manner for the express purpose of meeting the Client's needs in respect of provision of the Company's stated services, in accordance with and subject to, prevailing law of in. Any use of the above terminology or other words in the singular, plural, capitalization and/or he/she or they, are taken as interchangeable and therefore as referring to same.
+The following terminology applies to these Terms and Conditions, Privacy Statement and Disclaimer Notice and all Agreements: &quot;Client&quot;, &quot;You&quot; and &quot;Your&quot; refers to you, the person log on this website and compliant to the Company&apos;s terms and conditions. &quot;The Company&quot;, &quot;Ourselves&quot;, &quot;We&quot;, &quot;Our&quot; and &quot;Us&quot;, refers to our Company. &quot;Party&quot;, &quot;Parties&quot;, or &quot;Us&quot;, refers to both the Client and ourselves. All terms refer to the offer, acceptance and consideration of payment necessary to undertake the process of our assistance to the Client in the most appropriate manner for the express purpose of meeting the Client&apos;s needs in respect of provision of the Company&apos;s stated services, in accordance with and subject to, prevailing law of in. Any use of the above terminology or other words in the singular, plural, capitalization and/or he/she or they, are taken as interchangeable and therefore as referring to same.
 {"\n\n"}
 Cookies
 {"\n"}
-We employ the use of cookies. By accessing mshivam019, you agreed to use cookies in agreement with the mshivam019's Privacy Policy.
+We employ the use of cookies. By accessing mshivam019, you agreed to use cookies in agreement with the mshivam019&apos;s Privacy Policy.
 {"\n\n"}
-Most interactive websites use cookies to let us retrieve the user's details for each visit. Cookies are used by our website to enable the functionality of certain areas to make it easier for people visiting our website. Some of our affiliate/advertising partners may also use cookies.
+Most interactive websites use cookies to let us retrieve the user&apos;s details for each visit. Cookies are used by our website to enable the functionality of certain areas to make it easier for people visiting our website. Some of our affiliate/advertising partners may also use cookies.
 {"\n\n"}
 License
 {"\n"}
@@ -67,7 +66,7 @@ The following organizations may link to our Website without prior written approv
 {"\n"}
 {'\u2022'} System wide Accredited Businesses except soliciting non-profit organizations, charity shopping malls, and charity fundraising groups which may not hyperlink to our Web site.
 {"\n\n"}
-These organizations may link to our home page, to publications or to other Website information so long as the link: (a) is not in any way deceptive; (b) does not falsely imply sponsorship, endorsement or approval of the linking party and its products and/or services; and (c) fits within the context of the linking party's site.
+These organizations may link to our home page, to publications or to other Website information so long as the link: (a) is not in any way deceptive; (b) does not falsely imply sponsorship, endorsement or approval of the linking party and its products and/or services; and (c) fits within the context of the linking party&apos;s site.
 {"\n\n"}
 We may consider and approve other link requests from the following types of organizations:
 {"\n\n"}
@@ -86,7 +85,7 @@ We may consider and approve other link requests from the following types of orga
 {"\n\n"}
 We will approve link requests from these organizations if we decide that: (a) the link would not make us look unfavorably to ourselves or to our accredited businesses; (b) the organization does not have any negative records with us; (c) the benefit to us from the visibility of the hyperlink compensates the absence of mshivam019; and (d) the link is in the context of general resource information.
 {"\n\n"}
-These organizations may link to our home page so long as the link: (a) is not in any way deceptive; (b) does not falsely imply sponsorship, endorsement or approval of the linking party and its products or services; and (c) fits within the context of the linking party's site.
+These organizations may link to our home page so long as the link: (a) is not in any way deceptive; (b) does not falsely imply sponsorship, endorsement or approval of the linking party and its products or services; and (c) fits within the context of the linking party&apos;s site.
 {"\n\n"}
 If you are one of the organizations listed in paragraph 2 above and are interested in linking to our website, you must inform us by sending an e-mail to mshivam019. Please include your name, your organization name, contact information as well as the URL of your site, a list of any URLs from which you intend to link to our Website, and a list of the URLs on our site to which you would like to link. Wait 2-3 weeks for a response.
 {"\n\n"}
@@ -96,9 +95,9 @@ Approved organizations may hyperlink to our Website as follows:
 {"\n"}
 {'\u2022'} By use of the uniform resource locator being linked to; or
 {"\n"}
-{'\u2022'} By use of any other description of our Website being linked to that makes sense within the context and format of content on the linking party's site.
+{'\u2022'} By use of any other description of our Website being linked to that makes sense within the context and format of content on the linking party&apos;s site.
 {"\n\n"}
-No use of mshivam019's logo or other artwork will be allowed for linking absent a trademark license agreement.
+No use of mshivam019&apos;s logo or other artwork will be allowed for linking absent a trademark license agreement.
 {"\n\n"}
 iFrames
 {"\n"}
@@ -110,7 +109,7 @@ We shall not be hold responsible for any content that appears on your Website. Y
 {"\n\n"}
 Reservation of Rights
 {"\n"}
-We reserve the right to request that you remove all links or any particular link to our Website. You approve to immediately remove all links to our Website upon request. We also reserve the right to amen these terms and conditions and it's linking policy at any time. By continuously linking to our Website, you agree to be bound to and follow these linking terms and conditions.
+We reserve the right to request that you remove all links or any particular link to our Website. You approve to immediately remove all links to our Website upon request. We also reserve the right to amen these terms and conditions and it&apos;s linking policy at any time. By continuously linking to our Website, you agree to be bound to and follow these linking terms and conditions.
 {"\n\n"}
 Removal of links from our website
 {"\n"}
@@ -136,7 +135,6 @@ As long as the website and the information and services on the website are provi
 
 		</ScrollView>
 	);
-};
 
 const styles = StyleSheet.create({
 	container: {

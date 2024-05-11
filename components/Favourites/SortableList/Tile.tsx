@@ -1,8 +1,7 @@
-import React from "react";
-import { StyleSheet, View, Text, Pressable } from "react-native";
+import { StyleSheet, Text, Pressable } from "react-native";
 import { Image } from "expo-image";
-import { SIZE } from "./Config";
 import { router } from "expo-router";
+import { SIZE } from "./Config";
 
 const styles = StyleSheet.create({
 	container: {
@@ -27,10 +26,9 @@ interface TileProps {
 		poster_image_url: string;
 	};
 	id: string;
-	onLongPress: () => void;
 }
 
-const Tile = ({ card, id }: TileProps) => {
+function Tile({ card, id }: TileProps) {
 	return (
 		<Pressable
 			style={styles.container}
@@ -61,6 +59,6 @@ const Tile = ({ card, id }: TileProps) => {
 			</Text>
 		</Pressable>
 	);
-};
+}
 
 export default Tile;

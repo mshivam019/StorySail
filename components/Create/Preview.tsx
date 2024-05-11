@@ -5,21 +5,21 @@ import * as ImagePicker from "expo-image-picker";
 import * as FileSystem from "expo-file-system";
 import { useNavigation } from "expo-router";
 import uuid from "react-native-uuid";
+import { decode } from "base64-arraybuffer";
 import Toast, { ToastRef } from "../CustomToast";
 import { useAuth } from "../../provider/AuthProvider";
 import { useWritingsStore, UserWriting } from "../../store";
 import { supabase } from "../../lib/supabase";
-import { decode } from "base64-arraybuffer";
 import DropDown from "../ExpandableDropDown";
 import DynamicInput from "./DynamicInput";
 
-const Preview = ({
+function Preview({
 	article,
 	setShowEditor,
 }: {
 	article: UserWriting;
 	setShowEditor: (show: boolean) => void;
-}) => {
+}) {
 	const toastRef = useRef<ToastRef>(null);
 	const { addArticle, saveDraft } = useWritingsStore();
 	const [title, setTitle] = useState(article.title || "");
@@ -63,7 +63,7 @@ const Preview = ({
 
 				return;
 			}
-			let result = await ImagePicker.launchImageLibraryAsync({
+			const result = await ImagePicker.launchImageLibraryAsync({
 				mediaTypes: ImagePicker.MediaTypeOptions.Images,
 				allowsEditing: true,
 				aspect: [4, 3],
@@ -108,6 +108,7 @@ const Preview = ({
 			setImg(output.data.publicUrl);
 			if (output.data.publicUrl) return output.data.publicUrl;
 		}
+		return "";
 	};
 	return (
 		<View style={styles.container}>
@@ -147,7 +148,9 @@ const Preview = ({
 					borderBottomColor: "black",
 					marginVertical: 20,
 					color: "#000000",
-				}}
+				}} btnHeight={0}
+				btnColor="" 
+				backgroundColor=""			
 			/>
 
 			<Button
@@ -174,11 +177,11 @@ const Preview = ({
 							) {
 								const result = await addArticle({
 									id: article.id,
-									title: title,
+									title,
 									content: article.content,
 									poster_image_url: url,
-									tags: tags,
-									category: category,
+									tags,
+									category,
 									stars_count: 0,
 									user_id: user.id,
 									created_at: new Date(),
@@ -226,7 +229,7 @@ const Preview = ({
 							id: uuid.v4().toString(),
 							title,
 							content: article.content,
-							category: category,
+							category,
 							tags,
 							poster_image_url: img,
 							stars_count: 0,
@@ -252,7 +255,7 @@ const Preview = ({
 			<Toast ref={toastRef} />
 		</View>
 	);
-};
+}
 
 export default Preview;
 

@@ -1,4 +1,3 @@
-/* eslint-disable no-console */
 import {
 	StyleSheet,
 	FlatList,
@@ -8,7 +7,7 @@ import {
 	Pressable,
 	Dimensions,
 } from "react-native";
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { Stack, router, useLocalSearchParams } from "expo-router";
 import Animated from "react-native-reanimated";
 import { LinearGradient } from "expo-linear-gradient";
@@ -104,14 +103,20 @@ function Categories() {
 
 	if (loading) {
 		return (
-			<LinearGradient style={styles.container} colors={[ "#cef7fde4","#ffffff"]}>
+			<LinearGradient
+				style={styles.container}
+				colors={["#cef7fde4", "#ffffff"]}
+			>
 				<ActivityIndicator size="large" color="black" />
 			</LinearGradient>
-		)
+		);
 	}
 
 	return (
-		<LinearGradient style={styles.container} colors={[ "#cef7fde4","#ffffff"]}>
+		<LinearGradient
+			style={styles.container}
+			colors={["#cef7fde4", "#ffffff"]}
+		>
 			<Stack.Screen
 				options={{
 					title: category,
@@ -121,31 +126,31 @@ function Categories() {
 				<FlatList
 					data={categoryData}
 					renderItem={({ item }) => (
-							<Pressable
-								style={styles.cardContainer}
-								onPress={() => {
-									router.push({
-										pathname: `/home/${item.id}`,
-									});
-								}}
-							>
-								<Animated.Image
-									style={styles.image}
-									source={{ uri: item.poster_image_url }}
-									sharedTransitionTag={`image-${item.id}`}
-								/>
-								<View style={styles.contentContainer}>
-									<Text
-										style={{
-											fontSize: 20,
-											width: width * 0.5,
-										}}
-									>
-										{item.title}
-									</Text>
-								</View>
-							</Pressable>
-						)}
+						<Pressable
+							style={styles.cardContainer}
+							onPress={() => {
+								router.push({
+									pathname: `/home/${item.id}`,
+								});
+							}}
+						>
+							<Animated.Image
+								style={styles.image}
+								source={{ uri: item.poster_image_url }}
+								sharedTransitionTag={`image-${item.id}`}
+							/>
+							<View style={styles.contentContainer}>
+								<Text
+									style={{
+										fontSize: 20,
+										width: width * 0.5,
+									}}
+								>
+									{item.title}
+								</Text>
+							</View>
+						</Pressable>
+					)}
 					keyExtractor={(_, index) => index.toString()}
 					showsVerticalScrollIndicator={false}
 					onEndReachedThreshold={0.5}
@@ -174,5 +179,3 @@ function Categories() {
 }
 
 export default Categories;
-
-

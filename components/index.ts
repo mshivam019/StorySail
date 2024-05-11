@@ -15,9 +15,10 @@ import Suggestions from "./Explore/Suggestions";
 import Search from "./Explore/Search";
 import MyWorks from "./Create/MyWorks";
 import RichTextEditor from "./Create/RichEditor";
-import Poster from "./Create/Poster";
+import Preview from "./Create/Preview";
 import DropDown from "./ExpandableDropDown";
 import FavouritesList from "./Favourites/FavouritesList";
+import TabButtons from "./Create/TabButtons";
 
 export {
 	CustomBottomSheetModal,
@@ -41,7 +42,8 @@ export {
 	Search,
 	MyWorks,
 	RichTextEditor,
-	Poster,
+	Preview,
 	DropDown,
 	FavouritesList,
+	TabButtons
 };

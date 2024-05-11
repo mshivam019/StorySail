@@ -35,12 +35,12 @@ const styles = StyleSheet.create({
 function Create() {
 	return (
 		<LinearGradient
-			colors={[ "#cef7fde4","#ffffff"]}
-			style={{ flex: 1,padding: 20}}
+			colors={["#cef7fde4", "#ffffff"]}
+			style={{ flex: 1, padding: 20 }}
 		>
 			<Pressable onPress={() => router.push("/create/editor")}>
 				<LinearGradient
-					colors={["#00d0bb", "#00baee"]}
+					colors={["#7ecfef", "#9ecaff"]}
 					style={styles.LinkContainer}
 				>
 					<Text style={styles.text}> Write a new story!</Text>
@@ -51,7 +51,5 @@ function Create() {
 		</LinearGradient>
 	);
 }
-
-
 
 export default Create;

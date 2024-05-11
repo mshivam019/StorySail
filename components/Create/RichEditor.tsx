@@ -7,6 +7,12 @@ import {
 } from "react-native-pell-rich-editor";
 import HTMLView from "react-native-htmlview";
 import Toast, { ToastRef } from "../CustomToast";
+import TabButtons from "./TabButtons";
+
+export enum CustomTab {
+	Tab1,
+	Tab2,
+}
 
 const RichTextEditor = ({
 	article,
@@ -18,14 +24,30 @@ const RichTextEditor = ({
 	nextHandler: () => void;
 }) => {
 	const RichText = useRef<RichEditor>(null);
-	const [showPreview, setShowPreview] = useState(false);
 	const toastRef = useRef<ToastRef>(null);
+	const [selectedTab, setSelectedTab] = useState<CustomTab>(CustomTab.Tab1);
 
 	return (
-		<ScrollView style={styles.container} contentContainerStyle={{
-			gap: 20,
-		}}>
-			{showPreview ? (
+		<ScrollView
+			style={styles.container}
+			contentContainerStyle={{
+				marginBottom: 20,
+			}}
+		>
+			<TabButtons
+				buttons={[
+					{
+						title: "Write",
+					},
+					{
+						title: "Preview",
+					},
+				]}
+				selectedTab={selectedTab}
+				setSelectedTab={setSelectedTab}
+			/>
+
+			{selectedTab === CustomTab.Tab2 ? (
 				<>
 					<Text style={styles.text}>Preview</Text>
 					<HTMLView
@@ -181,14 +203,7 @@ const RichTextEditor = ({
 					/>
 				</>
 			)}
-			<Button
-				title={showPreview ? "Show Editor" : "Show Preview"}
-				onPress={() => setShowPreview(!showPreview)}
-			/>
-			<Button
-				title={"Next"}
-				onPress={() => nextHandler()}
-			/>
+			<Button title="Next" onPress={() => nextHandler()} />
 			<Toast ref={toastRef} />
 		</ScrollView>
 	);
@@ -214,6 +229,7 @@ const styles = StyleSheet.create({
 	editor: {
 		borderColor: "black",
 		borderWidth: 1,
+		marginBottom: 20,
 	},
 	rich: {
 		flex: 1,

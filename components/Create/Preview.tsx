@@ -1,18 +1,19 @@
-import React, { useRef, useState } from "react";
+import React, { useRef, useState, useEffect } from "react";
 import { Button, Pressable, StyleSheet, TextInput, View } from "react-native";
 import { Image } from "expo-image";
 import * as ImagePicker from "expo-image-picker";
+import * as FileSystem from "expo-file-system";
+import { useNavigation } from "expo-router";
+import uuid from "react-native-uuid";
 import Toast, { ToastRef } from "../CustomToast";
 import { useAuth } from "../../provider/AuthProvider";
 import { useWritingsStore, UserWriting } from "../../store";
 import { supabase } from "../../lib/supabase";
 import { decode } from "base64-arraybuffer";
-import * as FileSystem from "expo-file-system";
-import uuid from "react-native-uuid";
 import DropDown from "../ExpandableDropDown";
 import DynamicInput from "./DynamicInput";
 
-const Poster = ({
+const Preview = ({
 	article,
 	setShowEditor,
 }: {
@@ -39,6 +40,16 @@ const Poster = ({
 		],
 	};
 	const user = session?.user;
+
+	const navigation = useNavigation();
+	useEffect(() => {
+		const backHandler = navigation.addListener("beforeRemove", (e) => {
+			e.preventDefault();
+			setShowEditor(true);
+		});
+		return backHandler;
+	}, [navigation]);
+
 	const ImageUploadHandler = async () => {
 		try {
 			const { status } =
@@ -238,18 +249,12 @@ const Poster = ({
 					}
 				}}
 			/>
-			<Button
-				title="Go Back"
-				onPress={() => {
-					setShowEditor(true);
-				}}
-			/>
 			<Toast ref={toastRef} />
 		</View>
 	);
 };
 
-export default Poster;
+export default Preview;
 
 const styles = StyleSheet.create({
 	container: {

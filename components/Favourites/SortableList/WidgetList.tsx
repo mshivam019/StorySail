@@ -89,6 +89,7 @@ const WidgetList = () => {
 				flex: 1,
 				backgroundColor: "#fff",
 			}}
+			overScrollMode="never"
 		>
 			<LinearGradient
 				colors={["#d2f4f9", "#ffffff"]}

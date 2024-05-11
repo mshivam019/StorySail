@@ -76,10 +76,10 @@ const Suggestions = ({ onPress }: { onPress: (text: string) => void }) => {
 				))}
 			</View>
 			<Text style={styles.categoriesText}>Categories</Text>
-			<FlatList
-				data={data.categories.categories}
-				renderItem={({ item }) => (
+			{
+				data.categories.categories.map((item) => (
 					<Pressable
+						key={item.id}
 						onPress={() =>
 							router.push({
 								pathname: "/home/categories",
@@ -106,10 +106,8 @@ const Suggestions = ({ onPress }: { onPress: (text: string) => void }) => {
 						</View>
 						<Text style={styles.ImageText}>{item.name}</Text>
 					</Pressable>
-				)}
-				keyExtractor={(item) => item.name}
-				showsVerticalScrollIndicator={false}
-			/>
+				))
+			}
 		</View>
 	);
 };

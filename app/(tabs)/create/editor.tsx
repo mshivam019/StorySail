@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { ScrollView, StyleSheet } from "react-native";
-import { Poster, RichTextEditor } from "../../../components";
+import { Preview, RichTextEditor } from "../../../components";
 import { useLocalSearchParams } from "expo-router";
 import { useWritingsStore } from "../../../store";
 import uuid from "react-native-uuid";
@@ -15,7 +15,7 @@ const Editor = () => {
 		existingArticle ? existingArticle.content : ""
 	);
 
-	const [showEditor, setShowEditor] = useState(true);
+	const [showEditor, setShowEditor] = useState(true);	
 	const nextHandler = () => {
 		setShowEditor(false);
 	};
@@ -28,7 +28,7 @@ const Editor = () => {
 					nextHandler={nextHandler}
 				/>
 			) : (
-				<Poster
+				<Preview
 					setShowEditor={setShowEditor}
 					article={
 						existingArticle

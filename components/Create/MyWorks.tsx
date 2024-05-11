@@ -103,9 +103,8 @@ const MyWorks = () => {
 	return (
 		<View style={styles.container}>
 			{drafts.length > 0 && (
-				//linear gradient from green to blue
 				<LinearGradient
-					colors={["#1fa7ed", "#5989ec"]}
+					colors={["#9ecaff", "#9dbefb"]}
 					style={styles.draftsContainer}
 				>
 					<Text style={styles.title}>Drafts</Text>
@@ -121,7 +120,7 @@ const MyWorks = () => {
 			)}
 			{articles.length > 0 && (
 				<LinearGradient
-					colors={["#6e7bea", "#a25be8"]}
+					colors={["#9dbefb", "#887ef1"]}
 					style={styles.publishedContainer}
 				>
 					<Text style={styles.title}>Published</Text>

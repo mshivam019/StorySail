@@ -11,6 +11,7 @@ import {
 import React, { useEffect, useState } from "react";
 import { Stack, router, useLocalSearchParams } from "expo-router";
 import Animated from "react-native-reanimated";
+import { LinearGradient } from "expo-linear-gradient";
 import { supabase } from "../../../lib/supabase";
 
 const { width } = Dimensions.get("window");
@@ -79,7 +80,10 @@ function Categories() {
 			if (error) console.log("error", error);
 			if (data && data?.length > 0) {
 				if (categoryData.length > 0) {
-					setCategoryData([...categoryData, ...data]);
+					const uniqueData = data.filter(
+						(item) => !categoryData.some((i) => i.id === item.id)
+					);
+					setCategoryData([...categoryData, ...uniqueData]);
 				} else {
 					setCategoryData(data);
 				}
@@ -99,11 +103,15 @@ function Categories() {
 	});
 
 	if (loading) {
-		return <ActivityIndicator size="large" color="#000" />;
+		return (
+			<LinearGradient style={styles.container} colors={[ "#cef7fde4","#ffffff"]}>
+				<ActivityIndicator size="large" color="black" />
+			</LinearGradient>
+		)
 	}
 
 	return (
-		<View style={styles.container}>
+		<LinearGradient style={styles.container} colors={[ "#cef7fde4","#ffffff"]}>
 			<Stack.Screen
 				options={{
 					title: category,
@@ -161,7 +169,7 @@ function Categories() {
 					</Text>
 				</View>
 			)}
-		</View>
+		</LinearGradient>
 	);
 }
 

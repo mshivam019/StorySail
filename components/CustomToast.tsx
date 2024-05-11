@@ -28,7 +28,7 @@ export interface ToastRef {
 	}) => void;
 }
 
-const Toast = forwardRef<ToastRef>((ref) => {
+const Toast = forwardRef<ToastRef,{}>((props,ref) => {
 	const toastTopAnimation = useSharedValue(-100);
 	const toastsideAnimation = useSharedValue(0);
 	const [showing, setShowing] = useState(false);

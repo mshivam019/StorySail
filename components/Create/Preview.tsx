@@ -149,7 +149,7 @@ function Preview({
 					marginVertical: 20,
 					color: "#000000",
 				}} btnHeight={0}
-				btnColor="" 
+				btnColor="#fff" 
 				backgroundColor=""			
 			/>
 

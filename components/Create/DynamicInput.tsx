@@ -7,33 +7,7 @@ import {
     TouchableOpacity,
   } from "react-native";
   import { useState } from "react";
-  
-  function CloseIcon({ height=0, color="black" }:{
-    height: number,
-    color: string
-  }) {
-    return (
-      <View style={{ flexDirection: "row" }}>
-        <View
-          style={{
-            width: 1.5,
-            height: height ?? 12,
-            backgroundColor: color ?? "white",
-            transform: [{ rotate: "45deg" }],
-          }}
-        />
-        <View
-          style={{
-            width: 1.5,
-            height: height ?? 12,
-            backgroundColor: color ?? "white",
-            marginLeft: -2,
-            transform: [{ rotate: "-45deg" }],
-          }}
-        />
-      </View>
-    );
-  }
+  import { AntDesign } from "@expo/vector-icons";
   
   function DynamicInput({
     style = {},
@@ -44,7 +18,6 @@ import {
     data = [],
     roundedItem = 0,
     itemColor = "",
-    btnHeight = 0,
     btnColor = "",
     backgroundColor = "",
   }:{
@@ -124,7 +97,7 @@ import {
                         set((preVal: String[]) => preVal.filter((i) => i !== item));
                       }}
                     >
-                      <CloseIcon color={btnColor} height={btnHeight} />
+                      <AntDesign name="close" color={btnColor} />
                     </TouchableOpacity>
                   </View>
                 ))}

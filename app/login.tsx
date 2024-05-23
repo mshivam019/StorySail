@@ -42,8 +42,7 @@ export default function Login() {
 	const [isRegistering, setIsRegistering] = useState(false);
 
 	GoogleSignin.configure({
-		webClientId:
-			"537241639551-pbpfuoe8kh9g22uc66pomohe5sho1545.apps.googleusercontent.com",
+		webClientId: process.env.GOOGLE_WEB_CLIENT_ID,
 		offlineAccess: true,
 	});
 

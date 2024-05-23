@@ -26,3 +26,9 @@ The Story Sail app is a mobile application built using Expo and React Native. It
 * in App notifications
 * Custom Components (DropDown, Switches, Carousel, Pagination)
 * Deep Linking
+
+## Dev Guide
+* Follow the Supabase setup from [here](https://github.com/supabase/supabase/tree/master/examples/user-management/expo-push-notifications#readme)
+* Create a Firebase project replace the google-services.json
+* use the WebClient id from your Firebase project in your Supabase project as well as the env
+* create the .env or .env.local by copying from .env.local.example

@@ -13,9 +13,8 @@ const zustandStorage = {
 	removeItem: (name: string) => storage.delete(name),
 };
 
-export const supabaseUrl = "https://iawrnpgcvsjmwdgpkaav.supabase.co";
-const supabaseAnonKey =
-	"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imlhd3JucGdjdnNqbXdkZ3BrYWF2Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3MDk4ODYxMzMsImV4cCI6MjAyNTQ2MjEzM30.9xk7DrUOAXrxHZN3ctIV32uisn4amMEIRJoNrv6uGYA";
+export const supabaseUrl = process.env.SUPABASE_URL;
+const supabaseAnonKey = process.env.SUPABASE_ANON_KEY;
 
 export const supabase = createClient(supabaseUrl, supabaseAnonKey, {
 	auth: {

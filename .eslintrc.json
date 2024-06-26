@@ -36,16 +36,11 @@
 				"tsx": "never"
 			}
 		],
-		"react/no-unstable-nested-components": [
-			"error",
-			{
-				"allowAsProps": true
-			}
-		],
 		"no-console": "off",
 		"no-use-before-define": "off",
 		"react-hooks/exhaustive-deps": "off",
 		"react/function-component-definition": "off",
+		"react/no-unstable-nested-components":"off",
 		"no-shadow": "off",
 		"react/jsx-props-no-spreading": "off",
 		"react/destructuring-assignment": "off",

@@ -144,35 +144,30 @@ export function AuthProvider({ children }: PropsWithChildren) {
 
 	const handleNotificationPermission = async () => {
 		try {
-			const { status } = await Notifications.getPermissionsAsync();
+			let { status } = await Notifications.getPermissionsAsync();
 			if (status !== "granted") {
-				const { status } =
-					await Notifications.requestPermissionsAsync();
-				if (status !== "granted") {
-					setShowNotification(false);
+				({ status } = await Notifications.requestPermissionsAsync());
+			}
+
+			if (status === "granted") {
+				const token = await Notifications.getExpoPushTokenAsync({
+					projectId: Constants?.expoConfig?.extra?.eas.projectId,
+				});
+
+				if (token?.data && session) {
 					const { error } = await supabase.from("profiles").upsert({
 						id: session?.user.id,
-						expo_push_token: null,
+						expo_push_token: token,
 					});
-					if (error) {
-						console.log(error);
-					}
-				} else {
-					const token = await Notifications.getExpoPushTokenAsync({
-						projectId: Constants?.expoConfig?.extra?.eas.projectId,
-					});
-					if (token && session) {
-						if (token.data) {
-							const { error } = await supabase
-								.from("profiles")
-								.upsert({
-									id: session?.user.id,
-									expo_push_token: token,
-								});
-							console.log(error);
-						}
-					}
+					if (error) console.log(error);
 				}
+			} else {
+				setShowNotification(false);
+				const { error } = await supabase.from("profiles").upsert({
+					id: session?.user.id,
+					expo_push_token: null,
+				});
+				if (error) console.log(error);
 			}
 		} catch (error) {
 			console.log(error);

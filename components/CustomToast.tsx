@@ -27,6 +27,28 @@ export interface ToastRef {
 	}) => void;
 }
 
+// Toast style configurations extracted to a separate object
+const toastStyleConfigs = {
+	success: {
+		containerStyle: styles => styles.successToastContainer,
+		textStyle: styles => styles.successToastText,
+		iconColor: "#1f8722",
+		iconName: "checkcircleo",
+	},
+	warning: {
+		containerStyle: styles => styles.warningToastContainer,
+		textStyle: styles => styles.warningToastText,
+		iconColor: "#f08135",
+		iconName: "exclamationcircleo",
+	},
+	error: {
+		containerStyle: styles => styles.errorToastContainer,
+		textStyle: styles => styles.errorToastText,
+		iconColor: "#d9100a",
+		iconName: "closecircleo",
+	},
+};
+
 const Toast = forwardRef<ToastRef, {}>((props, ref) => {
 	const toastTopAnimation = useSharedValue(-100);
 	const toastsideAnimation = useSharedValue(0);
@@ -79,75 +101,50 @@ const Toast = forwardRef<ToastRef, {}>((props, ref) => {
 		right: toastsideAnimation.value,
 	}));
 
+	const dismissToast = useCallback(() => {
+		toastsideAnimation.value = withSpring(0);
+		setShowing(false);
+	}, [toastsideAnimation]);
+
 	const handleGesture = useCallback(
 		(event: {
 			nativeEvent: { translationX: number; translationY: number };
 		}) => {
 			const { translationX, translationY } = event.nativeEvent;
-			const isHorizontalSwipe = Math.abs(translationX) > 100;
-			const isVerticalSwipe = Math.abs(translationY) > 100;
-
-			if (isHorizontalSwipe || isVerticalSwipe) {
-				const direction = isHorizontalSwipe
-					? translationX
-					: translationY;
+			
+			if (Math.abs(translationX) > 100 || Math.abs(translationY) > 100) {
+				const direction = Math.abs(translationX) > 100 ? translationX : translationY;
 				toastsideAnimation.value = withSpring(
 					direction > 0 ? 500 : -500,
 					{ velocity: 50 }
 				);
 
 				setTimeout(() => {
-					toastsideAnimation.value = withSpring(0);
-					setShowing(false);
+					runOnJS(dismissToast)();
 				}, 500);
 			}
 		},
-		[]
+		[dismissToast]
 	);
-
-	const getToastStyles = (type: "success" | "warning" | "error") => {
-		switch (type) {
-			case "success":
-				return [
-					styles.successToastContainer,
-					styles.successToastText,
-					"#1f8722",
-					"checkcircleo",
-				];
-			case "warning":
-				return [
-					styles.warningToastContainer,
-					styles.warningToastText,
-					"#f08135",
-					"exclamationcircleo",
-				];
-			case "error":
-			default:
-				return [
-					styles.errorToastContainer,
-					styles.errorToastText,
-					"#d9100a",
-					"closecircleo",
-				];
-		}
-	};
 
 	if (!showing) return null;
 
-	const [containerStyle, textStyle, iconColor, iconName] =
-		getToastStyles(toastType);
+	// Get toast style configuration based on toast type
+	const styleConfig = toastStyleConfigs[toastType];
 
 	return (
 		<PanGestureHandler onGestureEvent={handleGesture}>
 			<Animated.View
 				style={[
 					styles.toastContainer,
-					containerStyle,
+					styleConfig.containerStyle(styles),
 					animatedTopStyles,
 				]}
 			>
-				<AntDesign name={iconName} size={24} color={iconColor} />
-				<Text style={[styles.toastText, textStyle]}>{toastText}</Text>
+				<AntDesign name={styleConfig.iconName} size={24} color={styleConfig.iconColor} />
+				<Text style={[styles.toastText, styleConfig.textStyle(styles)]}>
+					{toastText}
+				</Text>
 			</Animated.View>
 		</PanGestureHandler>
 	);
